@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+        
+<tiles-definitions>
+  <!-- Templates -->
+  <definition name="basicLayout" template="/WEB-INF/layouts/page.jsp">
+    <put-attribute name="pageHeader" value=""></put-attribute>
+    <put-attribute name="pageAlert" value=""></put-attribute>
+    <put-attribute name="pageBody" value=""></put-attribute>
+    <put-attribute name="pageFooter" value=""></put-attribute>
+  </definition>
+  
+  <definition name="usersLayout" extends="basicLayout">
+    <put-attribute name="pageHeader" value="/WEB-INF/layouts/page_header.jsp"></put-attribute>
+    <put-attribute name="pageAlert" value="/WEB-INF/layouts/page_alert.jsp"></put-attribute>
+    <put-attribute name="pageFooter" value="/WEB-INF/layouts/page_footer.jsp"></put-attribute>
+  </definition>
+  
+  
+  <!-- Public Pages -->
+  <definition name="login" extends="basicLayout">
+    <put-attribute name="pageHeader" value="/WEB-INF/layouts/login_header.jsp"></put-attribute>
+    <put-attribute name="pageAlert" value="/WEB-INF/layouts/page_alert.jsp"></put-attribute>
+    <put-attribute name="pageBody" value="/WEB-INF/views/login.jsp"></put-attribute>
+  </definition>
+  
+  
+  <!-- Main Pages -->
+  <definition name="home" extends="usersLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/home.jsp"></put-attribute>
+  </definition>
+  
+  <definition name="users" extends="usersLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/users.jsp"></put-attribute>
+  </definition>
+  
+  <definition name="patients" extends="usersLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/patients.jsp"></put-attribute>
+  </definition>
+  
+  <definition name="tests" extends="usersLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/tests.jsp"></put-attribute>
+  </definition>
+  
+  <definition name="requests" extends="usersLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/requests.jsp"></put-attribute>
+  </definition>
+  
+  
+  <!-- Error Pages -->
+  <definition name="404" extends="basicLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/404.jsp"></put-attribute>
+  </definition>
+  
+  <definition name="403" extends="basicLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/403.jsp"></put-attribute>
+  </definition>
+</tiles-definitions>
