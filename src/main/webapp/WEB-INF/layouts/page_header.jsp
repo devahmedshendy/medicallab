@@ -18,11 +18,14 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav mr-auto">
         <a id="homeNavLink" class="nav-item nav-link" href='<s:url value="/"></s:url>'>Home</a>
-        <a id="usersNavLink" class="nav-item nav-link" href='<s:url value="/users"></s:url>'>Users</a>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+          <a id="usersNavLink" class="nav-item nav-link" href='<s:url value="/users"></s:url>'>Users</a>
+        </sec:authorize>
         <a id="patientsNavLink" class="nav-item nav-link" href='<s:url value="/patients"></s:url>'>Patients</a>
         <a id="testsNavLink" class="nav-item nav-link" href='<s:url value="/tests"></s:url>'>Tests</a>
         <a id="requestsNavLink" class="nav-item nav-link" href='<s:url value="/requests"></s:url>'>Requests</a>
       </div>
+    
       
       <sec:authorize url="/">
          <sec:authentication property="principal.firstname" var="firstname" />

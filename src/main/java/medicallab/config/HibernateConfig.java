@@ -2,7 +2,7 @@ package medicallab.config;
 
 import java.util.Properties;
 
-import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class HibernateConfig {
 	
 	@Bean
-	public BasicDataSource dataSource() {
-		BasicDataSource dataSource = new BasicDataSource();
+	public DataSource dataSource() {
+		DataSource dataSource = new DataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/medicallabDB");
 		dataSource.setUsername("root");
@@ -52,7 +52,7 @@ public class HibernateConfig {
 		Properties hibernateProperties = new Properties();
 		hibernateProperties.setProperty("dialect", "org.hibernate.dialect.MySQLDialect");
 		hibernateProperties.setProperty("hibernate.show_sql", "true");
-		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
+		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create");
 		
 		return hibernateProperties;
 	}

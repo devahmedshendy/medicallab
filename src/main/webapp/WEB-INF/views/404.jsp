@@ -17,7 +17,7 @@
 	      <div class="alert alert-danger text-center" role="alert">
 	        <h5>404 - Not Found</h5>
 
-	        It seems you're trying to access invalid URL !!
+	        It seems you're trying to access an invalid URL !!
 	      </div>
       </div>
     </div>

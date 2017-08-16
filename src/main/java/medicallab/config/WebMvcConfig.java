@@ -1,8 +1,6 @@
 package medicallab.config;
 
 
-import java.util.Properties;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,22 +8,19 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 @Configuration
 @EnableWebMvc
-//@EnableWebSecurity
 @ComponentScan("medicallab.web")
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		/* 
-		 * You're asking DispatcherServlet to forward requests for
-		 * static resources to the servlet container’s default servlet
-		 * and not to try to handle them itself 
+		 * You're asking DispatcherServlet to forward requests for static resources 
+		 * to the servlet container’s default servlet and not to try to handle them itself 
 		 */
 		configurer.enable();
 	}
