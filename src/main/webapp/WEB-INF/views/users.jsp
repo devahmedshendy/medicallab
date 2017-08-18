@@ -2,7 +2,8 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 
-<br /><br /><br />
+<br /><br />
+
 <div class="container">
 
 	<div class="row">
@@ -80,11 +81,13 @@
 	    </div>
 	    <table class="table table-sm table-hover">
 	      <thead class="blue-grey lighten-4">
-	        <th></th>
-	        <th>Id</th>
-	        <th>Patient Name</th>
-	        <th>Age</th>
-	        <th>Created At</th>
+	        <tr>
+		        <th></th>
+	          <th>Id</th>
+	          <th>Patient Name</th>
+	          <th>Age</th>
+	          <th>Created At</th>
+	        </tr>
 	      </thead>
 	
 	      <tbody>

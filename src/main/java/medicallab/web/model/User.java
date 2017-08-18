@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -16,11 +19,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
-@Entity()
+@Entity
 public class User implements Serializable, UserDetails {
+	
 	private static final long serialVersionUID = 6256454077460119383L;
 
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(updatable = false)
+	private Long id;
+	
+	@Column(nullable=false, unique = true)
 	private String username;
 
 	@Column(nullable=false)
@@ -44,7 +52,7 @@ public class User implements Serializable, UserDetails {
 	@Column(columnDefinition="datetime default CURRENT_TIMESTAMP", nullable=false)
 	private Date updatedAt = new Date();
 	
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
 	private List<UserAuthorities> roles;
 
 	public User() { }
@@ -63,6 +71,15 @@ public class User implements Serializable, UserDetails {
 		this.roles     = user.getRoles();
 	}
 	
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 
 	public String getUsername() {
 		return username;

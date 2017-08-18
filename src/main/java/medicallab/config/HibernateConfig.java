@@ -3,6 +3,8 @@ package medicallab.config;
 import java.util.Properties;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -17,33 +19,26 @@ public class HibernateConfig {
 	public DataSource dataSource() {
 		DataSource dataSource = new DataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/medicallabDB");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/medicallabDB?createDatabaseIfNotExist=true");
 		dataSource.setUsername("root");
 		dataSource.setPassword("root");
 		
 		return dataSource;
 	}
 	
-	@Bean
-	public HibernateTransactionManager transactionManager() {
-		return new HibernateTransactionManager(sessionFactory().getObject());
+	@Autowired
+	@Bean(name = "hibernateTransactionManager")
+	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+		return new HibernateTransactionManager(sessionFactory);
 	}
 	
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean localSessionFactory = new LocalSessionFactoryBean();
-		
-		try {
-			localSessionFactory.setDataSource(dataSource());
-			localSessionFactory.setHibernateProperties(hibernateProperties());
-			localSessionFactory.setPackagesToScan("medicallab.web.model");
-			
-			
-			localSessionFactory.afterPropertiesSet();			
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		localSessionFactory.setDataSource(dataSource());
+		localSessionFactory.setPackagesToScan("medicallab.web.model");
+		localSessionFactory.setHibernateProperties(hibernateProperties());
+//			localSessionFactory.afterPropertiesSet();			
 		
 		return localSessionFactory;
 	}
@@ -51,8 +46,8 @@ public class HibernateConfig {
 	private Properties hibernateProperties() {
 		Properties hibernateProperties = new Properties();
 		hibernateProperties.setProperty("dialect", "org.hibernate.dialect.MySQLDialect");
+		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
 		hibernateProperties.setProperty("hibernate.show_sql", "true");
-		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create");
 		
 		return hibernateProperties;
 	}

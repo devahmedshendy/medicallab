@@ -15,17 +15,19 @@ public class UserAuthorities implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userAuthorityId;
+	@Column(updatable = false)
+	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="username", nullable=false)
+	@JoinColumn(name="userId", referencedColumnName = "id", nullable=false)
 	private User user;
 	
 	@Column(nullable=false)
 	private String authority;
 
-	public Long getUserAuthorityId() {
-		return userAuthorityId;
+	
+	public Long getid() {
+		return id;
 	}
 
 	

@@ -8,6 +8,8 @@ console.log("Hello from app.js");
 //	$('.dropdown-toggle').dropdown("toggle");
 //})
 
+$('[data-toggle="tooltip"]').tooltip()
+
 if (window.location.href.indexOf("users") != -1) {
 	$("#usersNavLink").addClass("active");
 	

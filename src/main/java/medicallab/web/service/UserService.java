@@ -1,9 +1,16 @@
 package medicallab.web.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
-
+import medicallab.web.form.MePasswordForm;
+import medicallab.web.form.MeSettingsForm;
 import medicallab.web.model.User;
 
-public interface UserService extends UserDetailsService {
-	User findByUsername(String username);
+public interface UserService {
+	
+	public User findByUsername(String username);
+	
+	public void update(User user);
+	
+	public void updateSettings(MeSettingsForm meSettingsForm);
+	
+	public void updatePassword(MePasswordForm mePasswordForm);
 }

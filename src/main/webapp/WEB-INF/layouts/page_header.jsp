@@ -18,12 +18,15 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav mr-auto">
         <a id="homeNavLink" class="nav-item nav-link" href='<s:url value="/"></s:url>'>Home</a>
-        <sec:authorize access="hasRole('ROLE_ADMIN')">
+        <sec:authorize access="hasRole('ADMIN')">
           <a id="usersNavLink" class="nav-item nav-link" href='<s:url value="/users"></s:url>'>Users</a>
         </sec:authorize>
-        <a id="patientsNavLink" class="nav-item nav-link" href='<s:url value="/patients"></s:url>'>Patients</a>
-        <a id="testsNavLink" class="nav-item nav-link" href='<s:url value="/tests"></s:url>'>Tests</a>
-        <a id="requestsNavLink" class="nav-item nav-link" href='<s:url value="/requests"></s:url>'>Requests</a>
+        
+        <sec:authorize access="hasRole('USER')">
+	        <a id="patientsNavLink" class="nav-item nav-link" href='<s:url value="/patients"></s:url>'>Patients</a>
+	        <a id="testsNavLink" class="nav-item nav-link" href='<s:url value="/tests"></s:url>'>Tests</a>
+	        <a id="requestsNavLink" class="nav-item nav-link" href='<s:url value="/requests"></s:url>'>Requests</a>
+        </sec:authorize>
       </div>
     
       
@@ -31,11 +34,34 @@
          <sec:authentication property="principal.firstname" var="firstname" />
          <sec:authentication property="principal.lastname" var="lastname" />
          
+         <%-- <sec:authentication property="principal.authorities" var="authorities" />
+         <c:set var="joinedAuthorities">
+	         <c:forEach var="authority" items="${authorities }">
+	           ${authority }
+	         </c:forEach>
+         </c:set> --%>
+                  
 				<div class="navbar-nav">
-					<a id="accountSettingsLink" class="nav-item nav-link" href='<s:url value="/me"></s:url>'>
-					  ${firstname } ${lastname } 
-					  <i class="fa fa-user" aria-hidden="true"></i>
+					<a id="accountSettingsLink" class="nav-item nav-link mr-2" href='<s:url value="/me"></s:url>' data-toggle="tooltip" data-placement="bottom" title="${joinedAuthorities }">
+					  <u>${firstname } ${lastname }</u> 
+					  
+					  <sec:authorize access="hasRole('USER') and hasRole('ADMIN')">
+						  <i class="fa fa-user-secret" aria-hidden="true"></i>
+					  </sec:authorize>
+					  
+					  <sec:authorize access="hasRole('USER') and hasRole('OFFICER')">
+              <i class="fa fa-user-secret" aria-hidden="true"></i>
+            </sec:authorize>
+            
+            <sec:authorize access="hasRole('USER') and hasRole('DOCTOR')">
+              <i class="fa fa-user-secret" aria-hidden="true"></i>
+            </sec:authorize>
+            
+            <sec:authorize access="hasRole('USER') and !hasRole('ADMIN') and !hasRole('OFFICER') and !hasRole('DOCTOR')">
+              <i class="fa fa-user" aria-hidden="true"></i>
+            </sec:authorize>
 				  </a>
+				  
 					<a id="logoutLink" class="btn btn-outline-primary" href="#">Logout</a>
 				</div>
       </sec:authorize>

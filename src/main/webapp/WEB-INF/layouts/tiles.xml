@@ -12,7 +12,7 @@
     <put-attribute name="pageFooter" value=""></put-attribute>
   </definition>
   
-  <definition name="usersLayout" extends="basicLayout">
+  <definition name="userLayout" extends="basicLayout">
     <put-attribute name="pageHeader" value="/WEB-INF/layouts/page_header.jsp"></put-attribute>
     <put-attribute name="pageAlert" value="/WEB-INF/layouts/page_alert.jsp"></put-attribute>
     <put-attribute name="pageFooter" value="/WEB-INF/layouts/page_footer.jsp"></put-attribute>
@@ -28,23 +28,27 @@
   
   
   <!-- Main Pages -->
-  <definition name="home" extends="usersLayout">
+  <definition name="home" extends="userLayout">
     <put-attribute name="pageBody" value="/WEB-INF/views/home.jsp"></put-attribute>
   </definition>
   
-  <definition name="users" extends="usersLayout">
+  <definition name="me" extends="userLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/me.jsp"></put-attribute>
+  </definition>
+  
+  <definition name="users" extends="userLayout">
     <put-attribute name="pageBody" value="/WEB-INF/views/users.jsp"></put-attribute>
   </definition>
   
-  <definition name="patients" extends="usersLayout">
+  <definition name="patients" extends="userLayout">
     <put-attribute name="pageBody" value="/WEB-INF/views/patients.jsp"></put-attribute>
   </definition>
   
-  <definition name="tests" extends="usersLayout">
+  <definition name="tests" extends="userLayout">
     <put-attribute name="pageBody" value="/WEB-INF/views/tests.jsp"></put-attribute>
   </definition>
   
-  <definition name="requests" extends="usersLayout">
+  <definition name="requests" extends="userLayout">
     <put-attribute name="pageBody" value="/WEB-INF/views/requests.jsp"></put-attribute>
   </definition>
   

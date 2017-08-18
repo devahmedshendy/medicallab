@@ -6,7 +6,7 @@
   <div class="row justify-content-center">
     <div class="col-2 text-center">
       <a href='<s:url value="/"></s:url>' class="btn btn-link">
-	      <img alt="medicallab-logo" src='<s:url value="/resources/images/medicallab-logo.png"></s:url>' />
+	      <img alt="medicallab-logo" src='<s:url value="/resources/images/medicallab-logo.png"></s:url>'>
 	      <h4>MedicalLab</h4>
       </a>
     </div>

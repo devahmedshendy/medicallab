@@ -21,13 +21,13 @@
 	       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" 
 	       integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" 
 	       crossorigin="anonymous">
-
-	       
-  <script src="https://use.fontawesome.com/facc121533.js"></script>
 	       
 	<link rel="stylesheet"
 	       type="text/css"
 	       href="<s:url value='/resources/css/app.css' />" >
+	       
+  <link rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 	      
   <!-- Favicon Include -->
   <link rel="shortcut icon"
@@ -55,6 +55,8 @@
   
   
   <!-- Javascript Includes -->
+  <script src="https://use.fontawesome.com/facc121533.js"></script>
+  
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
           integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
           crossorigin="anonymous"></script>
