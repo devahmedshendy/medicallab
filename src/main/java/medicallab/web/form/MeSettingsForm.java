@@ -1,5 +1,7 @@
 package medicallab.web.form;
 
+import java.util.HashMap;
+
 import org.springframework.stereotype.Component;
 
 import medicallab.web.model.User;
@@ -46,7 +48,25 @@ public class MeSettingsForm {
 	public void populateIntoObject(User user) {
 		user.setFirstname(this.firstname);
 		user.setLastname(this.lastname);
-		user.setUsername(this.username);
+		user.setUsername(this.username.toLowerCase());
+	}
+	
+	public HashMap<String, String> getUpdatedFields(User user) {
+		HashMap<String, String> updatedFields = new HashMap<>();
+		
+		if (! user.getFirstname().equals(firstname)) {
+			updatedFields.put("firstname", firstname);
+		}
+		
+		if (! user.getLastname().equals(lastname)) {
+			updatedFields.put("lastname", lastname);
+		}
+		
+		if (! user.getUsername().equals(username.toLowerCase())) {
+			updatedFields.put("username", username.toLowerCase());
+		}
+
+		return updatedFields;
 	}
 	
 	public boolean settingsIsChanged(User user) {
@@ -59,7 +79,6 @@ public class MeSettingsForm {
 		if (! username.equals(user.getUsername()))
 			return true;
 		
-		System.out.println("here");
 		return false;
 	}
 }

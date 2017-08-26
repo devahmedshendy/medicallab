@@ -6,11 +6,12 @@
 
 <br />
 
+<s:url value="/login" var="loginUrl"></s:url>
+
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-4">
-	    <c:url var="loginUrl" value="/login"></c:url>
-	    
+    
 	    <sf:form name="loginForm" cssClass="form" action="${loginUrl }" method="POST">
 	      <div class="form-group">
 	        <input type="text" name="username" value="" placeholder="Enter your username" class="form-control">

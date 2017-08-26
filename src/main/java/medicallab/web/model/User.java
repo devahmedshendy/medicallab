@@ -3,7 +3,6 @@ package medicallab.web.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,21 +10,19 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-@Component
 @Entity
-public class User implements Serializable, UserDetails {
-	
-	private static final long serialVersionUID = 6256454077460119383L;
+@Component("user")
+public class User implements UserDetails, Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(updatable = false)
 	private Long id;
 	
 	@Column(nullable=false, unique = true)
@@ -52,8 +49,9 @@ public class User implements Serializable, UserDetails {
 	@Column(columnDefinition="datetime default CURRENT_TIMESTAMP", nullable=false)
 	private Date updatedAt = new Date();
 	
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
-	private List<UserAuthorities> roles;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "roleName", referencedColumnName = "roleName")
+	private Role role;
 
 	public User() { }
 	
@@ -68,7 +66,7 @@ public class User implements Serializable, UserDetails {
 		this.createdAt = user.getCreatedAt();
 		this.updatedAt = user.getUpdatedAt();
 		
-		this.roles     = user.getRoles();
+		this.role      = user.getRole();
 	}
 	
 	
@@ -164,30 +162,35 @@ public class User implements Serializable, UserDetails {
 	}
 
 
-	public void setRoles(List<UserAuthorities> roles) {
-		this.roles = roles;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
-	public List<UserAuthorities> getRoles() {
-		return roles;
+	public Role getRole() {
+		return role;
 	}
-
-
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		String[] userAuthorities = new String[roles.size()];
-		
-		for (int i = 0; i < userAuthorities.length; i++) {
-			userAuthorities[i] = roles.get(i).getAuthority();
-		} 
-		
-		return AuthorityUtils.createAuthorityList(userAuthorities);
-	}
-
 
 	public boolean isAccountNonExpired() { return true; }
-
+	
 	public boolean isAccountNonLocked() { return true; }
-
+	
 	public boolean isCredentialsNonExpired() { return true; }	
+
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return AuthorityUtils.createAuthorityList(new String[] { role.getRoleName() });
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+        if (obj instanceof User) {
+            return username.equals(((User) obj).getUsername());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+    		return username != null ? username.hashCode() : 0;
+    }
 	
 }

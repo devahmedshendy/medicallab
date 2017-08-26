@@ -16,23 +16,22 @@
     
 	<title>MedicalLab</title>
 	
-	<!-- CSS Includes -->
-	<link rel="stylesheet" 
-	       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" 
-	       integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" 
-	       crossorigin="anonymous">
-	       
-	<link rel="stylesheet"
-	       type="text/css"
-	       href="<s:url value='/resources/css/app.css' />" >
-	       
-  <link rel="stylesheet"
-         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-	      
-  <!-- Favicon Include -->
-  <link rel="shortcut icon"
-          href="<s:url value='/resources/images/medicallab-logo.png' />" >
+	<s:url value='/css/lib/font-awesome/4.7.0/font-awesome.min.css'  var="minFontAwesomeCSSUrl" />
+	<s:url value='/css/lib/bootstrap/4.0.0-beta/bootstrap.min.css'   var="minBootstrapCSSUrl" />
+	<s:url value='/css/lib/animate.css/3.5.2/animate.min.css'        var="minAnimateCSSUrl" />
+	
+	<s:url value='/css/app.css' var="appCSSUrl" />
+	
+	<s:url value='/images/logo/medicallab-logo.png'                  var="logoUrl" />
+	<s:url value='/images/favicon/medicallab-logo.png'               var="faviconUrl" />
   
+  
+	<link rel="stylesheet" type="text/css" href="${minFontAwesomeCSSUrl }" >
+	<link rel="stylesheet" type="text/css" href="${minBootstrapCSSUrl }" >
+  
+	<link rel="stylesheet" type="text/css" href="${appCSSUrl }" >
+
+  <link rel="shortcut icon" href="${faviconUrl }" >
 </head>
 
 <body>
@@ -55,26 +54,24 @@
   
   
   <!-- Javascript Includes -->
-  <script src="https://use.fontawesome.com/facc121533.js"></script>
+  <s:url value='/js/lib/jquery/3.2.1/jquery-3.2.1.min.js'       var="minjQueryJSUrl" />
+  <s:url value='/js/lib/popper.js/1.11.0/popper-1.11.0.min.js'  var="minPopperJSUrl" />
+  <s:url value='/js/lib/tether/1.4.0/tether.min.js'             var="minTetherJSUrl" />
+  <s:url value='/js/lib/bootstrap/4.0.0-beta/bootstrap.min.js'  var="minBootstrapJSUrl" />
+  <s:url value='/js/lib/font-awesome/4.7.0/facc121533.js'       var="minFontAwesomeJSUrl" />
+  <s:url value='/js/lib/urijs/1.18.12/URI.min.js'               var="minURIJSUrl" />
+  <s:url value='/js/lib/urijs/1.18.12/jquery.URI.min.js'        var="minjQueryURIJSUrl" />
+
+  <s:url value='/js/app.js' var="appJSUrl" />
+
+
+  <script type="text/javascript" src='${minjQueryJSUrl }'></script>
+  <script type="text/javascript" src='${minPopperJSUrl }'></script>
+  <script type="text/javascript" src='${minTetherJSUrl }'></script>
+  <script type="text/javascript" src='${minBootstrapJSUrl }'></script>
+  <script type="text/javascript" src='${minURIJSUrl }'></script>
+  <script type="text/javascript" src='${minjQueryURIJSUrl }'></script>
   
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
-          integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
-          crossorigin="anonymous"></script>
-          
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" 
-          integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" 
-          crossorigin="anonymous"></script>
-  
-  <script type="text/javascript"
-          src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" 
-          integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" 
-          crossorigin="anonymous"></script>
-          
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" 
-          integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" 
-          crossorigin="anonymous"></script>
-          
-  <script type="text/javascript"
-          src='<s:url value="/resources/js/app.js"></s:url>'></script>
+  <script type="text/javascript" src='${appJSUrl }'></script>
 </body>
 </html>

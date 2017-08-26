@@ -10,8 +10,63 @@ console.log("Hello from app.js");
 
 $('[data-toggle="tooltip"]').tooltip()
 
+
+
 if (window.location.href.indexOf("users") != -1) {
+	console.log("/users page");
+	
 	$("#usersNavLink").addClass("active");
+	
+	$(document).on("click", "#deleteUserLink", (event) => {
+		console.log("deleteUserLink clicked");
+		event.preventDefault;
+		
+		let username = $(event.target).parent("#deleteUserLink").data("username");
+		let confirmDelete = confirm("Delete user '"+  username +"', Are you sure?");
+		
+		if(confirmDelete) {
+			let $deleteUserStatusForm = $("#deleteUserForm");
+			let formActionUri = $deleteUserStatusForm.uri();
+			
+			let formActionUriSegments = formActionUri.segment();
+			formActionUriSegments.push(username);
+
+			formActionUri.segment(formActionUriSegments);
+			formActionUri.addQuery("delete", true);
+			
+			$deleteUserStatusForm.attr("action", formActionUri.toString()).submit();
+		}
+	})
+	
+	$(document).on("click", "#changeUserStatusLink", (event) => {
+		console.log("changeUserStatusLink clicked");
+		event.preventDefault;
+		
+		let username = $(event.target).parent("#changeUserStatusLink").data("username");
+		let enableUser = $(event.target).parent("#changeUserStatusLink").data("enable-user");
+
+		let confirmDelete;
+		if (enableUser === true) {
+			confirmDelete = confirm("Enable user '"+  username +"', Are you sure?");
+			
+		} else if (enableUser === false) {
+			confirmDelete = confirm("Disable user '"+  username +"', Are you sure?");
+		}
+		
+		if(confirmDelete) {
+			let $changeUserStatusForm = $("#changeUserStatusForm");
+			let formActionUri = $changeUserStatusForm.uri();
+			
+			let formActionUriSegments = formActionUri.segment();
+			formActionUriSegments.push(username);
+			
+			formActionUri.segment(formActionUriSegments);
+			formActionUri.addQuery("enable", enableUser);
+			
+			$changeUserStatusForm.attr("action", formActionUri.toString()).submit();
+		}
+	});
+	
 	
 } else if (window.location.href.indexOf("patients") != -1) {
 	$("#patientsNavLink").addClass("active");

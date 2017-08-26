@@ -4,7 +4,8 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
         
 <tiles-definitions>
-  <!-- Templates -->
+  <!-- ## Templates ## -->
+  <!-- Basic Pages Layout Template -->
   <definition name="basicLayout" template="/WEB-INF/layouts/page.jsp">
     <put-attribute name="pageHeader" value=""></put-attribute>
     <put-attribute name="pageAlert" value=""></put-attribute>
@@ -12,45 +13,76 @@
     <put-attribute name="pageFooter" value=""></put-attribute>
   </definition>
   
+  <!-- User Pages Layout Template -->
   <definition name="userLayout" extends="basicLayout">
-    <put-attribute name="pageHeader" value="/WEB-INF/layouts/page_header.jsp"></put-attribute>
-    <put-attribute name="pageAlert" value="/WEB-INF/layouts/page_alert.jsp"></put-attribute>
-    <put-attribute name="pageFooter" value="/WEB-INF/layouts/page_footer.jsp"></put-attribute>
+    <put-attribute name="pageHeader" value="/WEB-INF/layouts/pageHeader.jsp"></put-attribute>
+    <put-attribute name="pageAlert" value="/WEB-INF/layouts/pageAlert.jsp"></put-attribute>
+    <put-attribute name="pageFooter" value="/WEB-INF/layouts/pageFooter.jsp"></put-attribute>
   </definition>
   
   
-  <!-- Public Pages -->
+  
+  <!-- ## Web Pages ## -->
   <definition name="login" extends="basicLayout">
-    <put-attribute name="pageHeader" value="/WEB-INF/layouts/login_header.jsp"></put-attribute>
-    <put-attribute name="pageAlert" value="/WEB-INF/layouts/page_alert.jsp"></put-attribute>
+    <put-attribute name="pageHeader" value="/WEB-INF/layouts/loginHeader.jsp"></put-attribute>
+    <put-attribute name="pageAlert" value="/WEB-INF/layouts/pageAlert.jsp"></put-attribute>
     <put-attribute name="pageBody" value="/WEB-INF/views/login.jsp"></put-attribute>
   </definition>
   
   
-  <!-- Main Pages -->
   <definition name="home" extends="userLayout">
     <put-attribute name="pageBody" value="/WEB-INF/views/home.jsp"></put-attribute>
   </definition>
   
+  
   <definition name="me" extends="userLayout">
-    <put-attribute name="pageBody" value="/WEB-INF/views/me.jsp"></put-attribute>
+    <put-attribute name="pageBody">
+      <definition template="/WEB-INF/views/me.jsp">
+        <put-attribute name="formAlert" value="/WEB-INF/layouts/formAlert.jsp"></put-attribute>
+      </definition>
+    </put-attribute>
   </definition>
+
   
   <definition name="users" extends="userLayout">
     <put-attribute name="pageBody" value="/WEB-INF/views/users.jsp"></put-attribute>
   </definition>
   
+  <definition name="newUser" extends="userLayout">
+    <put-attribute name="pageBody">
+    
+      <definition template="/WEB-INF/views/newUser.jsp">
+        <put-attribute name="formAlert" value="/WEB-INF/layouts/formAlert.jsp"></put-attribute>
+      </definition>
+      
+    </put-attribute>
+  </definition>
+  
+  <definition name="editUser" extends="userLayout">
+    <put-attribute name="pageBody">
+    
+      <definition template="/WEB-INF/views/editUser.jsp">
+        <put-attribute name="formAlert" value="/WEB-INF/layouts/formAlert.jsp"></put-attribute>
+      </definition>
+      
+    </put-attribute>
+  </definition>
+  
+  
   <definition name="patients" extends="userLayout">
     <put-attribute name="pageBody" value="/WEB-INF/views/patients.jsp"></put-attribute>
   </definition>
+  
   
   <definition name="tests" extends="userLayout">
     <put-attribute name="pageBody" value="/WEB-INF/views/tests.jsp"></put-attribute>
   </definition>
   
+  
   <definition name="requests" extends="userLayout">
     <put-attribute name="pageBody" value="/WEB-INF/views/requests.jsp"></put-attribute>
   </definition>
+  
   
   
   <!-- Error Pages -->

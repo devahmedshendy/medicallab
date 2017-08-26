@@ -3,6 +3,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
+<s:url value="https://github.com/devahmedshendy/medicallab" var="sourceCodeUrl"></s:url>
+
 <sec:authentication property="principal.firstname" var="firstname" />
 
 <div class="container">
@@ -13,7 +15,7 @@
 	  <hr class="my-4">
 	  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
 	  <p class="lead">
-	    <a class="btn btn-primary btn-lg" href='<c:url value="https://github.com/devahmedshendy/medicallab"></c:url>' role="button" target="_blank" >Source Code</a>
+	    <a class="btn btn-primary btn-lg" href='${sourceCodeUrl }' role="button" target="_blank" >Source Code</a>
 	  </p>
 	</div>
 </div>

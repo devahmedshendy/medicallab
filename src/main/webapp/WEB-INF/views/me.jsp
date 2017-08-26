@@ -2,7 +2,11 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="t" %>
 
+
+<s:url var="meUrl" value="/me"></s:url>
+<s:url var="homeUrl" value="/"></s:url>
 
 <br /><br />
 
@@ -12,18 +16,26 @@
       <h5>
         <sec:authentication property="principal.authorities" var="authorities"/>
         
-        <small>ASSIGNED ROLES:</small>
+        <small>YOUR ROLE:</small>
         <c:choose>
-          <c:when test="${authorities.size() > 0 }">
-	          <c:forEach var="authority" items="${authorities }">
-	            <span class="badge badge-light">${authority }</span>
-	          </c:forEach>
+          <c:when test="${authorities.get(0) == 'ROLE_ROOT' }">
+            <c:set value="Root" var="roleDescription"></c:set>
+          </c:when>
+        
+          <c:when test="${authorities.get(0) == 'ROLE_ADMIN' }">
+            <c:set value="Administrator" var="roleDescription"></c:set>
+          </c:when>
+           
+          <c:when test="${authorities.get(0) == 'ROLE_DOCTOR' }">
+            <c:set value="Investigation Doctor" var="roleDescription"></c:set>
           </c:when>
           
-          <c:otherwise>
-            <span class="badge badge-warning">NONE</span>
-          </c:otherwise>
+          <c:when test="${authorities.get(0) == 'ROLE_OFFICER' }">
+            <c:set value="Registration Officer" var="roleDescription"></c:set>
+          </c:when>
         </c:choose>
+        
+        <span class="badge badge-light">${roleDescription }</span>
       </h5>
     </div>
     
@@ -33,8 +45,6 @@
   </div>
   
   <br />
-            
-  <s:url var="meUrl" value="/me"></s:url>
   
   <div class="row justify-content-center">
     <div class="col-2">
@@ -58,7 +68,7 @@
 	        </s:bind>
 	       </div>
 	       
-	       <input type="submit" name="me-change-settings" value="Save" class="btn btn-outline-primary btn-block btn-sm" />
+	       <input type="submit" name="meChangeSettings" value="Save" class="btn btn-outline-primary btn-block btn-sm" />
 	    </sf:form>
     </div>
     
@@ -82,48 +92,26 @@
 				  </s:bind>
 	       </div>
 	       
-			  <input type="submit" name="me-change-password" value="Change Password" class="btn btn-outline-primary btn-block btn-sm" />
+			  <input type="submit" name="meChangePassword" value="Change Password" class="btn btn-outline-primary btn-block btn-sm" />
 	    </sf:form>
     </div>
   </div>
   
   <div class="row justify-content-center">
     <div class="col-5">
-      <sf:form action="${meUrl }" method="GET">
-        <input type="submit" name="me-cancel" value="Cancel" class="btn btn-outline-danger btn-block btn-sm" />      
-      </sf:form>
+      <a href="${homeUrl }" class="btn btn-outline-danger btn-block btn-sm">Cancel</a>
     </div>
   </div>
   
+  <br />
+  
   <div class="row justify-content-center">
     <s:bind path="meSettingsForm.*">
-      <c:if test="${status.errors.errorCount > 0 }">
-        <div class="col-6">
-          <div class="alert alert-danger">              
-            <strong>Please fix the following errors</strong>:
-	          <ul>           
-	             <c:forEach var="error" items="${status.errors.allErrors }">
-	               <li><s:message message="${error}"></s:message><br /></li>
-	             </c:forEach>
-	           </ul>
-          </div>
-        </div>
-      </c:if>
+      <t:insertAttribute name="formAlert"></t:insertAttribute>
     </s:bind>
     
     <s:bind path="mePasswordForm.*">
-      <c:if test="${status.errors.errorCount > 0 }">
-        <div class="col-6">
-          <div class="alert alert-danger">  
-            <strong>Please fix the following errors</strong>: 
-	          <ul>           
-	             <c:forEach var="error" items="${status.errors.allErrors }">
-	               <li><s:message message="${error}"></s:message><br /></li>
-	             </c:forEach>
-	           </ul>
-          </div>
-        </div>
-      </c:if>
+      <t:insertAttribute name="formAlert"></t:insertAttribute>
     </s:bind>
   </div>
 </div>
