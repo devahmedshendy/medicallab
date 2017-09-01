@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.persistence.NoResultException;
 import org.springframework.stereotype.Component;
+
+import medicallab.web.exception.NoSuchPatientException;
 import medicallab.web.model.User;
 
 @Component("userDAO")
@@ -25,7 +27,7 @@ public class UserDAOImpl extends DAOSessionFactory implements UserDAO {
 	}
 	
 	@Override
-	public User findById(Long id) {
+	public User findById(Long id) throws NoSuchPatientException {
 		User user;
 		try {
 			user =  getSession()
@@ -42,9 +44,6 @@ public class UserDAOImpl extends DAOSessionFactory implements UserDAO {
 	
 	@Override
 	public Map<String, Object> findPagedList(Integer startPosition, Integer maxResult, String nativeQueryString, String nativeCountQueryString) {
-		System.out.println("The native query: " + nativeQueryString);
-		
-		
 		List<User> userList = getSession()
 					.createNativeQuery(nativeQueryString, User.class)
 					.setFirstResult(startPosition)
@@ -54,8 +53,6 @@ public class UserDAOImpl extends DAOSessionFactory implements UserDAO {
 		BigInteger resultCount = (BigInteger) getSession()
 					.createNativeQuery(nativeCountQueryString)
 					.getSingleResult();
-		
-		System.out.println("resultCount: " + resultCount);
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("pagedList", userList);

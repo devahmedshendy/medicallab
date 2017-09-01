@@ -5,6 +5,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.Errors;
 
+import medicallab.web.exception.NoSuchPatientException;
+import medicallab.web.model.service.PatientService;
 import medicallab.web.model.service.UserService;
 
 public class BasicValidator {
@@ -12,6 +14,7 @@ public class BasicValidator {
 	@Autowired BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@Autowired UserService userService;
+	@Autowired PatientService patientService;
 	
 	
 	/**
@@ -31,7 +34,7 @@ public class BasicValidator {
 	protected String[] getErrorArgs(String errorCode, String fieldErrorName) {
 		switch(errorCode) {
 			case "NamingFieldSizeShouldBeValid":
-				return new String[] { fieldErrorName, "3", "15" };
+				return new String[] { fieldErrorName, "3", "40" };
 				
 			case "PasswordFieldSizeShouldBeValid":
 				return new String[] { fieldErrorName, "5", "30" };
@@ -77,8 +80,60 @@ public class BasicValidator {
 		
 		field.trim();
 	
-		return field.length() < 3 && field.length() > 15 ? true : false;
+		return field.length() < 3 || field.length() > 30 ? true : false;
 	}
+	
+	protected boolean phoneFieldSizeIsNotValid(String phoneField) {
+		if (phoneField == null || phoneField.length() == 0) return true;
+		
+		phoneField.trim();
+	
+		return phoneField.length() > 11 ? true : false;
+	}
+	
+	protected boolean patientIdFieldSizeIsNotValid(String patientIdField) {
+		if (patientIdField == null || patientIdField.length() == 0) return true;
+		
+		patientIdField.trim();
+		
+		try {
+			Long.parseLong(patientIdField);
+			
+		} catch(NumberFormatException e) {
+			System.out.println("NumberFormatException");
+			return true;
+		}
+		
+		return patientIdField.length() != 14 ? true : false;
+	}
+	
+	protected boolean ageFieldSizeIsNotValid(Integer ageField) {
+		if (ageField == null || ageField == 0) return true;
+		
+//		ageField.trim();
+		
+//		try {
+//			Integer age = Integer.parseInt(ageField);
+//			
+//			return age < 0 || age > 200 ? true : false;
+//			
+//		} catch(NumberFormatException e) {
+//			return true;
+//		}
+		
+		return ageField < 0 || ageField > 200 ? true : false;
+	}
+	
+	protected boolean patientIdIsAlreadyExisted(String patientId) {
+		try {
+			patientService.findByPatientId(patientId);
+			
+			return true;
+		} catch (NoSuchPatientException e) {
+			return false;
+		}
+	}
+	
 	
 	protected boolean usernameIsAlreadyExisted(String username) {
 		return userService.findByUsername(username) != null ? true : false;
@@ -101,7 +156,6 @@ public class BasicValidator {
 	}
 	
 	protected boolean selectedRoleIsNotValid(String selectedRole) {
-		System.out.println("selectedRole: " + selectedRole);
 		return ! userService.findAvailableRoles().contains(selectedRole) ? true : false;
 	}
 	

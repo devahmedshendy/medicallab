@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.annotation.Secured;
 
 @Controller
 @RequestMapping("/users")
@@ -41,9 +42,9 @@ public class UsersController {
 	private final Locale enLocale = new Locale("en");
 	
 	
-
+	@Secured(value = { "ROLE_ADMIN", "ROLE_ROOT" })
 	@RequestMapping(value = { "", "search" })
-	public String getAllUsers(Model model,
+	public String users(Model model,
 			@ModelAttribute("searchUserForm") SearchUserForm searchUserForm,
 			@RequestParam(value = "searchField", required=false) String searchField,
 			@RequestParam(value = "searchText", required=false) String searchText,
@@ -107,6 +108,7 @@ public class UsersController {
 	
 	
 	
+	@Secured(value = { "ROLE_ADMIN", "ROLE_ROOT" })
 	@RequestMapping(value= { "new", "edit/{username}" }, params = { "cancel" })
 	public String cancel() {
 		return "redirect:/users";
@@ -114,6 +116,7 @@ public class UsersController {
 	
 	
 	
+	@Secured(value = { "ROLE_ADMIN", "ROLE_ROOT" })
 	@GetMapping(path = "edit/{username}")
 	public String editUser(Model model,
 			RedirectAttributes redirectAttributes,
@@ -139,6 +142,7 @@ public class UsersController {
 		return "editUser";
 	}
 	
+	@Secured(value = { "ROLE_ADMIN", "ROLE_ROOT" })
 	@PostMapping(path = "edit/{username}", params = { "changeUserSettings" })
 	public String changeUserSettings(Model model,
 			RedirectAttributes redirectAttributes,
@@ -169,6 +173,7 @@ public class UsersController {
 		return "redirect:/users/edit/" + username;
 	}
 	
+	@Secured(value = { "ROLE_ADMIN", "ROLE_ROOT" })
 	@PostMapping(path = "edit/{username}", params = { "changeUserPassword" })
 	public String changeUserPassword(Model model,
 			RedirectAttributes redirectAttributes,
@@ -201,6 +206,7 @@ public class UsersController {
 
 	
 	
+	@Secured(value = { "ROLE_ADMIN", "ROLE_ROOT" })
 	@GetMapping(path = "new")
 	public String newUser(Model model) {
 		model.addAttribute("addUserForm", addUserForm);
@@ -232,7 +238,7 @@ public class UsersController {
 	}
 	
 	
-	
+	@Secured(value = { "ROLE_ADMIN", "ROLE_ROOT" })
 	@PostMapping(path = "{username}", params= { "enable" })
 	public String changeUserStatus(RedirectAttributes redirectAttributes,
 			@PathVariable("username") String username,
@@ -275,6 +281,7 @@ public class UsersController {
 	
 	
 	
+	@Secured(value = { "ROLE_ADMIN", "ROLE_ROOT" })
 	@PostMapping(path = "{username}", params= { "delete" })
 	public String deleteUser(RedirectAttributes redirectAttributes,
 			@PathVariable("username") String username,

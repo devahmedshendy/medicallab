@@ -3,17 +3,9 @@ body {
     background-color: white;
 }
 
-
-
-
-/* #bodyContent, #pageHeader {
-  margin-left: 100px;
-  margin-right: 100px;
-} */
-
-/* table {
-     font-size: 15px; 
-} */
+#loginJumbotron {
+	padding: 3rem 0rem 1rem 0rem;
+}
 
 body .modal-dialog {
   background-color: black;
@@ -24,6 +16,10 @@ body .modal-dialog {
      margin-right: auto; 
 }
 
+#dialog {
+	height: 500px;
+	background-color: #F7F7F9; 
+}
 
 
 

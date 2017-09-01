@@ -10,25 +10,68 @@ console.log("Hello from app.js");
 
 $('[data-toggle="tooltip"]').tooltip()
 
+if (window.location.href.indexOf("login") != -1) {
+	console.log("/login page");
+	
+	$("#getMedicalProfileForm").submit(function (event) {
+		event.preventDefault();
+		
+		var $personalIdInput 		= $("input[name=personalId]");
+		var patientPersonalId 		= $personalIdInput.val();
+		var $findPatientAlert 		= $("#findPatientAlert");
+		
+		if (patientPersonalId) {
+			$personalIdInput.removeClass("is-invalid");
 
+			var getPatientAPI 			= window.location.origin + "/patients/api/" + patientPersonalId;
+			var getPatientProfileUri 	= window.location.origin + "/patients/medical-profile/" + patientPersonalId
+			
+			qwest
+			.get(getPatientAPI)
+			.then(function(xhr, response) {
+				window.location.href = getPatientProfileUri
+				
+			})
+			.catch(function(e, xhr, response) {
+				if (xhr.status === 404) {
+					$findPatientAlert.removeClass("alert-success");
+					$findPatientAlert.removeClass("d-none");
+					
+					$findPatientAlert.addClass("is-invalid");
+					$findPatientAlert.addClass("alert-danger");
+					
+					$findPatientAlert.text("No such patient");
+					
+				} else {
+					$findPatientAlert.text("Unhandled Error");
+					console.error(e);
+				}
+				
+		     });
+			
+		} else {
+			$personalIdInput.addClass("is-invalid");
+			
+		}
+	})
+	
 
-if (window.location.href.indexOf("users") != -1) {
+} else if (window.location.href.indexOf("users") != -1) {
 	console.log("/users page");
 	
 	$("#usersNavLink").addClass("active");
 	
 	$(document).on("click", "#deleteUserLink", (event) => {
-		console.log("deleteUserLink clicked");
 		event.preventDefault;
 		
-		let username = $(event.target).parent("#deleteUserLink").data("username");
-		let confirmDelete = confirm("Delete user '"+  username +"', Are you sure?");
+		var username = $(event.target).parent("#deleteUserLink").data("username");
+		var confirmDevare = confirm("Devare user '"+  username +"', Are you sure?");
 		
-		if(confirmDelete) {
-			let $deleteUserStatusForm = $("#deleteUserForm");
-			let formActionUri = $deleteUserStatusForm.uri();
+		if(confirmDevare) {
+			var $deleteUserStatusForm = $("#deleteUserForm");
+			var formActionUri = $deleteUserStatusForm.uri();
 			
-			let formActionUriSegments = formActionUri.segment();
+			var formActionUriSegments = formActionUri.segment();
 			formActionUriSegments.push(username);
 
 			formActionUri.segment(formActionUriSegments);
@@ -36,28 +79,27 @@ if (window.location.href.indexOf("users") != -1) {
 			
 			$deleteUserStatusForm.attr("action", formActionUri.toString()).submit();
 		}
-	})
+	});
 	
 	$(document).on("click", "#changeUserStatusLink", (event) => {
-		console.log("changeUserStatusLink clicked");
 		event.preventDefault;
 		
-		let username = $(event.target).parent("#changeUserStatusLink").data("username");
-		let enableUser = $(event.target).parent("#changeUserStatusLink").data("enable-user");
+		var username = $(event.target).parent("#changeUserStatusLink").data("username");
+		var enableUser = $(event.target).parent("#changeUserStatusLink").data("enable-user");
 
-		let confirmDelete;
+		var confirmDevare;
 		if (enableUser === true) {
-			confirmDelete = confirm("Enable user '"+  username +"', Are you sure?");
+			confirmDevare = confirm("Enable user '"+  username +"', Are you sure?");
 			
 		} else if (enableUser === false) {
-			confirmDelete = confirm("Disable user '"+  username +"', Are you sure?");
+			confirmDevare = confirm("Disable user '"+  username +"', Are you sure?");
 		}
 		
-		if(confirmDelete) {
-			let $changeUserStatusForm = $("#changeUserStatusForm");
-			let formActionUri = $changeUserStatusForm.uri();
+		if(confirmDevare) {
+			var $changeUserStatusForm = $("#changeUserStatusForm");
+			var formActionUri = $changeUserStatusForm.uri();
 			
-			let formActionUriSegments = formActionUri.segment();
+			var formActionUriSegments = formActionUri.segment();
 			formActionUriSegments.push(username);
 			
 			formActionUri.segment(formActionUriSegments);
@@ -69,7 +111,29 @@ if (window.location.href.indexOf("users") != -1) {
 	
 	
 } else if (window.location.href.indexOf("patients") != -1) {
+	console.log("/patients page");
+	
 	$("#patientsNavLink").addClass("active");
+	
+	$(document).on("click", "#deletePatientLink", (event) => {
+		event.preventDefault;
+		
+		var patientId = $(event.target).parent("#deletePatientLink").data("patient-id") + "";
+		var confirmDevare = confirm("Devare patient of id '"+  patientId +"', Are you sure?");
+		
+		if(confirmDevare) {
+			var $deletePatientForm = $("#deletePatientForm");
+			var formActionUri = $deletePatientForm.uri();
+
+			var formActionUriSegments = formActionUri.segment();
+			formActionUriSegments.push(patientId);
+
+			formActionUri.segment(formActionUriSegments);
+			formActionUri.addQuery("delete", true);
+			
+			$deletePatientForm.attr("action", formActionUri.toString()).submit();
+		}
+	})
 	
 } else if (window.location.href.indexOf("tests") != -1) {
 	$("#testsNavLink").addClass("active");
@@ -105,7 +169,6 @@ $("#requestsTable tr").on('click', function(event) {
     var numberOfCheckedCheckboxes = $("input:checked").length;
     // numberOfCheckedCheckboxes !== 0 ?
     // var tableButtons = $("#deleteFromTableButton");
-    // console.log(tableButtons.length);
     toggleTableActionButtons()
     // $("#deleteFromTableButton").prop("disabled", false)
     // :
@@ -216,11 +279,10 @@ function refreshModalTestDetails(testDetails) {
     $(testDetailsTable + " #testDetailsTableBodyType")
         .html(testDetails["type"]);
 
-    let testItemNames = testDetails["testItemNames"];
-    let testItemValues = testDetails["testItemValues"];
+    var testItemNames = testDetails["testItemNames"];
+    var testItemValues = testDetails["testItemValues"];
 
     testItemNames.forEach(function(item, index) {
-        console.log()
         $(testDetailsTable + " #testDetailsTableHeaderItem" + index)
             .html(item);
 
@@ -263,7 +325,6 @@ function setRequestStatusBadge(requestStatus) {
             break;
 
         case "Rejected":
-            console.log('here')
             $("#requestStatusBadge")
                 .addClass("badge badge-danger");
             break;

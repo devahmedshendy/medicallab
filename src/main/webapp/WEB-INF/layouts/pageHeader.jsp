@@ -5,15 +5,24 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 
-<s:url value="/"          var="homeUrl"></s:url>
+<%-- <s:url value="/"          var="horoutes.me()"></s:url>
 <s:url value="/users"     var="usersUrl"></s:url>
 <s:url value="/patients"  var="patientsUrl"></s:url>
 <s:url value="/tests"     var="testsUrl"></s:url>
 <s:url value="/requests"  var="requestsUrl"></s:url>
-<s:url value="/me"        var="meUrl"></s:url>
-<s:url value="/logout"    var="logoutUrl" ></s:url>
+<s:url value="/me"        var="routes.me()"></s:url>
+<s:url value="/logout"    var="uri.get("logout")" ></s:url>
 
-<s:url value="/images/logo/medicallab-logo.png"  var="logoUrl"></s:url>
+<c:set value="/images/logo/medicallab-logo.png"  var="routes.logo"></s:url> --%>
+
+<c:set value='${uri.get("home") }'      var="homeUri"></c:set>
+<c:set value='${uri.get("users") }'     var="usersUri"></c:set>
+<c:set value='${uri.get("patients") }'  var="patientsUri"></c:set>
+<c:set value='${uri.get("tests") }'     var="testsUri"></c:set>
+<c:set value='${uri.get("requests") }'  var="requestsUri"></c:set>
+<c:set value='${uri.get("me") }'        var="meUri"></c:set>
+<c:set value='${uri.get("logout") }'    var="logoutUri" ></c:set>
+
 
 
 <nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-light bg-faded" style="background-color: #e3f2fd;">
@@ -21,23 +30,27 @@
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href='${homeUrl }'>
-      <img src='${logoUrl }' width="30" height="30" class="d-inline-block align-top" alt="logo">
+    
+    <a class="navbar-brand" href='${homeUri }'>
+      <img src='${uri.get("logo") }' width="30" height="30" class="d-inline-block align-top" alt="logo">
       MedicalLab
     </a>
 
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav mr-auto">
-        <a id="homeNavLink" class="nav-item nav-link" href='${homeUrl }'>Home</a>
-        
         <sec:authorize access="hasRole('ADMIN')">
-          <a id="usersNavLink" class="nav-item nav-link" href='${usersUrl }'>Users</a>
+          <a id="homeNavLink" class="nav-item nav-link" href='${homeUri }'>Home</a>
+          <a id="usersNavLink" class="nav-item nav-link" href='${usersUri }'>Users</a>
+          <a id="patientsNavLink" class="nav-item nav-link" href='${patientsUri }'>Patients</a>
+          <a id="testsNavLink" class="nav-item nav-link" href='${testsUri }'>Tests</a>
+          <a id="requestsNavLink" class="nav-item nav-link" href='${requestsUri }'>Requests</a>
         </sec:authorize>
         
-        <sec:authorize access="hasRole('ADMIN') or hasRole('DOCTOR') or hasRole('OFFICER')">
-	        <a id="patientsNavLink" class="nav-item nav-link" href='${patientsUrl }'>Patients</a>
-	        <a id="testsNavLink" class="nav-item nav-link" href='${testsUrl }'>Tests</a>
-	        <a id="requestsNavLink" class="nav-item nav-link" href='${requestsUrl }'>Requests</a>
+        <sec:authorize access="hasRole('DOCTOR') or hasRole('OFFICER')">
+          <a id="homeNavLink" class="nav-item nav-link" href='${homeUri }'>Home</a>
+	        <a id="patientsNavLink" class="nav-item nav-link" href='${patientsUri }'>Patients</a>
+	        <a id="testsNavLink" class="nav-item nav-link" href='${testsUri }'>Tests</a>
+	        <a id="requestsNavLink" class="nav-item nav-link" href='${requestsUri }'>Requests</a>
         </sec:authorize>
       </div>
     
@@ -67,7 +80,7 @@
          </c:choose>
 
 				<div class="navbar-nav">
-					<a id="meLink" class="nav-item nav-link mr-2" href='${meUrl }' data-toggle="tooltip" data-placement="bottom" title="${roleDescription }">
+					<a id="meLink" class="nav-item nav-link mr-2" href='${meUri }' data-toggle="tooltip" data-placement="bottom" title="${roleDescription }">
 					  <u>${fullname}</u>
 					  
 					  <sec:authorize access="hasRole('ROOT')">
@@ -95,4 +108,6 @@
 </nav>
 
 
-<sf:form id="logoutForm" action="${logoutUrl }" method="post"></sf:form>
+<sf:form id="logoutForm" action='${logoutUri }' method="POST">
+  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }" />
+</sf:form>

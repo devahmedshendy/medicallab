@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import medicallab.web.exception.NoSuchPatientException;
 import medicallab.web.model.Role;
 
 @Component("roleDAO")
@@ -31,7 +32,7 @@ public class RoleDAOImpl extends DAOSessionFactory implements RoleDAO {
 	}
 
 	@Override
-	public Role findById(Long id) {
+	public Role findById(Long id) throws NoSuchPatientException {
 		// TODO Auto-generated method stub
 		return null;
 	}

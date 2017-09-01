@@ -10,6 +10,8 @@ public interface GenericService<T> {
 	
 	List<T> findAll();
 	
+	T findById(Object id);
+	
 	void update(T user);
 
 	void delete(T user);

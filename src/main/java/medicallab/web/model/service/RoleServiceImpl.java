@@ -53,4 +53,10 @@ public class RoleServiceImpl implements RoleService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Role findById(Object id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

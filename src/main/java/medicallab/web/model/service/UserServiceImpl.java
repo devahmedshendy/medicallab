@@ -266,5 +266,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return new User(user);
 	}
 
+	@Override
+	public User findById(Object id) {
+		return userDAO.findById( (Long) id);
+	}
+
 }
 

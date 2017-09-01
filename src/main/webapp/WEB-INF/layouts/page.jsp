@@ -16,22 +16,22 @@
     
 	<title>MedicalLab</title>
 	
-	<s:url value='/css/lib/font-awesome/4.7.0/font-awesome.min.css'  var="minFontAwesomeCSSUrl" />
-	<s:url value='/css/lib/bootstrap/4.0.0-beta/bootstrap.min.css'   var="minBootstrapCSSUrl" />
-	<s:url value='/css/lib/animate.css/3.5.2/animate.min.css'        var="minAnimateCSSUrl" />
+	<s:url value='/css/lib/font-awesome/4.7.0/font-awesome.min.css'  var="minFontAwesomeCSSUri" />
+	<s:url value='/css/lib/bootstrap/4.0.0-beta/bootstrap.min.css'   var="minBootstrapCSSUri" />
+	<s:url value='/css/lib/animate.css/3.5.2/animate.min.css'        var="minAnimateCSSUri" />
 	
-	<s:url value='/css/app.css' var="appCSSUrl" />
+	<s:url value='/css/app.css' var="appCSSUri" />
 	
-	<s:url value='/images/logo/medicallab-logo.png'                  var="logoUrl" />
-	<s:url value='/images/favicon/medicallab-logo.png'               var="faviconUrl" />
+	<s:url value='/images/logo/medicallab-logo.png'                  var="logoUri" />
+	<s:url value='/images/favicon/medicallab-logo.png'               var="faviconUri" />
   
   
-	<link rel="stylesheet" type="text/css" href="${minFontAwesomeCSSUrl }" >
-	<link rel="stylesheet" type="text/css" href="${minBootstrapCSSUrl }" >
+	<link rel="stylesheet" type="text/css" href="${minFontAwesomeCSSUri }" >
+	<link rel="stylesheet" type="text/css" href="${minBootstrapCSSUri }" >
   
-	<link rel="stylesheet" type="text/css" href="${appCSSUrl }" >
+	<link rel="stylesheet" type="text/css" href="${appCSSUri }" >
 
-  <link rel="shortcut icon" href="${faviconUrl }" >
+  <link rel="shortcut icon" href="${faviconUri }" >
 </head>
 
 <body>
@@ -54,24 +54,26 @@
   
   
   <!-- Javascript Includes -->
-  <s:url value='/js/lib/jquery/3.2.1/jquery-3.2.1.min.js'       var="minjQueryJSUrl" />
-  <s:url value='/js/lib/popper.js/1.11.0/popper-1.11.0.min.js'  var="minPopperJSUrl" />
-  <s:url value='/js/lib/tether/1.4.0/tether.min.js'             var="minTetherJSUrl" />
-  <s:url value='/js/lib/bootstrap/4.0.0-beta/bootstrap.min.js'  var="minBootstrapJSUrl" />
-  <s:url value='/js/lib/font-awesome/4.7.0/facc121533.js'       var="minFontAwesomeJSUrl" />
-  <s:url value='/js/lib/urijs/1.18.12/URI.min.js'               var="minURIJSUrl" />
-  <s:url value='/js/lib/urijs/1.18.12/jquery.URI.min.js'        var="minjQueryURIJSUrl" />
+  <s:url value='/js/lib/jquery/3.2.1/jquery-3.2.1.min.js'       var="minjQueryJSUri" />
+  <s:url value='/js/lib/popper.js/1.11.0/popper-1.11.0.min.js'  var="minPopperJSUri" />
+  <s:url value='/js/lib/tether/1.4.0/tether.min.js'             var="minTetherJSUri" />
+  <s:url value='/js/lib/bootstrap/4.0.0-beta/bootstrap.min.js'  var="minBootstrapJSUri" />
+  <s:url value='/js/lib/font-awesome/4.7.0/facc121533.js'       var="minFontAwesomeJSUri" />
+  <s:url value='/js/lib/urijs/1.18.12/URI.min.js'               var="minURIJSUri" />
+  <s:url value='/js/lib/urijs/1.18.12/jquery.URI.min.js'        var="minjQueryURIJSUri" />
+  <s:url value='/js/lib/qwest/4.5.0/qwest.min.js'               var="miniQwestJSUri"></s:url>
 
-  <s:url value='/js/app.js' var="appJSUrl" />
+  <s:url value='/js/app.js' var="appJSUri" />
 
 
-  <script type="text/javascript" src='${minjQueryJSUrl }'></script>
-  <script type="text/javascript" src='${minPopperJSUrl }'></script>
-  <script type="text/javascript" src='${minTetherJSUrl }'></script>
-  <script type="text/javascript" src='${minBootstrapJSUrl }'></script>
-  <script type="text/javascript" src='${minURIJSUrl }'></script>
-  <script type="text/javascript" src='${minjQueryURIJSUrl }'></script>
+  <script type="text/javascript" src='${minjQueryJSUri }'></script>
+  <script type="text/javascript" src='${minPopperJSUri }'></script>
+  <script type="text/javascript" src='${minTetherJSUri }'></script>
+  <script type="text/javascript" src='${minBootstrapJSUri }'></script>
+  <script type="text/javascript" src='${minURIJSUri }'></script>
+  <script type="text/javascript" src='${minjQueryURIJSUri }'></script>
+  <script type="text/javascript" src='${miniQwestJSUri }'></script>
   
-  <script type="text/javascript" src='${appJSUrl }'></script>
+  <script type="text/javascript" src='${appJSUri }'></script>
 </body>
 </html>
