@@ -2,13 +2,11 @@ package medicallab.config;
 
 import java.util.Properties;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -22,8 +20,8 @@ public class HibernateConfig {
 	private Environment env;
 	
 	@Bean
-	public DataSource dataSource() {
-		DataSource dataSource = new DataSource();
+	public BasicDataSource dataSource() {
+		BasicDataSource dataSource = new BasicDataSource();
 		
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		
@@ -72,7 +70,7 @@ public class HibernateConfig {
 		hibernateProperties.setProperty("hibernate.c3p0.max_size", "10");
 		hibernateProperties.setProperty("hibernate.c3p0.timeout", "120");
 		hibernateProperties.setProperty("hibernate.c3p0.max_statements", "10");
-		
+		hibernateProperties.setProperty("hibernate.connection.pool_size", "10");
 		
 		return hibernateProperties;
 	}
