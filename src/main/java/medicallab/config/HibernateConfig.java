@@ -68,6 +68,11 @@ public class HibernateConfig {
 		hibernateProperties.setProperty("dialect", "org.hibernate.dialect.MySQLDialect");
 		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
 		hibernateProperties.setProperty("hibernate.show_sql", "true");
+		hibernateProperties.setProperty("hibernate.c3p0.min_size", "1");
+		hibernateProperties.setProperty("hibernate.c3p0.max_size", "10");
+		hibernateProperties.setProperty("hibernate.c3p0.timeout", "120");
+		hibernateProperties.setProperty("hibernate.c3p0.max_statements", "10");
+		
 		
 		return hibernateProperties;
 	}
