@@ -5,8 +5,11 @@ import java.util.Properties;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -15,13 +18,26 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class HibernateConfig {
 	
+	@Autowired
+	private Environment env;
+	
 	@Bean
 	public DataSource dataSource() {
 		DataSource dataSource = new DataSource();
+		
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/medicallabDB?createDatabaseIfNotExist=true");
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
+		
+		if ( "PRODUCTION".equals(env.getProperty("env")) ) {
+			System.out.println("PRODUCTION PRODUCTION PRODUCTION PRODUCTION ");
+			dataSource.setUrl(env.getProperty("DB_URL"));
+			dataSource.setUsername(env.getProperty("DB_USERNAME"));
+			dataSource.setPassword(env.getProperty("DB_PASSWORD"));
+		
+		} else if ( "DEV".equals(env.getProperty("env")) ) {
+			dataSource.setUrl("jdbc:mysql://localhost:3306/medicallabDB?createDatabaseIfNotExist=true");
+			dataSource.setUsername("root");
+			dataSource.setPassword("root");
+		}
 		
 		return dataSource;
 	}
