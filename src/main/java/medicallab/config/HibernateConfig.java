@@ -68,6 +68,7 @@ public class HibernateConfig {
 		hibernateProperties.setProperty("dialect", "org.hibernate.dialect.MySQLDialect");
 		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
 		hibernateProperties.setProperty("hibernate.show_sql", "true");
+		hibernateProperties.setProperty("hibernate.connection.pool_size", "10");
 		
 		return hibernateProperties;
 	}
