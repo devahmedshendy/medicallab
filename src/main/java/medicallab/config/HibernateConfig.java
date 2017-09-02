@@ -72,7 +72,7 @@ public class HibernateConfig {
 		hibernateProperties.setProperty("hibernate.c3p0.max_size", "10");
 		hibernateProperties.setProperty("hibernate.c3p0.timeout", "120");
 		hibernateProperties.setProperty("hibernate.c3p0.max_statements", "10");
-		
+		hibernateProperties.setProperty("hibernate.connection.pool_size", "10");
 		
 		return hibernateProperties;
 	}
