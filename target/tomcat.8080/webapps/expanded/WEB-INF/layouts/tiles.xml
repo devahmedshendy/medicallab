@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+        
+<tiles-definitions>
+  <!-- ## Templates ## -->
+  <!-- Basic Pages Layout Template -->
+  <definition name="basicLayout" template="/WEB-INF/layouts/page.jsp">
+    <put-attribute name="pageHeader" value=""></put-attribute>
+    <put-attribute name="pageAlert" value=""></put-attribute>
+    <put-attribute name="pageBody" value=""></put-attribute>
+    <put-attribute name="pageFooter" value=""></put-attribute>
+  </definition>
+  
+  <!-- User Pages Layout Template -->
+  <definition name="userLayout" extends="basicLayout">
+    <put-attribute name="pageHeader" value="/WEB-INF/layouts/pageHeader.jsp"></put-attribute>
+    <put-attribute name="pageAlert" value="/WEB-INF/layouts/pageAlert.jsp"></put-attribute>
+    <put-attribute name="pageFooter" value="/WEB-INF/layouts/pageFooter.jsp"></put-attribute>
+  </definition>
+  
+  
+  
+  <!-- ## Web Pages ## -->
+  <definition name="login" extends="basicLayout">
+    <put-attribute name="pageHeader" value="/WEB-INF/layouts/loginHeader.jsp"></put-attribute>
+    <put-attribute name="pageAlert" value="/WEB-INF/layouts/pageAlert.jsp"></put-attribute>
+    <put-attribute name="pageBody" value="/WEB-INF/views/login/login.jsp"></put-attribute>
+  </definition>
+  
+  
+  <definition name="home" extends="userLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/home/home.jsp"></put-attribute>
+  </definition>
+  
+  
+  <definition name="me" extends="userLayout">
+    <put-attribute name="pageBody">
+      <definition template="/WEB-INF/views/me/me.jsp">
+        <put-attribute name="formAlert" value="/WEB-INF/layouts/formAlert.jsp"></put-attribute>
+      </definition>
+    </put-attribute>
+  </definition>
+
+  
+  <definition name="users" extends="userLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/users/users.jsp"></put-attribute>
+  </definition>
+  
+  <definition name="newUser" extends="userLayout">
+    <put-attribute name="pageBody">
+    
+      <definition template="/WEB-INF/views/users/newUser.jsp">
+        <put-attribute name="formAlert" value="/WEB-INF/layouts/formAlert.jsp"></put-attribute>
+      </definition>
+      
+    </put-attribute>
+  </definition>
+  
+  <definition name="editUser" extends="userLayout">
+    <put-attribute name="pageBody">
+    
+      <definition template="/WEB-INF/views/users/editUser.jsp">
+        <put-attribute name="formAlert" value="/WEB-INF/layouts/formAlert.jsp"></put-attribute>
+      </definition>
+      
+    </put-attribute>
+  </definition>
+  
+  
+  <definition name="patients" extends="userLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/patients/patients.jsp"></put-attribute>
+  </definition>
+  
+  <definition name="newPatient" extends="userLayout">
+    <put-attribute name="pageBody">
+    
+      <definition template="/WEB-INF/views/patients/newPatient.jsp">
+        <put-attribute name="formAlert" value="/WEB-INF/layouts/formAlert.jsp"></put-attribute>
+      </definition>
+      
+    </put-attribute>
+  </definition>
+  
+  <definition name="editPatient" extends="userLayout">
+    <put-attribute name="pageBody">
+    
+      <definition template="/WEB-INF/views/patients/editPatient.jsp">
+        <put-attribute name="formAlert" value="/WEB-INF/layouts/formAlert.jsp"></put-attribute>
+      </definition>
+      
+    </put-attribute>
+  </definition>
+  
+  <definition name="medicalProfile" extends="userLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/patients/medicalProfile.jsp"></put-attribute>
+  </definition>
+  
+  
+  <definition name="tests" extends="userLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/tests/tests.jsp"></put-attribute>
+  </definition>
+  
+  
+  <definition name="requests" extends="userLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/requests/requests.jsp"></put-attribute>
+  </definition>
+  
+  
+  
+  <!-- Error Pages -->
+  <definition name="notFound" extends="basicLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/errors/notFound.jsp"></put-attribute>
+  </definition>
+  
+  <definition name="accessDenied" extends="basicLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/errors/accessDenied.jsp"></put-attribute>
+  </definition>
+  
+  <definition name="noHandlerFound" extends="basicLayout">
+    <put-attribute name="pageBody" value="/WEB-INF/views/errors/noHandlerFound.jsp"></put-attribute>
+  </definition>
+</tiles-definitions>
