@@ -244,6 +244,8 @@
                  </additionalBuildcommands>
                  <downloadSources>true</downloadSources>
                  <downloadJavadocs>true</downloadJavadocs>
+                 <wtpversion>2.0</wtpversion>
+                 <wtpContextName>/</wtpContextName>
              </configuration>
          </plugin>
          <plugin>

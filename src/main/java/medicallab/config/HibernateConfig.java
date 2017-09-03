@@ -35,7 +35,7 @@ public class HibernateConfig {
 			dataSource.setUsername(env.getProperty("DB_USERNAME"));
 			dataSource.setPassword(env.getProperty("DB_PASSWORD"));
 		
-		} else if ( "DEV".equals(env.getProperty("env")) ) {
+		} else {
 			dataSource.setUrl("jdbc:mysql://localhost:3306/medicallabDB?createDatabaseIfNotExist=true");
 			dataSource.setUsername("root");
 			dataSource.setPassword("root");
