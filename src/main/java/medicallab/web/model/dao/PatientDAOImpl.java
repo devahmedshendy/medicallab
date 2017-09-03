@@ -1,4 +1,4 @@
-package medicallab.web.model;
+package medicallab.web.model.dao;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -10,8 +10,7 @@ import javax.persistence.NoResultException;
 import org.springframework.stereotype.Component;
 
 import medicallab.web.exception.NoSuchPatientException;
-import medicallab.web.model.dao.DAOSessionFactory;
-import medicallab.web.model.dao.PatientDAO;
+import medicallab.web.model.Patient;
 
 @Component("patientDAOImpl")
 public class PatientDAOImpl extends DAOSessionFactory implements PatientDAO {

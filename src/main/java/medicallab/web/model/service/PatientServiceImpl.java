@@ -1,4 +1,4 @@
-package medicallab.web.model;
+package medicallab.web.model.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ import medicallab.web.form.EditPatientSettingsForm;
 import medicallab.web.form.validator.AddPatientFormValidator;
 import medicallab.web.form.validator.EditPatientSettingsFormValidator;
 import medicallab.web.misc.PagedListHolder;
+import medicallab.web.model.Patient;
 import medicallab.web.model.dao.PatientDAO;
-import medicallab.web.model.service.PatientService;
 
 @Transactional
 @Service("patientService")
