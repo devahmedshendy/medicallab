@@ -26,11 +26,6 @@ public class HibernateConfig {
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		
 		if ( "PRODUCTION".equals(env.getProperty("env")) ) {
-			System.out.println("PRODUCTION PRODUCTION PRODUCTION PRODUCTION ");
-			System.out.println("env.getProperty(\"DB_URL\") : " + env.getProperty("DB_URL"));
-			System.out.println("env.getProperty(\"DB_USERNAME\") " + env.getProperty("DB_USERNAME"));
-			System.out.println("env.getProperty(\"DB_PASSWORD\") " + env.getProperty("DB_PASSWORD"));
-			
 			dataSource.setUrl(env.getProperty("DB_URL"));
 			dataSource.setUsername(env.getProperty("DB_USERNAME"));
 			dataSource.setPassword(env.getProperty("DB_PASSWORD"));
