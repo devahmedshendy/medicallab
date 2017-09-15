@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+	<title th:text="#{app.page-title.users}">UsersPageTitle</title>
+</head>
+<body>
+
+	<section class="container" layout:fragment="page-content">
+	  <br/><br />
+	  
+	  <div class="row">
+	    <div class="col-md-10">
+	      <div class="row justify-content-between">
+	        <div class="col-3">
+	          <a id="addUserLink" class="text-primary" th:href="${ uri.get('newUser') }">
+	            <i class="fa fa-user-plus fa-2x" aria-hidden="true"></i> 
+	            <span>NEW USER</span>
+	          </a>
+	        </div>
+	  
+	        <div class="col-5">
+	          <div class="row no-gutters justify-content-end align-items-start">
+	            <div class="col-6 text-right">
+	              <h5><span class="badge badge-light mr-2" th:text="${pageSize } + '/' + ${totalUsers } + ' Users'"></span></h5>
+	            </div>  
+	            
+	            <div class="col-5">
+	              <nav aria-label="Page navigation example">
+	                <ul class="pagination justify-content-end pagination-sm">
+                    <li class="page-item disabled" th:if="${usersPage.isFirst() == true}">
+                      <a class="page-link" tabindex="-1">Previous</a>
+                    </li>
+	                    
+	                  <li class="page-item" th:if="${usersPage.isFirst() == false}">
+	                    <a class="page-link" th:href="${ uri.getPrevPageUri() }" tabindex="-1">Previous</a>
+	                  </li>
+	      
+	      
+	                  <li class="page-item"><a class="page-link" href="#" th:text="${page}">Current Page</a></li>
+	      
+	      
+                    <li class="page-item disabled" th:if="${usersPage.isLast() == true}">
+                      <a class="page-link" tabindex="-1">Next</a>
+                    </li>
+	                    
+                    <li class="page-item" th:if="${usersPage.isLast() == false}">
+                      <a class="page-link" th:href="${ uri.getNextPageUri() }" tabindex="-1">Next</a>
+                    </li>
+	                </ul>
+	              </nav>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <table class="table table-sm table-hover">
+	        <thead class="blue-grey lighten-4">
+	          <tr>
+	            <!-- Role Icon Column Head -->
+	            <th width="3%"></th>
+	            
+	            <!-- Fullname Column Head -->
+	            <th width="25%">
+	              <a th:href="${ uri.get('usersTable', 'fullname') }">Full Name</a>
+	              
+	              <span th:if="${sortField == 'fullname'}">
+		              <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+                  <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+	              </span>
+	            </th>
+	            
+	            <!-- Username Column Head -->
+	            <th width="19%">
+	              <a th:href="${ uri.get('usersTable', 'username') }">Username</a>
+                
+                <span th:if="${sortField == 'username'}">
+                 <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+                  <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+                </span>
+	            </th>
+	            
+	            <!-- Gender Column Head -->
+	            <th width="15%">
+	              <a th:href="${ uri.get('usersTable', 'gender') }">Gender</a>
+                
+                <span th:if="${sortField == 'gender'}">
+                  <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+                  <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+                </span>
+	            </th>
+	            
+	            <!-- Created At Column Head -->
+	            <th width="15%">
+	              <a th:href="${ uri.get('usersTable', 'createdAt') }">Created At</a>
+                
+                <span th:if="${sortField == 'createdAt'}">
+                  <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+                  <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+                </span>
+	            </th>
+	            
+	            <!-- Updated At Column Head -->
+	            <th width="15%">
+	              <a th:href="${ uri.get('usersTable', 'updatedAt') }">Updated At</a>
+                <span th:if="${sortField == 'updatedAt'}">
+                  <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+                  <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+                </span>
+	            </th>
+	            
+	            <!-- Edit/Delete/Enable/Disable User Column Head -->
+	            <th width="8%" class="text-center">
+	              <a id="actionColumnInfoLink" 
+	                 href='#' data-toggle="tooltip" 
+	                 data-placement="top" data-html="true" 
+	                 title='
+	                       <table class="text-light text-left">
+	                         <tr>
+	                           <td><i class="fa fa-pause text-light mr-2" aria-hidden="true"></i></td>
+	                           <td><small>Disbale User</small></td>
+	                         </tr><tr>
+	                           <td><i class="fa fa-play text-light mr-2" aria-hidden="true"></i></td>
+	                           <td><small>Enable User</small></td>
+	                         </tr>
+	                         <tr>
+	                           <td><i class="fa fa-pencil-square-o text-light mr-2" aria-hidden="true"></i></td>
+	                           <td><small>Edit User</small></td>
+	                         </tr>
+	                         <tr>
+	                           <td><i class="fa fa-trash text-light mr-2" aria-hidden="true"></i></td>
+	                           <td><small>Delete User</small></td>
+	                         </tr>
+	                       </table>
+	               '>
+	                <i class="fa fa-question-circle text-info" aria-hidden="true"></i>
+	              </a>
+	            </th>
+	          </tr>
+	        </thead>
+	  
+	        <tbody>
+	          <tr th:if="${totalUsers} == 0">
+              <td class="text-center table-warning" colspan="7" th:text="#{NoResultFound}">
+              </td>
+            </tr>
+            
+            
+	          <tr th:each="user : ${usersPage}" >
+              <td>
+                <i class="fa fa-user-secret mr-2" aria-hidden="true" 
+                   th:if="${user.role.roleName} == 'ROLE_ADMIN'"></i>
+                                  
+                <i class="fa fa-user-md mr-2" aria-hidden="true"
+                   th:if="${user.role.roleName} == 'ROLE_DOCTOR'"></i>
+                
+                <i class="fa fa-user mr-2" aria-hidden="true"
+                   th:if="${user.role.roleName} == 'ROLE_OFFICER'"></i>
+              </td>
+              
+              <td th:text="${user.fullname}">Firstname</td>
+              
+              <td th:text="${user.username}">Lastname</td>
+              
+              <td th:text="${user.gender}">Gender</td>
+              
+              <td th:text="${#dates.format(user.createdAt, 'dd-MM-yyyy')}"></td>
+              
+              <td th:text="${#dates.format(user.updatedAt, 'dd-MM-yyyy')}"></td>
+              
+              
+              <td class="text-center" th:if="${user.role.roleName == 'ROLE_ADMIN' }">
+              </td>
+              
+              <td class="text-center" th:if="${user.role.roleName != 'ROLE_ADMIN' }">
+                <form id="disableUserForm" name="disableUserForm" th:action="${ uri.get('disableUser', user.username) }" method="post" class="d-inline-flex">
+	                <a id="disableUserLink" href="#"
+	                   th:attr="data-username=${user.username }" 
+	                   th:if="${user.isEnabled()} == true" class="">
+	                   
+	                   <i class="fa fa-pause text-danger" aria-hidden="true"></i>                  
+	                </a>
+                </form>
+
+                <form id="enableUserForm" name="enableUserForm" th:action="${ uri.get('enableUser', user.username) }" method="post" class="d-inline-flex mr-1">
+	                <a id="enableUserLink" href="#"
+	                   th:attr="data-username=${user.username }"
+	                   th:if="${user.isEnabled()} == false">
+	                   
+	                  <i class="fa fa-play text-primary" aria-hidden="true"></i>
+	                </a>
+                </form>
+                 
+                <a id="editUserLink"
+                   th:attr="data-username=${user.username}" 
+                   th:href="${ uri.get('editUser', user.username) }">
+                   
+                  <i class="fa fa-pencil-square-o text-primary" aria-hidden="true"></i>
+                </a>
+                
+                <span class="mr-1"></span>
+                 
+               <form id="deleteUserForm" name="deleteUserForm" th:action="${ uri.get('deleteUser', user.username) }" method="post" class="d-inline-flex">
+	               <a id="deleteUserLink" href="#"
+	                  th:attr="data-username=${user.username }">
+	                 <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+	               </a>
+               </form>
+              </td>
+            </tr>
+	        </tbody>
+	      </table>
+	    </div>
+	    
+	    <div class="col-md-2">
+	      <form th:action="${ uri.get('searchUsers') }" method="GET" th:object="${searchUserForm}">
+	        <div class="col-md-12 text-center" th:if="${ param.searchField != Null }">
+            <a th:href="${ uri.get('users') }" class="btn btn-link"><small>RESET</small></a>
+          </div>
+          
+          <div class="col-md-12" th:if="${ param.searchField == Null }">
+            <br />
+          </div>
+          
+	        <div class="row no-gutters">
+  	          <div class="col-md-12">
+              <div class="form-group">
+                <button type="submit" class="btn btn-outline-secondary btn-sm btn-block">Refine</button>
+              </div>
+            </div>
+            
+	          <div class="col-md-12">
+	            <div class="form-group">
+	              <input class="form-control form-control-sm" placeHolder="Search..." th:field="*{searchText}" onfocus="this.value = this.value;" />
+	            </div>
+	          </div>
+	          <div class="col-md-12">
+	            <div class="form-group">
+	              <select class="custom-select form-control form-control-sm" th:field="*{searchField}">
+	                <option th:each="searchField : ${userSearchFieldList }"
+	                        th:value="${searchField.key}"
+	                        th:text="${#strings.capitalize(searchField.value)}"></option>
+	              </select>
+	            </div>
+	          </div>
+	        </div>
+	      </form>
+	    </div>
+	  </div>
+	</section>
+</body>
+</html>

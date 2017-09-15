@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      
+      
+<body>
+	<nav th:fragment="page-header" class="navbar navbar-toggleable-md navbar-expand-lg navbar-light bg-faded" style="background-color: #e3f2fd;">
+	  <div class="container">
+	    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    
+	    <a class="navbar-brand" th:href="${ uri.get('home') }">
+	      <img th:src="${ uri.get('logo') }" width="30" height="30" class="d-inline-block align-top" alt="medicallab-logo">
+	      MedicalLab
+	    </a>
+	
+		    <div sec:authorize-url="/" class="collapse navbar-collapse" id="navbarNavAltMarkup">
+		      <div sec:authorize="hasRole('ADMIN')" class="navbar-nav mr-auto">
+		        <a id="homeNavLink" class="nav-item nav-link" th:href="${ uri.get('home') }">Home</a>
+            <a id="usersNavLink" class="nav-item nav-link" th:href="${ uri.get('users') }">Users</a>
+            <a id="patientsNavLink" class="nav-item nav-link" th:href="${ uri.get('patients') }">Patients</a>
+            <a id="testsNavLink" class="nav-item nav-link" th:href="${ uri.get('tests') }">Tests</a>
+            <a id="requestsNavLink" class="nav-item nav-link" th:href="${ uri.get('requests') }">Requests</a>
+		      </div>
+		      
+		      <div sec:authorize="hasRole('DOCTOR') or hasRole('OFFICER')" class="navbar-nav mr-auto">
+            <a id="homeNavLink" class="nav-item nav-link" th:href="${ uri.get('home') }">Home</a>
+            <a id="patientsNavLink" class="nav-item nav-link" th:href="${ uri.get('patients') }">Patients</a>
+            <a id="testsNavLink" class="nav-item nav-link" th:href="${ uri.get('tests') }">Tests</a>
+            <a id="requestsNavLink" class="nav-item nav-link" th:href="${ uri.get('requests') }">Requests</a>
+          </div>
+          
+          <a href="" class="badge-pill btn btn-outline-info btn-sm disabled">
+             <i class="fa fa-bell" aria-hidden="true"></i>
+             <span>0</span>
+             <span class="sr-only">new requests</span>
+          </a>
+		    
+           <a id="meLink" class="nav-item nav-link mr-2 text-secondary" 
+              th:href="${ uri.get('me') }" th:attr="title=${#authentication.principal.roleDescription}"
+              data-toggle="tooltip" data-placement="bottom"> 
+              
+             <span class="font-weight-bold" sec:authentication="principal.fullname">Full Name</span>
+              
+             <i sec:authorize="hasRole('ROOT')" class="fa fa-android" aria-hidden="true"></i>
+             <i sec:authorize="hasRole('ADMIN')" class="fa fa-user-secret" aria-hidden="true"></i>
+             <i sec:authorize="hasRole('DOCTOR')" class="fa fa-user-md" aria-hidden="true"></i>
+             <i sec:authorize="hasRole('OFFICER')" class="fa fa-user" aria-hidden="true"></i>
+           </a>
+              
+          <form id="logoutForm" name="logoutForm" th:action="${ uri.get('logout') }" method="post">
+            <a id="logoutLink" class="btn btn-outline-primary" href="#" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+          </form>
+		      
+		    </div>
+	  </div>
+	</nav>
+</body>
+</html>

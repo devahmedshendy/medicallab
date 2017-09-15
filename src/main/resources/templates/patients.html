@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/page}">
+<head>
+  
+  <title th:text="#{app.page-title.patients}">PatientsPageTitle</title>
+</head>
+<body>
+  <section class="container" layout:fragment="page-content">
+    <br/><br />
+    
+    <div class="row">
+      <div class="col-md-10">
+        <div class="row justify-content-between">
+          <div class="col-3">
+            <a id="addPatientLink" class="text-primary" th:href="${ uri.get('newPatient') }">
+              <i class="fa fa-user-plus fa-2x" aria-hidden="true"></i> 
+              <span>NEW PATIENT</span>
+            </a>
+          </div>
+    
+          <div class="col-5">
+            <div class="row no-gutters justify-content-end align-items-start">
+              <div class="col-6 text-right">
+                <h5><span class="badge badge-light mr-2" th:text="${pageSize } + '/' + ${totalPatients } + ' Patients'"></span></h5>
+              </div>  
+              
+              <div class="col-5">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-end pagination-sm">
+                    <li class="page-item disabled" th:if="${patientsPage.isFirst() == true}">
+                      <a class="page-link" tabindex="-1">Previous</a>
+                    </li>
+                      
+                    <li class="page-item" th:if="${patientsPage.isFirst() == false}">
+                      <a class="page-link" th:href="${ uri.getPrevPageUri() }" tabindex="-1">Previous</a>
+                    </li>
+        
+        
+                    <li class="page-item"><a class="page-link" href="#" th:text="${page}">Current Page</a></li>
+        
+        
+                    <li class="page-item disabled" th:if="${patientsPage.isLast() == true}">
+                      <a class="page-link" tabindex="-1">Next</a>
+                    </li>
+                      
+                    <li class="page-item" th:if="${patientsPage.isLast() == false}">
+                      <a class="page-link" th:href="${ uri.getNextPageUri() }" tabindex="-1">Next</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <table class="table table-sm table-hover">
+          <thead class="blue-grey lighten-4">
+            <tr>
+              <!-- Role Icon Column Head -->
+              <th width="3%"></th>
+              
+              <!-- Fullname Column Head -->
+              <th width="25%">
+                <a th:href="${ uri.get('patientsTable', 'fullname') }">Full Name</a>
+                
+                <span th:if="${sortField == 'fullname'}">
+                  <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+                  <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+                </span>
+              </th>
+              
+              <!-- PatientId Column Head -->
+              <th width="19%">
+                <a th:href="${ uri.get('patientsTable', 'patientId') }">Patient Id</a>
+                
+                <span th:if="${sortField == 'patientId'}">
+                  <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+                  <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+                </span>
+              </th>
+              
+              <!-- Gender Column Head -->
+              <th width="15%">
+                <a th:href="${ uri.get('patientsTable', 'gender') }">Gender</a>
+                
+                <span th:if="${sortField == 'gender'}">
+                  <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+                  <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+                </span>
+              </th>
+              
+              <!-- Created At Column Head -->
+              <th width="15%">
+                <a th:href="${ uri.get('patientsTable', 'createdAt') }">Created At</a>
+                
+                <span th:if="${sortField == 'createdAt'}">
+                  <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+                  <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+                </span>
+              </th>
+              
+              <!-- Updated At Column Head -->
+              <th width="15%">
+                <a th:href="${ uri.get('patientsTable' ,'updatedAt') }">Updated At</a>
+                <span th:if="${sortField == 'updatedAt'}">
+                  <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+                  <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+                </span>
+              </th>
+              
+              <!-- Edit/Delete/Enable/Disable Patient Column Head -->
+              <th width="8%" class="text-center" >
+	              <a id="actionColumnInfoLink" href='#' 
+	                 data-toggle="tooltip" data-placement="top" data-html="true"
+	                 sec:authorize="hasRole('OFFICER') or hasRole('ROOT')"
+	                 title='
+	                       <table class="text-light">
+	                         <tr>
+	                           <td><i class="fa fa-address-card-o text-light mr-2" aria-hidden="true"></i></td>
+	                           <td><small>Medical Profile</small></td>
+	                         </tr>
+                           <tr>
+                             <td><i class="fa fa-pencil-square-o text-light mr-2" aria-hidden="true"></i></td>
+                             <td><small>Edit Patient</small></td>
+                           </tr>
+                           <tr>
+                             <td><i class="fa fa-trash text-light mr-2" aria-hidden="true"></i></td>
+                             <td><small>Delete Patient</small></td>
+                           </tr>
+	                       </table>
+	                       '>
+	                <i class="fa fa-question-circle text-info" aria-hidden="true"></i>
+	              </a>
+	              
+	              <a id="actionColumnInfoLink" href='#' 
+                   data-toggle="tooltip" data-placement="top" data-html="true"
+                   sec:authorize="hasRole('ADMIN') or hasRole('DOCTOR')" 
+                   title='
+                         <table class="text-light">
+                           <tr>
+                             <td><i class="fa fa-address-card-o text-light mr-2" aria-hidden="true"></i></td>
+                             <td><small>Medical Profile</small></td>
+                           </tr>
+                         </table>
+                         '>
+                  <i class="fa fa-question-circle text-info" aria-hidden="true"></i>
+                </a>
+              </th>
+            </tr>
+          </thead>
+    
+          <tbody>
+            <tr th:if="${totalPatients} == 0">
+              <td class="text-center table-warning" colspan="7" th:text="#{NoResultFound}">
+              </td>
+            </tr>
+
+            
+            <tr th:each="patient : ${patientsPage}" >
+              <td>
+                <i class="fa fa-male mr-2" aria-hidden="true"
+                   th:if="${patient.gender == 'Male' }"></i>
+                   
+                <i class="fa fa-female mr-2" aria-hidden="true"
+                   th:if="${patient.gender == 'Female' }"></i>
+              </td>
+              
+              <td th:text="${patient.fullname}">Firstname</td>
+              
+              <td th:text="${patient.patientId}">Lastname</td>
+              
+              <td th:text="${patient.gender}">Gender</td>
+              
+              <td th:text="${#dates.format(patient.createdAt, 'dd-MM-yyyy')}"></td>
+              
+              <td th:text="${#dates.format(patient.updatedAt, 'dd-MM-yyyy')}"></td>
+              
+              <td class="text-center" sec:authorize="hasRole('OFFICER') or hasRole('ROOT')">
+                <a id="medicalProfileLink"
+                   th:attr="data-patientId=${patient.patientId}" 
+                   th:href="${ uri.get('medicalProfile', patient.patientId) }">
+                  <i class="fa fa-address-card-o text-primary" aria-hidden="true"></i>
+                </a>
+                
+                <span class="mr-1"></span>
+                
+                <a id="editPatientLink"
+                   th:attr="data-patient-id=${patient.patientId}" 
+                   th:href="${ uri.get('editPatient', patient.patientId) }">
+                   
+                  <i class="fa fa-pencil-square-o text-primary" aria-hidden="true"></i>
+                </a>
+                
+                <span class="mr-1"></span>
+                
+                <form id="deletePatientForm" name="deletePatientForm" th:action="${ uri.get('deletePatient', patient.patientId) }" method="post" class="d-inline-flex">
+                  <a id="deletePatientLink" href="#"
+                     th:attr="data-patient-id=${patient.patientId }">
+                     
+                    <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                  </a>
+                </form>
+              </td>
+              
+              
+              <td class="text-center" sec:authorize="hasRole('ADMIN') or hasRole('DOCTOR')">
+                <a id="medicalProfileLink"
+                   th:attr="data-patient-id=${patient.patientId}" 
+                   th:href="${ uri.get('medicalProfile', patient.patientId) }">
+                  <i class="fa fa-address-card-o text-primary" aria-hidden="true"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="col-md-2">
+        <form th:action="${ uri.get('searchPatients') }" method="GET" th:object="${searchPatientForm}">
+          <div class="col-md-12 text-center" th:if="${ param.searchField != Null }">
+            <a th:href="${ uri.get('patients') }" class="btn btn-link"><small>RESET</small></a>
+            <br />
+          </div>
+          
+          
+          <div class="col-md-12" th:if="${ param.searchField == Null }">
+            <br />
+          </div>
+          <div class="row no-gutters">
+            
+            
+            <div class="col-md-12">
+              <div class="form-group">
+                <button type="submit" class="btn btn-outline-secondary btn-sm btn-block">Refine</button>
+              </div>
+            </div>
+            
+            <br />
+            
+            <div class="col-md-12">
+              <div class="form-group">
+                <input class="form-control form-control-sm" placeHolder="Search..." th:field="*{searchText}" onfocus="this.value = this.value;" />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <select class="custom-select form-control form-control-sm" th:field="*{searchField}">
+                  <option th:each="searchField : ${patientSearchFieldList }"
+                          th:value="${searchField.key}"
+                          th:text="${#strings.capitalize(searchField.value)}"></option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="col-md-12">
+              <div class="form-group">
+                <select class="custom-select form-control form-control-sm" th:field="*{genderType}">
+                  <option value="Any">Any Gender</option>
+                  <option th:each="genderType : ${genderList }"
+                          th:value="${genderType}"
+                          th:text="${#strings.capitalize(genderType)}"></option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

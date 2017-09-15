@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+  
+  <title th:text="#{app.page-title.edit-patient}">EditPatientPageTitle</title>
+</head>
+<body>
+  <section class="container" layout:fragment="page-content">
+    <div class="row justify-content-center" th:object="${patientSettingsForm}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+  
+    <br />
+    
+    <div class="row justify-content-center">
+    
+	    <div class="col-2 text-center">
+	      <h5><a th:href="${ uri.get('editPatient', patientId) }" class="lead">Edit Patient</a></h5>
+	    </div>
+	    
+	    <div class="col-12"><hr><br /></div>
+	    
+	    <div class="col-8">
+	       
+	       <form th:action="${ uri.get('editPatient', patientId) }" method="POST" th:object="${patientSettingsForm}" enctype="multipart/form-data" class="row justify-content-center">
+	        <div class="col-4">
+	         <div class="form-group">
+	           <img id="defaultProfileImage" alt="Default Male Profile Image" class="img-thumbnail" width="200" height="200"
+	                th:src="${ uri.get('male-default-profile-image') }"
+	                th:if="${ #strings.capitalize(patientSettingsForm.gender) == 'Male' and patientSettingsForm.profileImageName == Null }" >
+	           
+	           <img id="defaultProfileImage" alt="Default Female Profile Image" class="img-thumbnail" width="200" height="200"
+	                th:src="${ uri.get('female-default-profile-image') }" 
+	                th:if="${ #strings.capitalize(patientSettingsForm.gender) == 'Female' and patientSettingsForm.profileImageName == Null }" >
+	       
+	           <img id="profileImage" alt="Patient Profile Image" class="img-thumbnail" width="200" height="200"
+	                  th:src="${ uri.get('patient-profile-image', patientId) }"
+	                  th:if="${ patientSettingsForm.profileImageName != Null }">
+	         </div>
+	          
+	          <div class="form-group">
+	            <input type="file" class="form-control-file form-control-sm" />
+	          </div>
+	        </div>
+	        
+	        <div class="col-4">
+	            <div class="form-group">
+	              <input class="form-control" th:errorclass="is-invalid" placeholder="Patient Id" th:field="*{patientId}" />
+	            </div>
+	            
+	            <div class="form-group">
+	              <input class="form-control" th:errorclass="is-invalid" placeholder="Full Name" th:field="*{fullname}" />
+	            </div>
+	            
+	            <div class="form-group">
+	              <input class="form-control" th:errorclass="is-invalid" placeholder="Phone Number" th:field="*{phone}" />
+	            </div>
+	            
+	            <div class="form-group">
+	              <input class="form-control" th:errorclass="is-invalid" placeholder="Age" th:field="*{age}" />
+	            </div>
+	            
+	            <div class="form-group">
+	              <select class="form-control" th:field="*{gender}">
+	                <option th:each="gender : ${genderList }"
+	                        th:value="${gender}"
+	                        th:text="${#strings.capitalize(gender)}">
+                
+                </option>
+	              </select>
+	            </div>       
+	        </div>
+	       
+	        <!-- <div class="col-4">
+	                    
+	        </div> -->
+	        
+	        <div class="col-10"><hr></div>
+	            
+	        <div class="col-4">
+	          <button name="updatePatientSettings" class="btn btn-outline-primary btn-sm btn-block" >Save</button>
+	        </div>
+	        
+	        <div class="col-4">
+	          <a th:href="${ uri.get('patients') }" class="btn btn-outline-danger btn-block btn-sm">Cancel</a>
+	        </div>
+	       </form>
+	    </div>
+	  </div>
+  </section>
+</body>
+</html>
