@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+  
+  <title th:text="${status}">ErrorsPageTitle</title>
+</head>
+<body>
+  <header layout:fragment="page-header">
+  </header>
+  
+  <section layout:fragment="page-alert">
+  </section>
+  
+  <section layout:fragment="page-content">
+    <br /><br /><br />
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-2 text-center">
+          <a th:href="${ uri.get('home') }" class="btn btn-link">
+            <img alt="medicallab-logo" th:src="${uri.get('logo') }" />
+            <span class="h4 d-block">MedicalLab</span>
+          </a>
+        </div>
+      </div>
+
+     <div class="row justify-content-center">
+       <div class="col-6">
+         <div class="alert alert-danger text-center" role="alert">
+           <h5>NOT FOUND [ 404 ]</h5>
+           <hr />
+           
+           <p>It seems you're trying to access an invalid URL !!</p>
+         </div>
+       </div>
+     </div>
+    </div>
+  </section>
+  
+  <footer layout:fragment="page-footer">
+  </footer>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+	
+  <title th:text="#{app.page-title.home}">HomePageTitle</title>
+</head>
+<body>
+	<section class="container" layout:fragment="page-content">
+	  <div class="jumbotron">
+	    <h2 class="display-4">Welcome, [[${#authentication.principal.firstname }]]!</h2>
+	    <p class="lead">This is a simple Java Web Application.</p>
+	    <hr class="my-4">
+	    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+	    <p class="lead">
+	      <a class="btn btn-primary btn-lg" th:href="${ uri.get('project-source-code-url') }" role="button" target="_blank" >Source Code</a>
+	    </p>
+	  </div>
+	</section>
+</body>
+</html>

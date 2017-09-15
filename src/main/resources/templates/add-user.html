@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+  
+  <title th:text="#{app.page-title.add-user}">AddUserPageTitle</title>
+</head>
+<body>
+	<section class="container" layout:fragment="page-content">
+	  <br />
+
+	  <div class="row justify-content-center" th:object="${addUserForm}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+    
+    <br />
+    
+	  <div class="row justify-content-center">
+	    
+	    <div class="col-2 text-center">
+	      <h5 class="lead">Add New User</h5>
+	    </div>
+	    
+	    <div class="col-12"><hr><br /></div>
+	    
+	    <div class="col-8">
+	       
+	       <form th:action="${ get('newUser') }" method="POST" class="row justify-content-center" th:object="${addUserForm}" >
+	        <div class="col-4">
+	            <div class="form-group">
+                <input class="form-control" th:errorclass="is-invalid" placeholder="Firstname" th:field="*{firstname}"/>
+	            </div>
+	            
+	            <div class="form-group">
+                <input class="form-control" th:errorclass="is-invalid" placeholder="Lastname" th:field="*{lastname}"/>
+	            </div>
+	            
+	            <div class="form-group">
+                <input class="form-control" th:errorclass="is-invalid" placeholder="Username" th:field="*{username}"/>
+	            </div>
+	            
+              <div class="form-group">
+                <input type="password" class="form-control" th:errorclass="is-invalid" placeholder="Password" th:field="*{password}"/>
+              </div>
+	             
+	             <div class="form-group">
+                <input type="password" class="form-control" th:errorclass="is-invalid" placeholder="Confirm Password" th:field="*{passwordConfirmation}"/>
+	             </div>            
+	        </div>
+	       
+	        <div class="col-4">
+	          <div class="form-group">
+	              <select class="form-control" th:errorclass="is-invalid"  th:field="*{roleName}">
+	                <option value="" label="Select A Role" />
+	                <option th:each="roleName : ${roleList}"
+	                        th:value="${roleName}"
+	                        th:text="${#strings.capitalize(roleName)}" />
+	              </select>
+	          </div>
+	          
+	          <div class="form-group">
+              <select class="form-control" th:errorclass="is-invalid"  th:field="*{gender}">
+                <option value="" label="Select Gender" />
+                <option th:each="gender : ${availableGender}"
+                        th:value="${gender}"
+                        th:text="${#strings.capitalize(gender)}" />
+              </select>
+	          </div>
+	        </div>
+	        
+	        <div class="col-10"><hr></div>
+	        
+	         <div class="col-4">
+	          <button name="addUser" class="btn btn-outline-primary btn-sm btn-block" >Add</button>
+	         </div>
+	         
+	         <div class="col-4">
+	           <a th:href="${ uri.get('users') }" class="btn btn-outline-danger btn-block btn-sm">Cancel</a>
+	         </div>
+	       </form>
+	    </div>
+	  </div>
+	  
+</section>
+</body>
+</html>

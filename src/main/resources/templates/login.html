@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+  
+  <title th:text="#{app.page-title.login}">HomePageTitle</title>
+</head>
+<body>
+  <div id="loginJumbotron" class="jumbotron jumbotron-fluid" layout:fragment="page-header">
+	  <div class="container  text-center">
+	    <h1 class="display-4">Welcome to <a th:href="${ uri.get('home') }">MedicalLab</a></h1>
+	    <p class="lead">This is a simple <strong>Java</strong>-Based Web App using <strong>Spring</strong> Framework.</p>
+	  </div>
+	</div>
+
+	<div class="container" layout:fragment="page-content">
+	  <div class="row justify-content-center">
+	    <div class="col-4">
+	      <div class="card bg-light mb-3" style="max-width: 100%;">
+	        <div class="card-header text-center"><h5>A PATIENT ?</h5></div>
+	        
+	        <div class="card-body">
+	          <form id="getMedicalProfileForm" name="getMedicalProfileForm" class="form">
+	            <div class="form-group">
+	              <div id="findPatientAlert" class="alert alert-danger text-center d-none" role="alert">
+	              </div>
+	              
+	              <input type="text" name="personalId" class="form-control" placeholder="Enter Personal Id" aria-describedby="personalIdHelpBlock">
+	              <small id="personalIdHelpBlock" class="form-text text-muted">
+	                Personal id is 14 number long, <a id="personalIdExample" th:href="${ uri.get('personal-id-example') }" target="_blank" data-toggle="modal" data-target="#showPersonalIdExampleModal">example?</a>
+	              </small>
+	            </div>
+	            
+	            <button type="submit" name="Show Medical Profile" class="btn btn-outline-primary btn-block">SHOW [ Medical Profile ]</button>
+	          </form>
+	        </div>
+	      </div>
+	    </div>
+	    
+	    <div class="modal fade" id="showPersonalIdExampleModal" tabindex="-1" role="dialog" aria-labelledby="showPersonalIdExampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="showPersonalIdExampleModalLabel">Personal Id Example</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        <div class="row justify-content-center">
+			          <div class="col-md-12 text-center">
+			            <img th:src="${ uri.get('personal-id-example') }" width="95%" height="100%"/>
+			          </div>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+	  
+	    <div class="col-1"></div>
+	    <div class="col-4">
+	      <div class="card bg-light mb-3" style="max-width: 100%;">
+	        <div class="card-header text-center"><h5>A USER ?</h5></div>
+	
+	        <div class="card-body">
+	          <form name="loginForm" class="form" th:action="${ @uri.get('login') }"  method="post">
+	            <div class="form-group">
+	              <input type="text" name="username" value="" placeholder="Enter your username" class="form-control" autofocus>
+	            </div>
+	      
+	            <div class="form-group">
+	              <input type="password" name="password" value="" placeholder="Enter your password" class="form-control">
+	            </div>
+	            
+              <div class="form-check">
+							  <label class="custom-control custom-checkbox">
+							    <input class="custom-control-input" name="remember-me" type="checkbox" />
+							    <span class="custom-control-indicator"></span>
+							    Remember Me
+							  </label>
+							</div>
+	      
+	            <button type="submit" name="login" class="btn btn-outline-primary btn-block">LOG IN</button>
+	          </form>
+	          
+						<div th:if="${param.error}" class="alert alert-danger text-center" role="alert">
+						  Wrong username/password
+						</div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</body>
+</html>

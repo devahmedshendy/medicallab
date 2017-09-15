@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/page}">
+<head>
+  
+  <title th:text="#{app.page-title.me}">MePageTitle</title>
+</head>
+<body>
+	<section class="container" layout:fragment="page-content">
+    <div class="row justify-content-center" th:object="${meSettingsForm}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+    
+    <div class="row justify-content-center" th:object="${mePasswordForm}">
+       <div th:replace="layouts/form-alert :: form-alert"></div>
+     </div>
+  
+    <br />
+	  
+	  <div class="row justify-content-center text-center">
+	    <div class="col-12">
+        <h5>
+          <small class="lead"><a th:href="${ uri.get('me') }">Your Settings</a></small>
+        </h5>
+      </div>
+	    
+	    <div class="col-12">
+	      <hr>
+	    </div>
+	    
+	    <div class="col-12">
+        <h5>
+          <small>Your Role is</small>
+          <span class="badge badge-light" sec:authentication="principal.roleDescription"></span>
+        </h5>
+      </div>
+	  </div>
+	  
+	  <br />
+	  
+	  <div class="row justify-content-center">
+	    <div class="col-2">
+        <form th:action="${ uri.get('me') }" method="POST" th:object="${meSettingsForm}">
+	        <div class="form-group">
+	            <input class="form-control" th:errorclass="is-invalid" placeholder="Firstname" th:field="*{firstname}" autofocus />
+	        </div>
+	         
+	         
+	         <div class="form-group">
+	            <input class="form-control" th:errorclass="is-invalid" placeholder="Lastname" th:field="*{lastname}" />
+            </div>
+	         
+	         <div class="form-group">
+	            <input class="form-control" th:errorclass="is-invalid" placeholder="Username" th:field="*{username}" />
+	         </div>
+	         
+	         <input type="submit" name="meUpdateSettings" value="Save" class="btn btn-outline-primary btn-block btn-sm" />
+	      </form>
+	    </div>
+	    
+	    <div class="col-3">
+	      <form th:action="${ uri.get('me') }" method="POST" th:object="${mePasswordForm}" >
+	        <div class="form-group">
+	            <input type="password" class="form-control" th:errorclass="is-invalid" placeholder="Current Password" th:field="*{currentPassword}" />
+	         </div>
+	        
+	        <div class="form-group">
+	            <input type="password" class="form-control" th:errorclass="is-invalid" placeholder="New Password" th:field="*{newPassword}" />
+	         </div>
+	        
+	        <div class="form-group">
+	            <input type="password" class="form-control" th:errorclass="is-invalid" placeholder="Confirm New Password" th:field="*{newPasswordConfirmation}" />
+	         </div>
+	         
+	        <input type="submit" name="meChangePassword" value="Change Password" class="btn btn-outline-primary btn-block btn-sm" />
+	      </form>
+	    </div>
+	  </div>
+	  
+		<div class="row no-gutters justify-content-center">
+		  <div class="col-5">
+        <hr>
+      </div>
+		</div>
+	  
+	  <div class="row justify-content-center">
+	    <div class="col-5">
+	      <a th:href="${ uri.get('home') }" class="btn btn-outline-danger btn-block btn-sm">Cancel</a>
+	    </div>
+	  </div>
+	</section>
+</body>
+</html>
