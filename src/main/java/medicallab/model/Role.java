@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,16 +20,17 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "role")
 public class Role implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = -8522333338661925307L;
+
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(name = "role_name", nullable = false)
 	private String roleName;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	private List<User> users;
 }

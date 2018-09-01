@@ -20,16 +20,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import medicallab.form.AddUserForm;
-import medicallab.form.AddUserFormValidator;
 import medicallab.form.UserPasswordForm;
-import medicallab.form.UserPasswordFormValidator;
 import medicallab.form.UserSettingsForm;
-import medicallab.form.UserSettingsFormValidator;
+import medicallab.form.validator.AddUserFormValidator;
+import medicallab.form.validator.UserPasswordFormValidator;
+import medicallab.form.validator.UserSettingsFormValidator;
 import medicallab.form.SearchUserForm;
 import medicallab.misc.Uri;
 import medicallab.model.User;
-import medicallab.model.UserSecurityService;
-import medicallab.model.UserService;
+import medicallab.model.service.UserSecurityService;
+import medicallab.model.service.UserService;
 
 @Controller
 @RequestMapping("/users")
@@ -118,7 +118,7 @@ public class UsersController {
 	}
 	
 	/*
-	 * Edit User
+	 * Cancel
 	 */
 	@Secured(value = { "ROLE_ADMIN", "ROLE_ROOT" })
 	@RequestMapping(value= { "new", "edit/{username}" }, params = { "cancel" })
@@ -363,9 +363,24 @@ public class UsersController {
 			userService.delete(user);
 			
 			redirectAttributes.addFlashAttribute("success",
-					messageSource.getMessage("DeletePatientDone", new String[] { username }, enLocale));
+					messageSource.getMessage("DeleteUserDone", new String[] { username }, enLocale));
 		}
 		
 		return "redirect:" + uri.get("users");
 	}
+	
+	/*
+	 * API
+	 */
+//	@Secured(value = { "ROLE_ADMIN", "ROLE_OFFICER", "ROLE_ROOT" })
+//	@GetMapping(path = "api", params = { "doctorRole" }, produces = "application/json")
+//	public ResponseEntity<Map<Long, String>> apiGetDoctorList() {
+//		Map<Long, String> doctorList = new HashMap<>();
+//		doctorList = userService.findByDoctorRole();
+//		
+//		System.out.println("doctorList.size: " + doctorList.size());
+//		
+//		return doctorList.isEmpty() ?  
+//				new ResponseEntity<Map<Long, String>>(HttpStatus.NOT_FOUND) : new ResponseEntity<Map<Long, String>>(doctorList, HttpStatus.OK);
+//	}
 }

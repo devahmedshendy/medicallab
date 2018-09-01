@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+  <title>Request Doctor</title>
+</head>
+
+<body>
+  <!-- <section id="doctorStep" layout:fragment="page-content">
+    <div class="row justify-content-center" th:object="${requestDoctor}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+    
+    <div class="row no-gutters justify-content-center">
+      <div class="col-md-3 text-center align-self-center">
+        <div class="row justify-content-end">
+          <div class="col-md-10 text-center mb-1">
+            <span class="text-primary lead">Updated Request Details</span>
+          </div>
+          <div class="col-md-10">
+            <div class="card text-right border-right-0 rounded-0 rounded-left">
+              <h6 class="card-header pt-2 pb-2">Patient</h6>
+              <div class="card-body pt-2 pb-3 pl-0">
+                <h5 class="card-title"></h5>
+                <ul class="card-text list-unstyled">
+                  <li th:text="${requestPatient.fullname}">Patient Fullname</li>
+                  <li th:text="${requestPatient.patientId}">Patient Id</li>
+                  <li th:text="${requestPatient.phone}">Patient Phone</li>
+                  <li th:text="${requestPatient.age} + ' Years Old'">Patient Age</li>
+                  <li th:text="${requestPatient.gender}">Male</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="row no-gutters justify-content-center">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <span class="nav-link disabled">Patient</span>
+              </li>
+              <li class="nav-item">
+                <form id="revertChangesForm" th:action="${flowExecutionUrl} + '&_eventId=revert'" method="post">
+                  <span class="nav-link active text-primary">
+                  Doctor 
+                  
+                  <a href="#" data-toggle="tooltip" data-placement="top" title="Revert Changes" onclick="document.getElementById('revertChangesForm').submit()">
+                    <i class="fa fa-repeat text-danger ml-1" aria-hidden="true"></i>
+                  </a>
+                  </span>
+                </form>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled">Test Type</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled">Test Details</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled">Confirm</span>
+              </li>
+            </ul>
+        </div>
+        
+        <div id="dialog" class="row no-gutters justify-content-center border rounded">
+          <div class="col-md-12">
+            <br />
+            <div class="row no-gutters justify-content-center">
+              <div class="col-8 text-nowrap text-center">
+                <h5><span class="lead align-middle text-muted">Search then Select a <strong>Doctor</strong></span> </h5>
+              </div>
+            </div>
+            
+            <div class="row no-gutters justify-content-center">
+              <div class="col-md-5">
+                <hr class="mt-0">
+              </div>
+            </div>
+                        
+             <div class="row no-gutters justify-content-center mt-1">
+               <div class="col-md-5">
+                 <div class="form-group">
+                   <input type="text" class="form-control text-center" id="searchInput" placeholder="Type Doctor Name" autofocus>
+                 </div>
+               </div>
+             </div>
+            
+            <div id="loadingSpinner" class="spinner mt-0 mb-0 invisible">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+            
+            <form id="doctorListForm" class="form" data-simplebar th:action="${flowExecutionUrl}" th:object="${requestDoctor}" method="post">
+              <div class="row justify-content-center">
+	              <div id="doctorListFormContainer" class="col-md-4 mr-1 request-flow-doctor-radios-list invisible">
+	                <div id="doctorListRadios" class="custom-controls-stacked" th:each="doctor : ${doctorList}">
+                    <label class="custom-control custom-radio request-flow-doctor-radio mb-2">
+                      <input name="doctorFullnameRadio" type="radio" class="custom-control-input" th:attr="id='id' + ${doctor.id}" th:field="*{id}" th:value="${doctor.id}">
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description doctor-fullname" th:text="${doctor.fullname}">
+                      </span>
+                    </label>
+                  </div>
+	              </div>
+              </div>
+
+              <div class="row d-flex flex-nowrap m-3 mt-4">
+                <div class="col-md-4 order-3">
+                  <button type="submit" class="btn btn-outline-primary btn-sm btn-block" name="_eventId_next">Next</button>
+                </div>
+                
+                <div class="col-md-4 order-2">
+                  <button type="button" class="btn btn-outline-danger btn-sm btn-block" data-toggle="modal" data-target="#confirmCancelRequestFlowModal">Cancel</button>
+                </div>
+                
+                <div class="col-md-4 order-1">
+                  <button class="btn btn-outline-info btn-sm btn-block" name="_eventId_back">Back</button>
+                </div>
+              </div>
+            </form>
+            
+            <div th:replace="flows/requests/layouts/cancel-request :: cancel-request"></div>
+          </div>
+        </div>
+      
+      </div>
+    
+      <div class="col-md-3 text-center align-self-center">
+        <div class="row justify-content-start">
+          <div class="col-md-10 text-center mb-1">
+            <span class="text-danger lead">Old Request Details</span>
+          </div>
+          <div class="col-md-10">
+            <div class="card text-left border-bottom-0 rounded-0 rounded-right">
+              <h6 class="card-header pt-2 pb-2">Patient</h6>
+              <div class="card-body pt-2 pb-3 pr-0">
+                <h5 class="card-title"></h5>
+                <ul class="card-text list-unstyled">
+                  <li th:text="${oldRequestDetails.requestPatient.fullname}">Patient Fullname</li>
+                  <li th:text="${oldRequestDetails.requestPatient.patientId}">Patient Id</li>
+                  <li th:text="${oldRequestDetails.requestPatient.phone}">Patient Phone</li>
+                  <li th:text="${oldRequestDetails.requestPatient.age} + ' Years Old'">Patient Age</li>
+                  <li th:text="${oldRequestDetails.requestPatient.gender}">Male</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="card text-left border-bottom-0 rounded-0 rounded-right">
+              <h6 class="card-header pt-2 pb-2">Doctor</h6>
+              <div class="card-body pt-2 pb-3 pr-0">
+                <ul class="card-text list-unstyled">
+                  <li th:text="${ oldRequestDetails.requestDoctor.fullname }">Doctor Fullname</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="card text-left border-bottom-0 rounded-0 rounded-right">
+              <h6 class="card-header pt-2 pb-2">Test Type</h6>
+              <div class="card-body pt-2 pb-3 pr-0">
+                <ul class="card-text list-unstyled">
+                  <li th:text="${ oldRequestDetails.requestTestType.selectedTestType }"></li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="card text-left rounded-0 rounded-right" th:if="${ oldRequestDetails.requestTestType.selectedTestType == 'CBC' }">
+              <h6 class="card-header pt-2 pb-2"><strong>CBC</strong> Details</h6>
+              <div class="card-body p-0">
+                <div class="card-text">
+                  <table id="cbcDetailsTable" class="table table-bordered table-striped table-sm border round text-center" >
+	                  <thead>
+	                    <tr>
+	                      <th></th>
+	                      <th class="text-center small"><strong>Value</strong></th>
+	                      <th class="text-center small"><strong>Normal</strong></th>
+	                    </tr>
+	                  </thead>
+	                  <tbody>
+	                    <tr class="small align-middle">
+	                      <td>WCB</td>
+	                      <td th:text="${ oldRequestDetails.requestCBC.wcb }">---</td>
+	                      <td>3.70 - 10.10</td>
+	                    </tr>
+	                    
+	                    <tr class="small align-middle">
+	                      <td>HGB</td>
+	                      <td th:text="${ oldRequestDetails.requestCBC.hgb }">---</td>
+	                      <td>12.9 - 15.9</td>
+	                    </tr>
+	                    
+	                    <tr class="small align-middle">
+	                      <td>MCV</td>
+	                      <td th:text="${ oldRequestDetails.requestCBC.mcv }">---</td>
+	                      <td>81.1 - 96.0</td>
+	                    </tr>
+	                    
+	                    <tr class="small align-middle">
+	                      <td>MCH</td>
+	                      <td th:text="${ oldRequestDetails.requestCBC.mch }">---</td>
+	                      <td>27.0 - 31.2</td>
+	                    </tr>
+	                  </tbody>
+                  </table>
+                  <li th:text="${ oldRequestDetails.requestTestType.selectedTestType }"></li>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card text-left rounded-0 rounded-right" th:if="${ oldRequestDetails.requestTestType.selectedTestType == 'UMT' }">
+              <h6 class="card-header pt-2 pb-2"><strong>UMT</strong> Details</h6>
+              <div class="card-body p-0">
+                <div class="card-text">
+                  <table id="umtDetailsTable" class="table table-bordered table-striped table-sm border round text-center" >
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-center small"><strong>Value</strong></th>
+                        <th class="text-center small"><strong>Normal</strong></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="small align-middle">
+                        <td>ABC</td>
+                        <td th:text="${ oldRequestDetails.requestUMT.abc }">---</td>
+                        <td>1.0 - 5.0</td>
+                      </tr>
+                      
+                      <tr class="small align-middle">
+                        <td>DEF</td>
+                        <td th:text="${ oldRequestDetails.requestUMT.def }">---</td>
+                        <td>5.50 - 13.2</td>
+                      </tr>
+                      
+                      <tr class="small align-middle">
+                        <td>GHI</td>
+                        <td th:text="${ oldRequestDetails.requestUMT.ghi }">---</td>
+                        <td>8.0 - 10.0</td>
+                      </tr>
+                      
+                      <tr class="small align-middle">
+                        <td>JKL</td>
+                        <td th:text="${ oldRequestDetails.requestUMT.jkl }">---</td>
+                        <td>19.0 - 20.0</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card text-left rounded-0 rounded-right" th:if="${ oldRequestDetails.requestTestType.selectedTestType == 'FMT' }">
+              <h6 class="card-header pt-2 pb-2"><strong>FMT</strong> Details</h6>
+              <div class="card-body p-0">
+                <div class="card-text">
+                  <table id="fmtDetailsTable" class="table table-bordered table-striped table-sm border round text-center" >
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-center small"><strong>Value</strong></th>
+                        <th class="text-center small"><strong>Normal</strong></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="small align-middle">
+                        <td>MNO</td>
+                        <td th:text="${ oldRequestDetails.requestFMT.mno }">---</td>
+                        <td>2.0 - 7.0</td>
+                      </tr>
+                      
+                      <tr class="small align-middle">
+                        <td>PQR</td>
+                        <td th:text="${ oldRequestDetails.requestFMT.pqr }">---</td>
+                        <td>6.2 - 7.0</td>
+                      </tr>
+                      
+                      <tr class="small align-middle">
+                        <td>STU</td>
+                        <td th:text="${ oldRequestDetails.requestFMT.stu }">---</td>
+                        <td>2.0 - 3.75</td>
+                      </tr>
+                      
+                      <tr class="small align-middle">
+                        <td>VWX</td>
+                        <td th:text="${ oldRequestDetails.requestFMT.vwx }">---</td>
+                        <td>12.4 - 25.10</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+  
+  <section layout:fragment="page-content" th:with="requestCode=${requestCode},stepName=${'Doctor'}">
+    <div id="editFlowTitle" th:replace="flows/requests/layouts/edit-flow-title :: edit-flow-title"></div>
+    
+    <div id="formAlert" class="row justify-content-center" th:object="${requestPatient}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+      
+    <div th:replace="flows/requests/layouts/dialog-nav-tabs :: dialog-nav-tabs"></div>
+    
+    <div id="dialogContent" class="row no-gutters justify-content-end">
+      <div th:replace="flows/requests/layouts/new-request-details :: new-request-details"></div>
+    
+      <div class="col-md-6">
+        <div id="dialog" class="row no-gutters justify-content-center border rounded">
+          <div class="col-md-12">
+            <br />
+            <div class="row no-gutters justify-content-center">
+              <div class="col-8 text-nowrap text-center">
+                <h5><span class="lead align-middle text-muted">Search then Select a <strong>Doctor</strong></span> </h5>
+              </div>
+            </div>
+            
+            <div class="row no-gutters justify-content-center">
+              <div class="col-md-5">
+                <hr class="mt-0">
+              </div>
+            </div>
+                        
+             <div class="row no-gutters justify-content-center mt-1">
+               <div class="col-md-5">
+                 <div class="form-group">
+                   <input type="text" class="form-control text-center" id="searchInput" placeholder="Type Doctor Name" autofocus>
+                 </div>
+               </div>
+             </div>
+            
+            <div id="loadingSpinner" class="spinner mt-0 mb-0 invisible">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+            
+            <form id="doctorListForm" class="form" data-simplebar th:action="${flowExecutionUrl}" th:object="${requestDoctor}" method="post">
+              <div class="row justify-content-center">
+                <div id="doctorListFormContainer" class="col-md-4 mr-1 request-flow-doctor-radios-list invisible">
+                  <div id="doctorListRadios" class="custom-controls-stacked" th:each="doctor : ${doctorList}">
+                    <label class="custom-control custom-radio request-flow-doctor-radio mb-2">
+                      <input name="doctorFullnameRadio" type="radio" class="custom-control-input" th:attr="id='id' + ${doctor.id}" th:field="*{id}" th:value="${doctor.id}">
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description doctor-fullname" th:text="${doctor.fullname}">
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div th:replace="flows/requests/layouts/dialog-action-buttons :: dialog-action-buttons"></div>
+            </form>
+          </div>
+        </div>
+      
+      </div>
+      
+      <div th:replace="flows/requests/layouts/old-request-details :: old-request-details"></div>
+      
+    </div>
+  </section>
+</body>
+</html>

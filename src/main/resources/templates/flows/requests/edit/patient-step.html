@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+  <title>Request Patient</title>
+</head>
+
+<body>
+  <section layout:fragment="page-content" th:with="requestCode=${requestCode},stepName=${'Patient'}">
+    <div th:replace="flows/requests/layouts/edit-flow-title :: edit-flow-title "></div>
+    
+    <div class="row justify-content-center" th:object="${requestPatient}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+	    
+    <div th:replace="flows/requests/layouts/dialog-nav-tabs :: dialog-nav-tabs"></div>
+    
+	  <div id="dialog-content" class="row no-gutters justify-content-end">
+      <div class="col-md-6">
+        <div id="dialog" class="row no-gutters justify-content-center border rounded">
+          <div class="col-md-12">
+            <br />
+            <div class="row no-gutters justify-content-center">
+              <div class="col-10 text-nowrap text-center">
+                <h5><span class="lead align-middle text-muted">Search then Select a <strong>Patient</strong></span> </h5>
+              </div>
+            </div>
+            
+            <div class="row no-gutters justify-content-center">
+              <div class="col-md-5">
+                <hr class="mt-0">
+              </div>
+            </div>
+            
+            <form class="form" th:action="${flowExecutionUrl}">
+              <div class="row no-gutters justify-content-center mt-1">
+                <div class="col-md-4 mr-2">
+                  <div class="form-group">
+	                  <input type="text" class="form-control text-center" id="patientIdInput" placeholder="Enter Personal Id" autofocus>
+	                  <div class="invalid-feedback">
+							        Personal Id is 14 numbers.
+							      </div>
+                  </div>
+                </div>
+                
+                <div class="col-md-1">
+                  <button id="findPatientButton" type="submit" class="btn btn-outline-primary btn-block"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </form>
+            
+            <div id="loadingSpinner" class="spinner mt-0 mb-0 invisible">
+						  <div class="rect1"></div>
+						  <div class="rect2"></div>
+						  <div class="rect3"></div>
+						  <div class="rect4"></div>
+						  <div class="rect5"></div>
+						</div>
+						
+						<form id="patientDetailsForm" class="mt-4" th:action="${flowExecutionUrl}" method="post" th:object="${requestPatient}">
+              <div class="row no-gutters justify-content-center">
+                <div class="col-md-3 mr-3">
+                  <img id="defaultProfileImage" alt="Default Male Profile Image" class="img-thumbnail" width="200" height="200"
+                    th:src="${ uri.get('male-default-profile-image') }">
+                </div>
+                
+                <div class="col-md-7">
+                  <div class="form-group row no-gutters">
+                    <label for="staticEmail" class="col-sm-2 col-form-label mr-3">Fullname</label>
+                    <div class="col-md-9">
+                      <input type="text" readonly class="form-control form-control-plaintext" id="patientFullname" th:field="*{fullname}">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group row no-gutters">
+                    <label for="staticEmail" class="col-sm-2 col-form-label mr-3">ID</label>
+                    <div class="col-md-9">
+                      <input type="text" readonly class="form-control form-control-plaintext" id="patientId" th:field="*{patientId}">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group row no-gutters">
+                    <label for="staticEmail" class="col-sm-2 col-form-label mr-3">Phone</label>
+                    <div class="col-md-9">
+                      <input type="text" readonly class="form-control form-control-plaintext" id="patientPhone" th:field="*{phone}">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group row no-gutters">
+                    <label for="staticEmail" class="col-sm-2 col-form-label mr-3">Age</label>
+                    <div class="col-md-9">
+                      <input type="text" readonly class="form-control form-control-plaintext" id="patientAge" th:field="*{age}">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group row no-gutters">
+                    <label for="staticEmail" class="col-sm-2 col-form-label mr-3">Gender</label>
+                    <div class="col-md-9">
+                      <input type="text" readonly class="form-control form-control-plaintext" id="patientGender" th:field="*{gender}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div th:replace="flows/requests/layouts/dialog-action-buttons :: dialog-action-buttons"></div>
+            </form>
+            
+            <!-- <div th:replace="flows/requests/layouts/cancel-request :: cancel-request"></div> -->
+          </div>
+        </div>
+	    </div>
+	    
+	    <div th:replace="flows/requests/layouts/old-request-details :: old-request-details"></div>
+	    
+	  </div>
+  </section>
+</body>
+</html>

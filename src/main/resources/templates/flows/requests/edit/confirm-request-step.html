@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+  <title>Confirm</title>
+</head>
+
+<body>
+  <section layout:fragment="page-content" th:with="requestCode=${requestCode},stepName=${'Confirm'}">
+    <div id="editFlowTitle" th:replace="flows/requests/layouts/edit-flow-title :: edit-flow-title"></div>
+    
+    <div id="formAlert" class="row justify-content-center" th:object="${requestCBC}" th:if="${requestCBC}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+    
+    <div id="formAlert" class="row justify-content-center" th:object="${requestUMT}" th:if="${requestUMT}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+    
+    <div id="formAlert" class="row justify-content-center" th:object="${requestFMT}" th:if="${requestFMT}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+      
+    <div th:replace="flows/requests/layouts/dialog-nav-tabs :: dialog-nav-tabs"></div>
+    
+    <div id="dialogContent" class="row no-gutters justify-content-end">
+      <div th:replace="flows/requests/layouts/new-request-details :: new-request-details"></div>
+      
+      <div class="col-md-6">
+        <div id="dialog" class="row no-gutters justify-content-center border rounded">
+          <div class="col-md-12">
+            <br />
+            <div class="row no-gutters justify-content-center">
+              <div class="col-8 text-nowrap text-center">
+                <h5><span class="lead align-middle text-muted">Confirm <strong>Request Details</strong></span> </h5>
+              </div>
+            </div>
+            
+            <div class="row no-gutters justify-content-center">
+              <div class="col-md-4">
+                <hr class="mt-0 mp-0">
+              </div>
+            </div>
+            
+            <form class="form" method="post" th:action="${flowExecutionUrl}" th:object="${requestCBC}" th:if="${ requestTestType.selectedTestType == 'CBC' }" >
+              <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th width="50%" class="text-center">Value</th>
+                        <th class="text-center">Normal</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <th class="text-center align-middle" scope="row">WCB</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{wcb}"></span>
+                        </td>
+                        <td class="text-center align-middle">3.70 - 10.10</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">HGB</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{hgb}"></span>
+                        </td>
+                        <td class="text-center align-middle">12.9 - 15.9</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">MCV</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{mcv}"></span>
+                        </td>
+                        <td class="text-center align-middle">81.1 - 96.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">MCH</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{mch}"></span>
+                        </td>
+                        <td class="text-center align-middle">27.0 - 31.2</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <br /><br /><br />
+              
+              <div th:replace="flows/requests/layouts/dialog-action-buttons :: dialog-action-buttons"></div>
+            </form>
+            
+            <form class="form" method="post" th:action="${flowExecutionUrl}" th:object="${requestUMT}" th:if="${ requestTestType.selectedTestType == 'UMT' }" >
+              <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th width="50%" class="text-center">Value</th>
+                        <th class="text-center">Normal</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <th class="text-center align-middle" scope="row">ABC</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{abc}"></span>
+                        </td>
+                        <td class="text-center align-middle">1.0 - 5.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">DEF</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{def}"></span>
+                        </td>
+                        <td class="text-center align-middle">5.50 - 13.2</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">GHI</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{ghi}"></span>
+                        </td>
+                        <td class="text-center align-middle">8.0 - 10.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">JKL</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{jkl}"></span>
+                        </td>
+                        <td class="text-center align-middle">19.0 - 20.0</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <br /><br /><br />
+              
+              <div th:replace="flows/requests/layouts/dialog-action-buttons :: dialog-action-buttons"></div>
+            </form>
+            
+            <form class="form" method="post" th:action="${flowExecutionUrl}" th:object="${requestFMT}" th:if="${ requestTestType.selectedTestType == 'FMT' }" >
+              <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th width="50%" class="text-center">Value</th>
+                        <th class="text-center">Normal</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <th class="text-center align-middle" scope="row">MNO</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{mno}"></span>
+                        </td>
+                        <td class="text-center align-middle">2.0 - 7.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">PQR</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{pqr}"></span>
+                        </td>
+                        <td class="text-center align-middle">6.2 - 7.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">STU</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{stu}"></span>
+                        </td>
+                        <td class="text-center align-middle">2.0 - 3.75</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">VWX</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{vwx}"></span>
+                        </td>
+                        <td class="text-center align-middle">12.4 - 35.10</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <br /><br /><br />
+              
+              <div th:replace="flows/requests/layouts/dialog-action-buttons :: dialog-action-buttons"></div>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    
+      <div th:replace="flows/requests/layouts/old-request-details :: old-request-details"></div>
+    
+    </div>
+  </section>
+</body>
+</html>

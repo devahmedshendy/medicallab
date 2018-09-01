@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+   <div id="editFlowTitle" th:fragment="edit-flow-title">
+     <div class="row justify-content-center">
+       <div class="col-3 text-center">
+         <h5 class="lead">Edit Request <span class="ml-1 text-primary" th:text="'#' + ${requestCode}"></span></h5>
+         <hr>
+       </div>
+     </div>
+   </div>
+</body>
+</html>

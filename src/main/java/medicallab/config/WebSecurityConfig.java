@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
@@ -24,12 +25,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/js/**", "/css/**", "/images/**");
+    }
+	
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
 				.antMatchers("/users**").hasAnyRole("ADMIN", "ROOT")
-				.antMatchers("/patients/edit/**").hasAnyRole("OFFICER", "ROOT")
-				.antMatchers("/login**", "/patients/**").permitAll()
+				.antMatchers("/patients/new**", "/patients/edit**", "/requests/new**", "/requests/edit**").hasAnyRole("OFFICER", "ROOT")
+				.antMatchers("/patients/**", "/requests/**").hasAnyRole("ADMIN", "OFFICER", "DOCTOR", "ROOT")
+				.antMatchers("/login**", "/uri**").permitAll()
 				.antMatchers("/js/**", "/css/**", "/images/**", "**/favicon.ico").permitAll()
 				.anyRequest().authenticated()
 				.and()

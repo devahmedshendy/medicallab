@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+  <secured attributes="ROLE_OFFICER, ROLE_ROOT" match="any"/>
+  
+  <var name="uri" class="medicallab.misc.Uri" />
+  <on-start>
+    <set name="flowScope.requestCode" value="requestParameters.requestCode"></set>
+    <evaluate expression="editRequestFlow.printStartMessage()"></evaluate>
+    <evaluate expression="editRequestFlow.getRequestDetails(requestCode)" result="flowScope.requestDetails"></evaluate>
+    <evaluate expression="editRequestFlow.getRequestDetails(requestCode)" result="flowScope.oldRequestDetails"></evaluate>
+    
+    <evaluate expression="requestDetails.getRequestPatient()"             result="flowScope.requestPatient"></evaluate>
+    <evaluate expression="requestDetails.getRequestDoctor()"              result="flowScope.requestDoctor"></evaluate>
+    <evaluate expression="requestDetails.getRequestTestType()"            result="flowScope.requestTestType"></evaluate>
+  </on-start>
+  
+  
+  
+  <view-state id="patientStep"  view="flows/requests/edit/patient-step"  model="requestPatient">
+    <transition on="next"     to="doctorStep"></transition>
+    <transition on="revert"   to="patientStep">
+      <evaluate expression="revertStep"></evaluate>
+    </transition>
+  </view-state>
+  
+  
+  <view-state id="doctorStep" view="flows/requests/edit/doctor-step"     model="requestDoctor">
+    <on-entry>
+      <evaluate expression="editRequestFlow.getDoctorList()" result="flowScope.doctorList"></evaluate>
+    </on-entry>
+    
+    <transition on="next"     to="testTypeStep"></transition>
+    <transition on="back"     to="patientStep"></transition>
+    <transition on="revert"   to="doctorStep">
+      <evaluate expression="revertStep"></evaluate>
+    </transition>
+  </view-state>
+  
+  
+  <view-state id="testTypeStep" view="flows/requests/edit/test-type-step"        model="requestTestType">
+    <on-entry>
+      <evaluate expression="editRequestFlow.getTestTypes()" result="viewScope.testTypes"></evaluate>
+    </on-entry>
+    
+    <transition on="next"     to="transitionBasedOnSelectedTestType"></transition>
+    <transition on="back"     to="doctorStep" validate="false"></transition>
+    <transition on="revert"   to="testTypeStep">
+      <evaluate expression="revertStep"></evaluate>
+    </transition>
+    
+    <on-exit>
+      <evaluate expression="requestDetails.setRequestTestType(requestTestType)"></evaluate>
+    </on-exit>
+  </view-state>
+  
+  
+  <action-state id="transitionBasedOnSelectedTestType">
+    <evaluate expression="requestTestType.getSelectedTestType()"></evaluate>
+    <transition on="CBC"      to="cbcDetailsStep"></transition>
+    <transition on="UMT"      to="umtDetailsStep"></transition>
+    <transition on="FMT"      to="fmtDetailsStep"></transition>
+  </action-state>
+  
+  
+  <view-state id="cbcDetailsStep" view="flows/requests/edit/cbc-details-step"    model="requestCBC">
+    <on-entry>
+      <evaluate expression="requestDetails.getRequestCBC()" result="flowScope.requestCBC"></evaluate>
+    </on-entry>
+    
+    <transition on="next"     to="confirmRequestStep"></transition>
+    <transition on="back"     to="testTypeStep" validate="false"></transition>
+    <transition on="revert"   to="cbcDetailsStep" validate="false">
+      <evaluate expression="revertStep"></evaluate>
+    </transition>
+  </view-state>
+  
+  
+  <view-state id="umtDetailsStep" view="flows/requests/edit/umt-details-step"    model="requestUMT">
+    <on-entry>
+      <evaluate expression="requestDetails.getRequestUMT()" result="flowScope.requestUMT"></evaluate>
+    </on-entry>
+    
+    <transition on="next"     to="confirmRequestStep"></transition>
+    <transition on="back"     to="testTypeStep" validate="false"></transition>
+    <transition on="revert"   to="umtDetailsStep" validate="false">
+      <evaluate expression="revertStep"></evaluate>
+    </transition>
+  </view-state>
+  
+  
+  <view-state id="fmtDetailsStep" view="flows/requests/edit/fmt-details-step"    model="requestFMT">
+    <on-entry>
+      <evaluate expression="requestDetails.getRequestFMT()" result="flowScope.requestFMT"></evaluate>
+    </on-entry>
+    
+    <transition on="next"     to="confirmRequestStep"></transition>
+    <transition on="back"     to="testTypeStep" validate="false"></transition>
+    <transition on="revert"   to="fmtDetailsStep" validate="false">
+      <evaluate expression="revertStep"></evaluate>
+    </transition>
+  </view-state>
+  
+  
+  <view-state id="confirmRequestStep" view="flows/requests/edit/confirm-request-step">
+    <transition on="confirm"  to="confirmRequestAction"></transition>
+    <transition on="back"     to="transitionBasedOnSelectedTestType" validate="false"></transition>
+    
+    <on-exit>
+      <evaluate expression="editRequestFlow.updateRequestDetails(requestDetails)"></evaluate>
+    </on-exit>
+  </view-state>
+  
+  
+  <action-state id="confirmRequestAction">
+    <evaluate expression="editRequestFlow.checkForRequestWithCode(requestCode)"></evaluate>
+    <transition on="yes"      to="successfulFlowFinish"></transition>
+    <transition on="no"       to="failureFlowFinish"></transition>
+  </action-state>
+  
+  
+  <end-state id="successfulFlowFinish" view="externalRedirect:#{uri.get('requests')}">
+    <output name="success"    value="'Request has been updated successfully'"/>
+  </end-state>
+  
+  <end-state id="failureFlowFinish" view="externalRedirect:#{uri.get('requests')}">
+    <output name="error"    value="'Operation has failed, please call administrator'"/>
+  </end-state>
+  
+  <end-state id="cancelFlow"  view="externalRedirect:#{uri.get('requests')}">
+  </end-state>
+  
+  <global-transitions>
+    <transition on="cancel"   to="cancelFlow" history="discard" bind="false" validate="false"></transition>
+  </global-transitions>
+  
+  
+  
+  <on-end>
+    <evaluate expression="editRequestFlow.printEndMessage()"></evaluate>
+  </on-end>
+</flow>

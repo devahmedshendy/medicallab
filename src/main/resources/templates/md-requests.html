@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/page}">
+<head>
+  
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <!-- default header name is X-CSRF-TOKEN -->
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  
+  <title th:text="#{app.page-title.requests}">RequestsPageTitle</title>
+</head>
+<body>
+  <section class="container" layout:fragment="page-content">
+    <br/>
+    <!-- <div class="row justify-content-end">
+      <div class="col-md-12">
+         <div class="row no-gutters justify-content-end">
+           <a href="" class="mr-2"><small>CLEAR</small></a>
+           <a id="addPatientLink" class="text-secondary"  data-toggle="collapse" href="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">
+             <span>REFINE</span>
+             <i class="fa fa-plus-square-o" aria-hidden="true"></i> 
+           </a>
+         </div>
+         
+         <hr />
+      </div>
+    </div> -->
+    
+    <!-- <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+          <div class="card card-body">
+            <div class="row justify-content-center">
+              <div class="col-md-4">
+                <ul class="list-unstyled">
+                  <li class="card-title text-center me-2">
+                    Sort By
+                  </li>
+                  <li>
+                    <span class="btn btn-info btn-sm btn-block">
+                      Created At
+                    </span>
+                  </li>
+                  <li>
+                    <a href="" class="btn btn-link text-dark btn-sm btn-block">
+                      Updated At
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" class="btn btn-link text-dark btn-sm btn-block">
+                      Approved At
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" class="btn btn-link text-dark btn-sm btn-block">
+                      Test Type
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" class="btn btn-link text-dark btn-sm btn-block">
+                      Request Status
+                    </a>
+                  </li>
+                </ul>
+                
+              </div>
+              
+              <div class="col-md-4">
+                <ul class="list-inline">
+                  <li class="card-title text-center me-2">
+                    Test
+                  </li>
+                  <li>
+                    <span class="btn btn-info btn-sm btn-block">
+                      CBC
+                    </span>
+                  </li>
+                  <li>
+                    <a href="" class="btn btn-link text-dark btn-sm btn-block">
+                      ABC
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="col-md-4 text-left">
+                 <ul class="list-inline">
+                  <li class="card-title text-center me-2">
+                    Status
+                  </li>
+                  <li>
+                    <a href="" class="btn btn-link text-dark btn-sm btn-block">
+                      Approved
+                    </a>
+                  </li>
+                  <li>
+                    <span class="btn btn-info btn-sm btn-block">
+                      Waiting
+                    </span>
+                  </li>
+                  <li>
+                    <a href="" class="btn btn-link text-dark btn-sm btn-block">
+                      Rejected
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    
+    <br />
+    
+    <div class="row no-gutters justify-content-start">
+      <!-- <div class="col-md-2">
+      </div> -->
+
+      <div class="col-md-6" >
+        <a id="addPatientLink" class="text-primary align-middle" th:href="${ uri.get('newRequest') }" sec:authorize="hasRole('OFFICER')">
+           <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+           <span class="">NEW REQUEST</span>
+         </a>
+      </div>
+      
+      <div class="col-md-4 pr-3">
+        <div class="row justify-content-end">
+          <div class="col-md-4 text-right">
+             <h5><span class="badge badge-light mr-2" th:text="${pageSize } + '/' + ${totalMedicalRequests } + ' Requests'"></span></h5>
+           </div>  
+           
+           <div class="col-md-6">
+             <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-end pagination-sm">
+                    <li class="page-item disabled" th:if="${medicalRequestsPage.isFirst() == true}">
+                      <a class="page-link" tabindex="-1">Previous</a>
+                    </li>
+                      
+                    <li class="page-item" th:if="${ medicalRequestsPage.isFirst() == false}">
+                      <a class="page-link" th:href="${ uri.getPrevPageUri() }" tabindex="-1">Previous</a>
+                    </li>
+        
+        
+                    <li class="page-item"><a class="page-link" href="#" th:text="${page}">Current Page</a></li>
+        
+        
+                    <li class="page-item disabled" th:if="${ medicalRequestsPage.isLast() == true}">
+                      <a class="page-link" tabindex="-1">Next</a>
+                    </li>
+                      
+                    <li class="page-item" th:if="${ medicalRequestsPage.isLast() == false}">
+                      <a class="page-link" th:href="${ uri.getNextPageUri() }" tabindex="-1">Next</a>
+                    </li>
+                  </ul>
+                </nav>
+           </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row no-gutters justify-content-start">
+      <div class="col-md-10 pr-3">
+        <hr class="m-0">
+      </div>
+    </div>
+      
+    <div class="row no-gutters justify-content-start mb-2 mt-2">
+      
+
+      <div class="col-md-10 pr-3 lead">
+        <strong class="mr-4">Sort By</strong>
+        <!-- <tr class="align-middle lead" th:each="request : ${requestsPage}"> -->
+        
+        <div class="d-inline-block" th:each="sortField : ${sortColumnsMap}">
+          <span class="text-muted mr-2 ml-2">|</span>
+          <a th:href="${ uri.get('requestsPageTable', sortField.getKey()) }" th:text="${ sortField.getValue() }"></a>
+          
+          <span th:if="${sort.getOrderFor(sortField.getKey())}">
+            <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sort.getOrderFor(sortField.getKey()).getDirection().name() == 'DESC' }"></i>
+            <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sort.getOrderFor(sortField.getKey()).getDirection().name() == 'ASC' }"></i>
+          </span>
+          <!-- <span th:if="${sortField == 'updatedAt'}">
+            <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+            <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+          </span> -->
+        </div>
+        
+        <!-- <span class="text-muted mr-2 ml-2">|</span>
+        
+        <div class="d-inline-block">
+          
+          <a th:href="${ uri.get('requestsPageTable', 'testType') }">Test Type</a>
+          <span th:if="${sortField == 'testType'}">
+            <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+            <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+          </span>
+        </div>
+        
+        <div class="d-inline-block" sec:authorize="hasRole('ROLE_OFFICER')">
+          <span class="text-muted mr-2 ml-2">|</span>
+          
+          <a th:href="${ uri.get('requestsPageTable', 'doctorFullname') }">Doctor Fullname</a>
+          <span th:if="${sortField == 'doctorFullname'}">
+            <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+            <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+          </span>
+        </div>
+        
+        <div class="d-inline-block">
+          <span class="text-muted mr-2 ml-2">|</span>
+          
+          <a th:href="${ uri.get('requestsPageTable', 'requestCode') }">Request Code</a>
+          <span th:if="${sortField == 'requestCode'}">
+            <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+            <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+          </span>
+        </div>
+        
+        <div class="d-inline-block">
+          <span class="text-muted mr-2 ml-2">|</span>
+          
+          <a th:href="${ uri.get('requestsPageTable', 'patientFullname') }">Patient Fullname</a>
+          <span th:if="${sortField == 'patientFullname'}">
+            <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+            <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+          </span>
+        </div>
+        
+        <div class="d-inline-block">
+          <span class="text-muted mr-2 ml-2">|</span>
+        
+          <a th:href="${ uri.get('requestsPageTable', 'patientId') }">Patient Id</a>
+          <span th:if="${sortField == 'patientId'}">
+            <i class="fa fa-arrow-down text-secondary" aria-hidden="true" th:if="${sortOrder == 'DESC' }"></i>
+            <i class="fa fa-arrow-up text-secondary" aria-hidden="true" th:if="${sortOrder == 'ASC' }"></i>
+          </span>
+        </div> -->
+        
+      </div>
+    </div>
+    
+    <div class="row no-gutters justify-content-start">
+      <div class="col-md-10 pr-3">
+        <table class="table table-striped table-hover border">
+          <thead>
+            <tr>
+              <th width="10%"></th>
+              <th width="39%"></th>
+              <th width="6%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="align-middle lead" th:each="request : ${requestsPage}">
+              <td >
+                <div class="row no-gutters">
+                  <div class="col-2">
+                  <span>
+                    <small th:if="${request.status  == 'APPROVED'}" data-toggle="tooltip" data-placement="top" title="Approved"><i class="fa fa-check-circle text-success" aria-hidden="true"></i></small>
+                    <small th:if="${request.status  == 'WAITING'}" data-toggle="tooltip" data-placement="top" title="Waiting"><i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i></small>
+                    <small th:if="${request.status  == 'RETURNED'}" data-toggle="tooltip" data-placement="top" title="Returned"><i class="fa fa-times-circle text-danger" aria-hidden="true"></i></small>
+                  </span>
+                  </div>
+                  
+                  <div class="col-10">
+                    <span class="ml-2" th:text="${#dates.format(request.updatedAt, 'dd-MM-yyyy')}">Updated At</span>
+                  </div>
+                  
+                  <div class="col-2"></div>
+                  
+                  <div class="col-10">
+                    <span class="ml-2 small text-muted" th:text="${#dates.format(request.updatedAt, 'hh:mm a')}">Updated At</span>
+                  </div>
+                </div>
+              </td>
+              
+              <td>
+                <div class="row no-gutters justify-content-between">
+                  <div class="col-md-6 text-left">
+                    <div class="row no-gutters justify-content-left" th:if="${#authentication.principal.role.roleName == 'ROLE_DOCTOR'}">
+                      <div class="col-md-2">
+                        <span th:text="${request.medicalTest.shortName}">Test Type</span> 
+                      </div>
+                    </div>
+                    
+                    <div class="row no-gutters justify-content-left" th:if="${#authentication.principal.role.roleName != 'ROLE_DOCTOR'}">
+                      <div class="col-md-2">
+                        <span th:text="${request.medicalTest.shortName}">Test Type</span> 
+                      </div>
+                      <div class="col-md-1">
+                        -
+                      </div>
+                      <div class="col-md-9">
+                        <!-- <span class="text-muted">Dr. </span> -->
+                        <span th:text="${request.doctor.fullname}">Doctor Fullname</span>
+                      </div>
+                    </div>
+                    
+                    <small class="text-dark" th:text="${request.code}"></small>
+                  </div>
+                  
+                  <div class="col-md-6 text-right">
+                    <div class="row no-gutters justify-content-end">
+                      <div class="col-md-12">
+                        <span th:text="${request.patient.fullname}">Patient Fullname</span>
+                      </div>
+                    </div>
+                    
+                    <!-- <a href="" class="text-info small"><i class="fa fa-address-card-o" aria-hidden="true"></i></a> -->
+                    <span th:text="${request.patient.patientId}">Patient Id</span>
+                  </div>
+                </div>
+              </td>
+              
+              <td class="align-middle text-center small">
+                
+                <a class="showRequestLink text-primary mr-2" href="#"
+                   th:attr="data-request-code=${ request.code }">
+                  
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+                
+                <a class="editRequestLink"
+                   th:attr="data-request-code=${ request.code }" 
+                   th:href="${ uri.get('editRequest', request.code) }"
+                   sec:authorize="hasRole('OFFICER')">
+                   
+                  <i class="fa fa-pencil-square-o text-primary" aria-hidden="true"></i>
+                </a>
+                
+                <span class="mr-1"></span>
+                 
+                <a class="deleteRequestLink" href="#" data-toggle="modal" data-target="#confirmCancelAddRequestModal"
+                   th:attr="data-request-code=${request.code }"
+                   sec:authorize="hasRole('OFFICER')">
+                   
+                  <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                </a>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+      
+      <div class="modal fade" id="confirmCancelAddRequestModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelAddRequestLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content pl-2 pr-2 pb-2">
+            
+            <div class="modal-header border-0 pb-0">
+              <h6 class="modal-title text-muted" id="confirmCancelAddRequestLabel">Delete Request of Code <span></span></h6>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            
+            <div class="modal-body justify-content-center">
+              <span class="lead">Are you sure?</span>
+            </div>
+            
+            <div class="modal-footer no-gutters justify-content-center p-2 border-0">
+              <form id="deleteRequestForm" th:action="${ uri.get('deleteRequest', 'requestCode' ) }" th:attr="data-form-action=${ uri.get('deleteRequest', 'requestCode' ) }" class="w-100" method="post">
+                <div class="col-md-12 m-0 p-0">
+                  <button type="submit" class="btn btn-danger btn-sm btn-block rounded-0" name="cancel">YES</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    
+      <div class="col-md-2">
+        <form th:action="${ uri.get('searchRequests') }" method="GET" th:object="${filterMedicalRequestForm}">
+          <div class="col-md-12 text-center" th:if="${ param.searchField != Null }">
+            <a th:href="${ uri.get('requests') }" class="btn btn-link"><small>RESET</small></a>
+          </div>
+          
+          <!-- <div class="col-md-12" th:if="${ param.searchField == Null }">
+            <br />
+          </div> -->
+          
+          <div class="row no-gutters">
+            <div class="col-md-12">
+              <div class="form-group">
+                <button type="submit" class="btn btn-outline-secondary btn-sm btn-block rounded-0">FILTER</button>
+              </div>
+            </div>
+            
+            <div class="col-md-12">
+              <div class="form-group">
+                <input class="form-control form-control-sm rounded-0" placeHolder="Search..." name="searchText" th:field="*{searchText}"/>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <select class="custom-select form-control form-control-sm rounded-0" th:field="*{searchField}">
+                  <option th:each="searchField : ${searchColumnsMap }"
+                          th:value="${searchField.getKey()}"
+                          th:text="${searchField.getValue()}"></option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="col-md-12 mt-2">
+              <strong class="lead text-muted small">Test Type</strong>
+              
+              <hr class="mt-0 mb-1">
+              
+              <div class="custom-controls-stacked form-control-sm">
+                <label class="custom-control custom-checkbox"  th:each="testType : ${testTypesMap}">
+                  <input type="checkbox" class="custom-control-input" th:value="${testType.getKey()}" th:field="*{medicalTestType}">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description" th:text="${testType.getKey()}">TEST TYPE</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="col-md-12 mt-2">
+              <strong class="lead text-muted small">Request Status</strong>
+              
+              <hr class="mt-0 mb-1">
+              
+              <div class="custom-controls-stacked form-control-sm">
+                <label class="custom-control custom-checkbox" th:each="requestStatus : ${requestStatusMap}">
+                  <input type="checkbox" class="custom-control-input" th:value="${requestStatus.getKey()}" th:field="*{medicalRequestStatus}">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description" th:text="${requestStatus.getValue()}">Request Status</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Request Details Modal -->
+    <div class="modal fade" id="requestDetailsModal" tabindex="-1" role="dialog" aria-labelledby="showRequestDetailsLabel" aria-hidden="true"
+         th:attr="data-request-details-api=${ uri.get('apiRequestDetails', 'requestCode') }">
+         
+      <div class="modal-dialog modal-lg" role="document">  
+        <div id="defaultModalContent" class="modal-content">
+        
+          <div class="modal-header">
+            <div class="col-md-12">
+              <div class="row no-gutters justify-content-between">
+                <div class="col-md-6">
+                  <h5 class="modal-title p-0 m-0 lead">
+                    <strong>Request Code <span>???</span></strong>
+                  </h5>
+                </div>
+                
+                <div class="col-md-1 p-2">
+                  <div id="loadingSpinner" class="spinner align-middle mt-1 mb-0">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                    <div class="rect6"></div>
+                    <div class="rect7"></div>
+                    <div class="rect8"></div>
+                  </div>
+                </div>
+                
+                <div class="col-md-2">
+                  <button type="button" class="close pt-1" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-body">
+             <div class="row justify-content-center"> 
+              <div class="col-md-5">
+                <span class="text-muted lead">Patient Details</span>
+                <table class="table table-bordered table-striped table-sm">
+                  <tbody class="text-left">
+                    <tr>
+                      <td class="pl-3">---</td>
+                    </tr>
+                    <tr>
+                      <td class="pl-3">---</td>
+                    </tr>
+                    <tr>
+                      <td class="pl-3">---</td>
+                    </tr>
+                    <tr>
+                      <td class="pl-3">---</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <div class="col-md-5">
+                <span class="text-muted lead">Test Details</span>
+                
+                <table class="table table-bordered table-striped table-sm border round text-center" >
+                  <thead>
+                    <tr>
+                      <th width="15%" class="text-uppercase text-muted pl-3">---</th>
+                      <th width="30%" class="text-center">Value</th>
+                      <th width="35%" class="text-center">Normal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row" class="pl-3">---</th>
+                      <td>---</td>
+                      <td>--- - ---</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">---</th>
+                      <td>---</td>
+                      <td>--- - ---</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">---</th>
+                      <td>---</td>
+                      <td>--- - ---</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">---</th>
+                      <td>---</td>
+                      <td>--- - ---</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+             </div> 
+             
+             <div class="row">
+               <div class="col-md-12 m-0 p-0">
+                 <hr class="m-0 p-0 p-2">
+               </div>
+             </div>
+             
+             <div class="row justify-content-center">
+                <div class="col-8">
+                  <span class="text-muted lead">Doctor Review</span>
+                  
+                  <table class="table table-striped table-sm bg-light border">
+                    <tbody>
+                     <tr>
+                       <th width="10%" scope="row" class="pl-3">Doctor</th>
+                       <td colspan="2" class="text-left pl-4">---</td>
+                     </tr>
+                     
+                     <tr>
+                       <th height="70px" scope="row" class="pl-3">Comment</th>
+                       <td colspan="2" class="text-left pl-3"><textarea cols="45" rows="3" class="form-control p-2 bg-light" readonly></textarea></td>
+                     </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+          </div>
+          
+          <div class="modal-footer">
+            <div class="col-md-12">
+              <div class="row no-gutters justify-content-center">
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-outline-primary btn-sm btn-block rounded-0" disabled>---</button>
+                </div>
+                <!-- <div class="col-md-4">
+                  <button type="button" class="btn btn-outline-primary btn-sm btn-block rounded-0" disabled>---</button>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        <div id="actualModalContent" class="modal-content d-none">
+        
+          <div class="modal-header">
+            <div class="col-md-12">
+              <div class="row no-gutters justify-content-between">
+                <div id="actualModalTitle" class="col-md-9">
+                  <h5 id="showRequestDetailsLabel" class="modal-title align-middle lead m-0 p-0 d-inline">
+                    <strong>
+                      Request Code <span id="requestCode"></span>
+                      <a href=""><i class="fa fa-print ml-2" aria-hidden="true"></i></a>
+                    </strong>
+                  </h5>
+                </div>
+                
+                <div class="col-md-2">
+                  <button type="button" class="close pt-1" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="actualModalBody" class="modal-body">
+             <div class="row justify-content-center"> 
+
+              <div class="col-md-5">
+                <span class="text-muted lead">Patient Details</span>
+                <table id="patientDetailsTable" class="table table-bordered table-striped table-sm">
+                  <tbody class="text-left">
+                    <tr>
+                      <td id='patientFullname' class="pl-3">---</td>
+                    </tr>
+                    <tr>
+                      <td id='patientId' class="pl-3">---</td>
+                    </tr>
+                    <tr>
+                      <td id='patientPhone' class="pl-3">---</td>
+                    </tr>
+                    <tr>
+                      <td id='patientAge' class="pl-3">---</td>
+                    </tr>
+                    <tr>
+                      <td id='patientGender' class="pl-3">---</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <div class="col-md-5">
+                <span class="text-muted lead">Test Details</span>
+                <table id="cbcDetailsTable" class="testDetailsTable table table-bordered table-striped table-sm border round text-center d-none" >
+                  <thead>
+                    <tr>
+                      <th width="10%" class="text-uppercase text-muted pl-3">---</th>
+                      <th width="30%" class="text-center">Value</th>
+                      <th width="35%" class="text-center">Normal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row" class="pl-3">WCB</th>
+                      <td id='wcbValue'>---</td>
+                      <td>3.70 - 10.10</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">HGB</th>
+                      <td id='hgbValue'>---</td>
+                      <td>12.9 - 15.9</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">MCV</th>
+                      <td id='mcvValue'>---</td>
+                      <td>81.1 - 96.0</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">MCH</th>
+                      <td id='mchValue'>---</td>
+                      <td>27.0 - 31.2</td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+                <table id="umtDetailsTable" class="testDetailsTable table table-bordered table-striped table-sm border round text-center d-none" >
+                  <thead>
+                    <tr>
+                      <th width="10%" class="text-uppercase text-muted pl-3">---</th>
+                      <th width="30%" class="text-center">Value</th>
+                      <th width="35%" class="text-center">Normal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row" class="pl-3">ABC</th>
+                      <td id='abcValue'>---</td>
+                      <td>1.0 - 5.0</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">DEF</th>
+                      <td id='defValue'>---</td>
+                      <td>5.50 - 13.2</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">GHI</th>
+                      <td id='ghiValue'>---</td>
+                      <td>8.0 - 10.0</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">JKL</th>
+                      <td id='jklValue'>---</td>
+                      <td>19.0 - 20.0</td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+                <table id="fmtDetailsTable" class="testDetailsTable table table-bordered table-striped table-sm border round text-center d-none" >
+                  <thead>
+                    <tr>
+                      <th width="10%" class="text-uppercase text-muted pl-3">---</th>
+                      <th width="30%" class="text-center">Value</th>
+                      <th width="35%" class="text-center">Normal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row" class="pl-3">MNO</th>
+                      <td id='mnoValue'>---</td>
+                      <td>2.0 - 7.0</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">PQR</th>
+                      <td id='pqrValue'>---</td>
+                      <td>6.2 - 7.0</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">STU</th>
+                      <td id='stuValue'>---</td>
+                      <td>2.0 - 3.75</td>
+                    </tr>
+                    
+                    <tr>
+                      <th scope="row" class="pl-3">VWX</th>
+                      <td id='vwxValue'>---</td>
+                      <td>12.4 - 35.10</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+             </div> 
+             
+             <div class="row">
+               <div class="col-md-12 m-0 p-0">
+                 <hr class="m-0 p-0 p-2">
+               </div>
+             </div>
+             
+             <div class="row justify-content-center">
+                <div class="col-8">
+                  <span class="text-muted lead">Doctor Review</span>
+                  
+                  <span id="medicalRequestStatusIcon" class="ml-2">
+                    <i id="approvedIcon" class="fa fa-check-circle text-success d-none" data-request-status="APPROVED" aria-hidden="true"></i>                    
+                    <i id="waitingIcon" class="fa fa-exclamation-triangle text-warning d-none" data-request-status="WAITING" aria-hidden="true"></i>
+                    <i id="returnedIcon" class="fa fa-times-circle text-danger d-none" data-request-status="RETURNED" aria-hidden="true"></i>
+                  </span>
+                  
+                  <table id="doctorReviewTable" class="table table-striped table-sm bg-light border">
+                    <tbody>
+                     <tr>
+                       <th width="10%" scope="row" class="pl-3">Doctor</th>
+                       <td id="doctorFullname" colspan="3" class="text-left pl-4">---</td>
+                     </tr>
+                     
+                     <tr>
+                       <th height="70px" scope="row" class="pl-3">Comment</th>
+                       <td id="doctorComment" colspan="2" class="text-left pl-3 pt-2">
+                         <textarea cols="45" rows="3" class="form-control p-2" readonly></textarea>
+                       </td>
+                     </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+          </div>
+          
+          <div class="modal-footer">
+            <div id="modalActionButtonsForDoctor" class="col-md-12 modalActionButtons" sec:authorize="hasRole('DOCTOR')">
+              <div id="editReviewActionBlock" class="row no-gutters justify-content-center actionBlock d-none">
+                <div class="col-md-4">
+                  <button id="editReview" type="button" class="btn btn-outline-primary btn-sm btn-block rounded-0">EDIT REVIEW</button>
+                </div>
+              </div>
+              
+              <div id="approveOrRejectActionBlock" class="row no-gutters justify-content-center actionBlock d-none">
+                <div class="col-md-3">
+                  <button id="rejectRequest" type="button" class="btn btn-outline-danger btn-sm btn-block rounded-0">REJECT</button>
+                </div>
+                <div class="col-md-2">
+                  <button id="revertReviewEdit" class="btn btn-light btn-sm btn-block rounded-0">REVERT</button>
+                </div>
+                <div class="col-md-3">
+                  <button id="approveRequest" type="button" class="btn btn-outline-primary btn-sm btn-block rounded-0">APPROVE</button>
+                </div>
+              </div>
+              
+              <div id="confirmApprovalActionBlock" class="row no-gutters justify-content-center actionBlock d-none">
+                <div class="col-md-4">
+                  <button id="cancelApproval" type="button" class="btn btn-light btn-sm btn-block rounded-0">NO</button>
+                </div>
+                <div class="col-md-4">
+                  <button id="confirmApproval" type="button" class="btn btn-outline-primary btn-sm btn-block rounded-0">
+                    CONFIRM? YES
+                  </button>
+                </div>
+              </div>
+              
+              <div id="confirmRejectionActionBlock" class="row no-gutters justify-content-center actionBlock d-none">
+                <div class="col-md-4">
+                  <button id="confirmRejection" type="button" class="btn btn-outline-danger btn-sm btn-block rounded-0">CONFIRM? YES</button>
+                </div>
+                <div class="col-md-4">
+                  <button id="cancelRejection" type="button" class="btn btn-light btn-sm btn-block rounded-0">NO</button>
+                </div>
+              </div>
+            </div>
+            
+            <div id="modalActionButtonsForOfficer" class="col-md-12 modalActionButtons" sec:authorize="hasRole('OFFICER')">
+              <div class="row no-gutters justify-content-center">
+                <div class="col-md-4">
+                  <button id="editRequest" type="button" class="btn btn-outline-primary btn-sm btn-block rounded-0">EDIT REQUEST DETAILS</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+    
+  </section>
+  
+  
+  
+  
+</body>
+</html>

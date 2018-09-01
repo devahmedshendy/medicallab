@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+</head>
+<body>
+  
+    <!-- Patient Step -->
+    <ul class="nav nav-tabs" layout:fragment="nav-tabs-for-patient-step">
+      <li class="nav-item">
+        <form id="revertChangesForm" th:action="${flowExecutionUrl} + '&_eventId=revert'" method="post">
+          <span class="nav-link active text-primary">
+          [[ ${ stepName } ]]
+          
+          <a href="#" data-toggle="tooltip" data-placement="top" title="Revert Changes" onclick="document.getElementById('revertChangesForm').submit()">
+            <i class="fa fa-repeat text-danger ml-1" aria-hidden="true"></i>
+          </a>
+          </span>
+        </form>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Doctor</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Test Type</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Test Details</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Confirm</span>
+      </li>
+    </ul>
+    
+    
+    <!-- Doctor Step -->
+    <ul class="nav nav-tabs" layout:fragment="nav-tabs-for-doctor-step">
+      <li class="nav-item">
+        <span class="nav-link disabled">Patient</span>
+      </li>
+      <li class="nav-item">
+        <form id="revertChangesForm" th:action="${flowExecutionUrl} + '&_eventId=revert'" method="post">
+          <span class="nav-link active text-primary">
+          [[ ${ stepName } ]]
+          
+          <a href="#" data-toggle="tooltip" data-placement="top" title="Revert Changes" onclick="document.getElementById('revertChangesForm').submit()">
+            <i class="fa fa-repeat text-danger ml-1" aria-hidden="true"></i>
+          </a>
+          </span>
+        </form>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Test Type</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Test Details</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Confirm</span>
+      </li>
+    </ul>
+    
+    <!-- Test Type Step -->
+    <ul class="nav nav-tabs" layout:fragment="nav-tabs-for-test-type-step">
+      <li class="nav-item">
+        <span class="nav-link disabled">Patient</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Doctor</span>
+      </li>
+      <li class="nav-item">
+        <form id="revertChangesForm" th:action="${flowExecutionUrl} + '&_eventId=revert'" method="post">
+          <span class="nav-link active text-primary">
+          [[ ${ stepName } ]]
+          
+          <a href="#" data-toggle="tooltip" data-placement="top" title="Revert Changes" onclick="document.getElementById('revertChangesForm').submit()">
+            <i class="fa fa-repeat text-danger ml-1" aria-hidden="true"></i>
+          </a>
+          </span>
+        </form>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Test Details</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Confirm</span>
+      </li>
+    </ul>
+    
+    
+    <!-- CBC Details -->
+    <ul class="nav nav-tabs" layout:fragment="nav-tabs-for-cbc-details-step">
+      <li class="nav-item">
+        <span class="nav-link disabled">Patient</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Doctor</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Test Type</span>
+      </li>
+      <li class="nav-item">
+        <form id="revertChangesForm" th:action="${flowExecutionUrl} + '&_eventId=revert'" method="post">
+          <span class="nav-link active text-primary">
+          [[ ${ stepName } ]]
+          
+          <a href="#" data-toggle="tooltip" data-placement="top" title="Revert Changes" onclick="document.getElementById('revertChangesForm').submit()">
+            <i class="fa fa-repeat text-danger ml-1" aria-hidden="true"></i>
+          </a>
+          </span>
+        </form>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Confirm</span>
+      </li>
+    </ul>
+    
+    <!-- UMT Details -->
+    <ul class="nav nav-tabs" layout:fragment="nav-tabs-for-umt-details-step">
+      <li class="nav-item">
+        <span class="nav-link disabled">Patient</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Doctor</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Test Type</span>
+      </li>
+      <li class="nav-item">
+        <form id="revertChangesForm" th:action="${flowExecutionUrl} + '&_eventId=revert'" method="post">
+          <span class="nav-link active text-primary">
+          [[ ${ stepName } ]]
+          
+          <a href="#" data-toggle="tooltip" data-placement="top" title="Revert Changes" onclick="document.getElementById('revertChangesForm').submit()">
+            <i class="fa fa-repeat text-danger ml-1" aria-hidden="true"></i>
+          </a>
+          </span>
+        </form>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Confirm</span>
+      </li>
+    </ul>
+    
+    <!-- FMT Details -->
+    <ul class="nav nav-tabs" layout:fragment="nav-tabs-for-fmt-details-step">
+      <li class="nav-item">
+        <span class="nav-link disabled">Patient</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Doctor</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Test Type</span>
+      </li>
+      <li class="nav-item">
+        <form id="revertChangesForm" th:action="${flowExecutionUrl} + '&_eventId=revert'" method="post">
+          <span class="nav-link active text-primary">
+          [[ ${ stepName } ]]
+          
+          <a href="#" data-toggle="tooltip" data-placement="top" title="Revert Changes" onclick="document.getElementById('revertChangesForm').submit()">
+            <i class="fa fa-repeat text-danger ml-1" aria-hidden="true"></i>
+          </a>
+          </span>
+        </form>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Confirm</span>
+      </li>
+    </ul>
+    
+    <ul class="nav nav-tabs" layout:fragment="nav-tabs-for-confirm-step">
+      <li class="nav-item">
+        <span class="nav-link disabled">Patient</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Doctor</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled">Test Type</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link disabled" th:if="${ requestTestType.selectedTestType == 'CBC' }">CBC Details</span>
+        <span class="nav-link disabled" th:if="${ requestTestType.selectedTestType == 'UMT' }">UMT Details</span>
+        <span class="nav-link disabled" th:if="${ requestTestType.selectedTestType == 'FMT' }">FMT Details</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link active text-primary">[[ ${ stepName } ]]</span>
+      </li>
+    </ul>
+
+</body>
+</html>

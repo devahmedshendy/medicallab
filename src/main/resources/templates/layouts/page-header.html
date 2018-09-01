@@ -12,7 +12,7 @@
 	    </button>
 	    
 	    <a class="navbar-brand" th:href="${ uri.get('home') }">
-	      <img th:src="${ uri.get('logo') }" width="30" height="30" class="d-inline-block align-top" alt="medicallab-logo">
+	      <img th:src="${ @mvcResourceUrlProvider.getForLookupPath(uri.get('logo')) }" width="30" height="30" class="d-inline-block align-top" alt="medicallab-logo">
 	      MedicalLab
 	    </a>
 	
@@ -21,14 +21,12 @@
 		        <a id="homeNavLink" class="nav-item nav-link" th:href="${ uri.get('home') }">Home</a>
             <a id="usersNavLink" class="nav-item nav-link" th:href="${ uri.get('users') }">Users</a>
             <a id="patientsNavLink" class="nav-item nav-link" th:href="${ uri.get('patients') }">Patients</a>
-            <a id="testsNavLink" class="nav-item nav-link" th:href="${ uri.get('tests') }">Tests</a>
             <a id="requestsNavLink" class="nav-item nav-link" th:href="${ uri.get('requests') }">Requests</a>
 		      </div>
 		      
 		      <div sec:authorize="hasRole('DOCTOR') or hasRole('OFFICER')" class="navbar-nav mr-auto">
             <a id="homeNavLink" class="nav-item nav-link" th:href="${ uri.get('home') }">Home</a>
             <a id="patientsNavLink" class="nav-item nav-link" th:href="${ uri.get('patients') }">Patients</a>
-            <a id="testsNavLink" class="nav-item nav-link" th:href="${ uri.get('tests') }">Tests</a>
             <a id="requestsNavLink" class="nav-item nav-link" th:href="${ uri.get('requests') }">Requests</a>
           </div>
           

@@ -1,0 +1,17 @@
+- I need to make officer edit request from modal
+- Test Details may become upper/lower the normal value
+- Other than Officer needs to view patient information only, not the whole medical profile
+- Disable/Enable/Delete forms will be rendered with (data-form-action) attribute
+
+PENDING, APPROVED, RETURNED
+Pending -> Approved
+        -> Returned
+        
+Approved -> Returned
+Returned -> Pending
+
+- new request flow should be implemented by layout concept
+
+- We need to build a registration page
+
+- Full report for medical profile

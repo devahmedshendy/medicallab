@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+  <title>Confirm</title>
+</head>
+
+<body>
+  <section id="confirmRequestDetailsStep" layout:fragment="page-content">
+    <!-- <div class="row justify-content-center" th:object="${requestDetails}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div> -->
+    
+    <div class="row no-gutters justify-content-start">
+      <div class="col-md-3 text-center align-self-center">
+        <div class="row justify-content-end">
+          <div class="col-md-10">
+            <div class="card text-right border-bottom-0 border-right-0 rounded-0 rounded-left">
+              <h6 class="card-header pt-2 pb-2">Patient</h6>
+              <div class="card-body pt-2 pb-3 pl-0">
+                <!-- <h5 class="card-title"></h5> -->
+                <ul class="card-text list-unstyled">
+                  <li th:text="${requestPatient.fullname}">Patient Fullname</li>
+                  <li th:text="${requestPatient.patientId}">Patient Id</li>
+                  <li th:text="${requestPatient.phone}">Patient Phone</li>
+                  <li th:text="${requestPatient.age} + ' Years Old'">Patient Age</li>
+                  <li th:text="${requestPatient.gender}">Male</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="card text-right border-bottom-0 border-right-0 rounded-0 rounded-left">
+              <h6 class="card-header pt-2 pb-2">Doctor</h6>
+              <div class="card-body pt-2 pb-3 pl-0">
+                <ul class="card-text list-unstyled">
+                  <li th:text="${ requestDoctor.fullname }">Doctor Fullname</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="card text-right border-right-0 rounded-0 rounded-left">
+              <h6 class="card-header pt-2 pb-2">Test Type</h6>
+              <div class="card-body pt-2 pb-3 pl-0">
+                <ul class="card-text list-unstyled">
+                  <li th:text="${ requestTestType.selectedTestType }"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="row no-gutters justify-content-center">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <span class="nav-link disabled">Patient</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled">Doctor</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled">Test Type</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled" th:if="${ requestTestType.selectedTestType == 'CBC' }">CBC Details</span>
+                <span class="nav-link disabled" th:if="${ requestTestType.selectedTestType == 'UMT' }">UMT Details</span>
+                <span class="nav-link disabled" th:if="${ requestTestType.selectedTestType == 'FMT' }">FMT Details</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link text-primary active">Confirm</span>
+              </li>
+            </ul>
+        </div>
+        
+        <div id="dialog" class="row no-gutters justify-content-center border rounded">
+          <div class="col-md-12">
+            <br />
+            <div class="row no-gutters justify-content-center">
+              <div class="col-8 text-nowrap text-center">
+                <h5><span class="lead align-middle text-muted">Confirm <strong>Request Details</strong></span> </h5>
+              </div>
+            </div>
+            
+            <div class="row no-gutters justify-content-center">
+              <div class="col-md-4">
+                <hr class="mt-0 mp-0">
+              </div>
+            </div>
+            
+            <form class="form" method="post" th:action="${flowExecutionUrl}" th:object="${requestCBC}" th:if="${ requestTestType.selectedTestType == 'CBC' }" >
+              <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th width="50%" class="text-center">Value</th>
+                        <th class="text-center">Normal</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <th class="text-center align-middle" scope="row">WCB</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{wcb}"></span>
+                        </td>
+                        <td class="text-center align-middle">3.70 - 10.10</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">HGB</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{hgb}"></span>
+                        </td>
+                        <td class="text-center align-middle">12.9 - 15.9</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">MCV</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{mcv}"></span>
+                        </td>
+                        <td class="text-center align-middle">81.1 - 96.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">MCH</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{mch}"></span>
+                        </td>
+                        <td class="text-center align-middle">27.0 - 31.2</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <br /><br /><br />
+              
+              <div class="row d-flex flex-nowrap m-3">
+                <div class="col-md-4 order-3">
+                  <button type="submit" class="btn btn-outline-success btn-sm btn-block" name="_eventId_confirm">Confirm</button>
+                </div>
+                
+                <div class="col-md-4 order-2">
+                  <button type="button" class="btn btn-outline-danger btn-sm btn-block" data-toggle="modal" data-target="#confirmCancelRequestFlowModal">Cancel</button>
+                </div>
+                
+                <div class="col-md-4 order-1">
+                  <button class="btn btn-outline-info btn-sm btn-block" name="_eventId_back">Back</button>
+                </div>
+              </div>
+            </form>
+            
+            <form class="form" method="post" th:action="${flowExecutionUrl}" th:object="${requestUMT}" th:if="${ requestTestType.selectedTestType == 'UMT' }" >
+              <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th width="50%" class="text-center">Value</th>
+                        <th class="text-center">Normal</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <th class="text-center align-middle" scope="row">ABC</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{abc}"></span>
+                        </td>
+                        <td class="text-center align-middle">1.0 - 5.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">DEF</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{def}"></span>
+                        </td>
+                        <td class="text-center align-middle">5.50 - 13.2</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">GHI</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{ghi}"></span>
+                        </td>
+                        <td class="text-center align-middle">8.0 - 10.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">JKL</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{jkl}"></span>
+                        </td>
+                        <td class="text-center align-middle">19.0 - 20.0</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <br /><br /><br />
+              
+              <div class="row d-flex flex-nowrap m-3">
+                <div class="col-md-4 order-3">
+                  <button type="submit" class="btn btn-outline-success btn-sm btn-block" name="_eventId_confirm">Confirm</button>
+                </div>
+                
+                <div class="col-md-4 order-2">
+                  <button type="button" class="btn btn-outline-danger btn-sm btn-block" data-toggle="modal" data-target="#confirmCancelRequestFlowModal">Cancel</button>
+                </div>
+                
+                <div class="col-md-4 order-1">
+                  <button class="btn btn-outline-info btn-sm btn-block" name="_eventId_back">Back</button>
+                </div>
+              </div>
+            </form>
+            
+            <form class="form" method="post" th:action="${flowExecutionUrl}" th:object="${requestFMT}" th:if="${ requestTestType.selectedTestType == 'FMT' }" >
+              <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                  <table class="table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th width="50%" class="text-center">Value</th>
+                        <th class="text-center">Normal</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <th class="text-center align-middle" scope="row">MNO</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{mno}"></span>
+                        </td>
+                        <td class="text-center align-middle">2.0 - 7.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">PQR</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{pqr}"></span>
+                        </td>
+                        <td class="text-center align-middle">6.2 - 7.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">STU</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{stu}"></span>
+                        </td>
+                        <td class="text-center align-middle">2.0 - 3.75</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">VWX</th>
+                        <td class="row no-gutters justify-content-center">
+                          <span th:text="*{vwx}"></span>
+                        </td>
+                        <td class="text-center align-middle">12.4 - 35.10</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <br /><br /><br />
+              
+              <div class="row d-flex flex-nowrap m-3">
+                <div class="col-md-4 order-3">
+                  <button type="submit" class="btn btn-outline-success btn-sm btn-block" name="_eventId_confirm">Confirm</button>
+                </div>
+                
+                <div class="col-md-4 order-2">
+                  <button type="button" class="btn btn-outline-danger btn-sm btn-block" data-toggle="modal" data-target="#confirmCancelRequestFlowModal">Cancel</button>
+                </div>
+                
+                <div class="col-md-4 order-1">
+                  <button class="btn btn-outline-info btn-sm btn-block" name="_eventId_back">Back</button>
+                </div>
+              </div>
+            </form>
+            
+            <div th:replace="flows/requests/layouts/cancel-request :: cancel-request"></div>
+
+          </div>
+        </div>
+      
+    </div>
+    
+    </div>
+  </section>
+</body>
+</html>

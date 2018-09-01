@@ -1,8 +1,8 @@
 package medicallab.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 
@@ -18,15 +19,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter @Setter
 @EqualsAndHashCode(of= {"username"})
-@Entity
+@Entity(name = "user")
 public class User implements UserDetails {
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = -1011199116719289329L;
+
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
@@ -42,7 +48,7 @@ public class User implements UserDetails {
 	@Column(nullable = false, unique = true)
 	private String username;
 	
-	@Column(nullable = false)
+	@Column(name = "hashed_password", nullable = false)
 	private String hashedPassword;
 
 	@Column(nullable = false)
@@ -51,16 +57,32 @@ public class User implements UserDetails {
 	@Column(nullable = false, columnDefinition="boolean default true")
 	private boolean enabled = true;
 	
-	@Column(nullable = false, columnDefinition="datetime default CURRENT_TIMESTAMP")
+	@Column(name = "created_at", nullable = false, columnDefinition="datetime default CURRENT_TIMESTAMP")
 	private Date createdAt = new Date();
 	
-	@Column(nullable = false, columnDefinition="datetime default CURRENT_TIMESTAMP")
+	@Column(name = "updated_at", nullable = false, columnDefinition="datetime default CURRENT_TIMESTAMP")
 	private Date updatedAt = new Date();
 
-	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "roleName", referencedColumnName = "roleName", nullable = false)
+	@JoinColumn(name = "role_name", referencedColumnName = "role_name", nullable = false)
 	private Role role;
+	
+//	@JsonManagedReference
+//	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+//	private Collection<CBC> cbcList = new ArrayList<>();
+//	
+//	@JsonManagedReference
+//	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+//	private Collection<UMT> umtList = new ArrayList<>();
+//	
+//	@JsonManagedReference
+//	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+//	private Collection<FMT> fmtList = new ArrayList<>();
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+	private Collection<MedicalRequest> medicalRequest = new ArrayList<>();
 	
 	
 	@Override
@@ -90,7 +112,11 @@ public class User implements UserDetails {
 	
 	@PostLoad
 	public void setFullname() {
-		fullname = firstname + " " + lastname;
+		setFullname(null);
+	}
+	
+	public void setFullname(String fullname) {
+		this.fullname = fullname == null ? firstname + " " + lastname : fullname;
 	}
 	
 	public String getFullname() {

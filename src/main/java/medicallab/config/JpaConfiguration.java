@@ -1,5 +1,7 @@
 package medicallab.config;
 
+import java.util.Properties;
+
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +20,7 @@ public class JpaConfiguration {
 	
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-			DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+			DataSource dataSource, JpaVendorAdapter jpaVendorAdapter, Properties jpaProperties) {
 		
 		LocalContainerEntityManagerFactoryBean entityManagerFactory = 
 				new LocalContainerEntityManagerFactoryBean();
@@ -26,6 +28,7 @@ public class JpaConfiguration {
 		entityManagerFactory.setDataSource(dataSource);
 		entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter);
 		entityManagerFactory.setPackagesToScan("medicallab.model");
+		entityManagerFactory.setJpaProperties(jpaProperties);
 		
 		return entityManagerFactory; 
 	}
@@ -33,7 +36,6 @@ public class JpaConfiguration {
 	@Bean
 	public DataSource dataSource() {
 		DataSource dataSource = new DataSource();
-		
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/medicallab?createDatabaseIfNotExist=true");
 		dataSource.setUsername("root");
@@ -48,13 +50,20 @@ public class JpaConfiguration {
 	@Bean
 	public JpaVendorAdapter jpaVendorAdapter() {
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-		
 		adapter.setDatabase(Database.MYSQL);
-		adapter.setShowSql(true);
-		adapter.setGenerateDdl(true);
-		adapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
+		adapter.setDatabasePlatform("org.hibernate.dialect.MySQL5Dialect");
 		
 		return adapter;
+	}
+	
+	@Bean
+	public Properties jpaProperties() {
+		Properties jpaProperties = new Properties();
+		jpaProperties.setProperty("hibernate.show_sql", "true");
+		jpaProperties.setProperty("hibernate.hbm2ddl.auto", "update");
+		jpaProperties.setProperty("hibernate.dialect.storage_engine", "innodb");
+		
+		return jpaProperties;
 	}
 	
 	/*

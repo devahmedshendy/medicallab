@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+  
+  <div class="col-md-3 text-center align-self-center" th:fragment="old-request-details">
+    <div class="row justify-content-start">
+      <div class="col-md-10 text-center mb-1">
+        <span class="text-danger lead">Old Request Details</span>
+      </div>
+      <div class="col-md-10">
+        <div class="card text-left border-bottom-0 rounded-0 rounded-right">
+          <h6 class="card-header pt-2 pb-2">Patient</h6>
+          <div class="card-body pt-2 pb-3 pr-0">
+            <!-- <h5 class="card-title"></h5> -->
+            <ul class="card-text list-unstyled">
+              <li th:text="${oldRequestDetails.requestPatient.fullname}">Patient Fullname</li>
+              <li th:text="${oldRequestDetails.requestPatient.patientId}">Patient Id</li>
+              <li th:text="${oldRequestDetails.requestPatient.phone}">Patient Phone</li>
+              <li th:text="${oldRequestDetails.requestPatient.age} + ' Years Old'">Patient Age</li>
+              <li th:text="${oldRequestDetails.requestPatient.gender}">Male</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="card text-left border-bottom-0 rounded-0 rounded-right">
+          <h6 class="card-header pt-2 pb-2">Doctor</h6>
+          <div class="card-body pt-2 pb-3 pr-0">
+            <ul class="card-text list-unstyled">
+              <li th:text="${ oldRequestDetails.requestDoctor.fullname }">Doctor Fullname</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- <div class="card text-left border-bottom-0 rounded-0 rounded-right">
+          <h6 class="card-header pt-2 pb-2">Test Type</h6>
+          <div class="card-body pt-2 pb-3 pr-0">
+            <ul class="card-text list-unstyled">
+              <li th:text="${ oldRequestDetails.requestTestType.selectedTestType }"></li>
+            </ul>
+          </div>
+        </div> -->
+        
+        <div class="card text-left rounded-0 rounded-right" th:if="${ oldRequestDetails.requestTestType.selectedTestType == 'CBC' }">
+          <h6 class="card-header pt-2 pb-2"><strong>CBC</strong> Details</h6>
+          <div class="card-body p-0">
+            <div class="card-text">
+              <table id="cbcDetailsTable" class="table table-bordered table-striped table-sm border round text-center" >
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center small"><strong>Value</strong></th>
+                    <th class="text-center small"><strong>Normal</strong></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="small align-middle">
+                    <td>WCB</td>
+                    <td th:text="${ oldRequestDetails.requestCBC.wcb }">---</td>
+                    <td>3.70 - 10.10</td>
+                  </tr>
+                  
+                  <tr class="small align-middle">
+                    <td>HGB</td>
+                    <td th:text="${ oldRequestDetails.requestCBC.hgb }">---</td>
+                    <td>12.9 - 15.9</td>
+                  </tr>
+                  
+                  <tr class="small align-middle">
+                    <td>MCV</td>
+                    <td th:text="${ oldRequestDetails.requestCBC.mcv }">---</td>
+                    <td>81.1 - 96.0</td>
+                  </tr>
+                  
+                  <tr class="small align-middle">
+                    <td>MCH</td>
+                    <td th:text="${ oldRequestDetails.requestCBC.mch }">---</td>
+                    <td>27.0 - 31.2</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- <li th:text="${ oldRequestDetails.requestTestType.selectedTestType }"></li> -->
+            </div>
+          </div>
+        </div>
+        
+        <div class="card text-left rounded-0 rounded-right" th:if="${ oldRequestDetails.requestTestType.selectedTestType == 'UMT' }">
+          <h6 class="card-header pt-2 pb-2"><strong>UMT</strong> Details</h6>
+          <div class="card-body p-0">
+            <div class="card-text">
+              <table id="umtDetailsTable" class="table table-bordered table-striped table-sm border round text-center" >
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center small"><strong>Value</strong></th>
+                    <th class="text-center small"><strong>Normal</strong></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="small align-middle">
+                    <td>ABC</td>
+                    <td th:text="${ oldRequestDetails.requestUMT.abc }">---</td>
+                    <td>1.0 - 5.0</td>
+                  </tr>
+                  
+                  <tr class="small align-middle">
+                    <td>DEF</td>
+                    <td th:text="${ oldRequestDetails.requestUMT.def }">---</td>
+                    <td>5.50 - 13.2</td>
+                  </tr>
+                  
+                  <tr class="small align-middle">
+                    <td>GHI</td>
+                    <td th:text="${ oldRequestDetails.requestUMT.ghi }">---</td>
+                    <td>8.0 - 10.0</td>
+                  </tr>
+                  
+                  <tr class="small align-middle">
+                    <td>JKL</td>
+                    <td th:text="${ oldRequestDetails.requestUMT.jkl }">---</td>
+                    <td>19.0 - 20.0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card text-left rounded-0 rounded-right" th:if="${ oldRequestDetails.requestTestType.selectedTestType == 'FMT' }">
+          <h6 class="card-header pt-2 pb-2"><strong>FMT</strong> Details</h6>
+          <div class="card-body p-0">
+            <div class="card-text">
+              <table id="fmtDetailsTable" class="table table-bordered table-striped table-sm border round text-center" >
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center small"><strong>Value</strong></th>
+                    <th class="text-center small"><strong>Normal</strong></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="small align-middle">
+                    <td>MNO</td>
+                    <td th:text="${ oldRequestDetails.requestFMT.mno }">---</td>
+                    <td>2.0 - 7.0</td>
+                  </tr>
+                  
+                  <tr class="small align-middle">
+                    <td>PQR</td>
+                    <td th:text="${ oldRequestDetails.requestFMT.pqr }">---</td>
+                    <td>6.2 - 7.0</td>
+                  </tr>
+                  
+                  <tr class="small align-middle">
+                    <td>STU</td>
+                    <td th:text="${ oldRequestDetails.requestFMT.stu }">---</td>
+                    <td>2.0 - 3.75</td>
+                  </tr>
+                  
+                  <tr class="small align-middle">
+                    <td>VWX</td>
+                    <td th:text="${ oldRequestDetails.requestFMT.vwx }">---</td>
+                    <td>12.4 - 25.10</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package medicallab.misc;
 
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -8,7 +10,9 @@ import org.springframework.web.context.annotation.SessionScope;
 
 @Component("uri")
 @SessionScope
-public class Uri {
+public class Uri implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private String contextRoot	 		= "/";
 	
 	private String home 					= contextRoot;
@@ -28,7 +32,7 @@ public class Uri {
 	
 	private String notFound      		= contextRoot + "error/404";
 	private String accessDenied      	= contextRoot + "error/403";
-	private String internalServerError   = contextRoot + "error/500";
+	private String internalServerError  = contextRoot + "error/500";
 	
 	private String projectSourceCodeUrl 	= "https://github.com/devahmedshendy/medicallab";
 	
@@ -46,18 +50,15 @@ public class Uri {
 			case "home":
 				return home;
 
-			/*
-			 * Login/Logout Uri
-			 */
+			/*--- Login/Logout Uri ---*/
 			case "login":
 				return login;
 				
 			case "logout":
 				return logout;
 			
-			/*
-			 * User(s) Uri
-			 */
+			
+			/*--- User(s) Uri ---*/
 			case "me":
 				return me;
 				
@@ -82,9 +83,11 @@ public class Uri {
 			case "deleteUser":
 				return users + "/edit/" + args[1] + "?delete=true";
 				
-			/*
-			 * Patient(s) Uri
-			 */
+			case "apiDoctorList":
+				return users + "/api?doctorRole=true";
+				
+			
+			/*--- Patient(s) Uri ---*/
 			case "patients":
 				return patients;
 				
@@ -101,26 +104,55 @@ public class Uri {
 				return patients + "/edit/" + args[1] + "?delete=true";
 				
 			case "medicalProfile":
-				return patients + "/medical-profile/" + args[1];
+				return patients + "/api/medical-profile/" + args[1];
+				
+			case "patientAsJson":
+				return patients + "/api/" + args[1];
 				
 			case "patient-profile-image":
-				return patients + "/profile-image/" + args[1];
+				return patients + "/api/profile-image/" + args[1];
 			
-			/*
-			 * Test(s) Uri
-			 */
+			
+			/*--- Test(s) Uri ---*/
 			case "tests":
 				return tests;
 			
-			/*
-			 * Request(s) Uri
-			 */
+			
+			/*--- Request(s) Uri ---*/
 			case "requests":
 				return requests;
 				
-			/*
-			 * Static(s) Uri
-			 */
+			case "searchRequests":
+				return requests + "/search";
+				
+			case "newRequest":
+				return requests + "/new";
+				
+			case "editRequest":
+				return requests + "/edit/" + args[1];
+				
+			case "editRequestFlow":
+				return requests + "/edit?requestCode=" + args[1];
+				
+			case "deleteRequest":
+				return requests + "/edit/" + args[1] + "?delete=true";
+				
+			case "apiRequestDetails":
+				return requests + "/api/" + args[1];
+				
+			case "apiPostApproval":
+				return requests + "/api/approve";
+				
+			case "apiPostRejection":
+				return requests + "/api/reject";
+				
+			case "apiPostDoctorReview":
+				return requests + "/api/doctor-review";
+				
+				
+				
+			
+			/*--- Static(s) Resources Uri ---*/
 			case "logo":
 				return logo;
 				
@@ -135,10 +167,12 @@ public class Uri {
 				
 			case "personal-id-example":
 				return defaultImages + "/misc/personal-id-example.png";
+
+			case "project-source-code-url":
+				return projectSourceCodeUrl;
 			
-			/*
-			 * Error(s) Uri
-			 */
+			
+			/*--- Error(s) Uri ---*/
 			case "403":
 				return accessDenied;
 				
@@ -148,18 +182,13 @@ public class Uri {
 			case "500":
 				return internalServerError;
 				
-			/*
-			 * Misc
-			 */
-			case "project-source-code-url":
-				return projectSourceCodeUrl;
-				
-				
-			/*
-			 * Patients Table - Columns Uri
-			 */
+			
+			/*--- Patients Table - Columns Uri ---*/
 			case "patientsTable":
 				return getPatientColumnSortUri(args[1]);
+				
+			case "requestsPageTable":
+				return getRequestColumnSortUri(args[1]);
 				
 			case "usersTable":
 				return getUserColumnSortUri(args[1]);
@@ -179,7 +208,7 @@ public class Uri {
 	}
 	
 	public String getUserColumnSortUri(String colName) {
-String columnSortUri = requestUri;
+		String columnSortUri = requestUri;
 		
 		if (queryParams.get("page") != null) {
 			columnSortUri += "?page=" + queryParams.get("page");
@@ -242,6 +271,52 @@ String columnSortUri = requestUri;
 											queryParams.get("searchField"), 
 											queryParams.get("searchText"), 
 											queryParams.get("genderType"));
+		}
+		
+		return columnSortUri;
+	}
+	
+	public String getRequestColumnSortUri(String colName) {
+		String columnSortUri = requestUri;
+		
+		if (queryParams.get("page") != null) {
+			columnSortUri += "?page=" + queryParams.get("page");
+		}
+		
+		
+		if (queryParams.get("maxResult") != null) {
+			columnSortUri += "&maxResult=" + queryParams.get("maxResult");
+		}
+		
+		
+		if (queryParams.get("sortField") == null && "updatedAt".equals(colName)) {
+			columnSortUri += "&sortField=updatedAt&sortOrder=ASC";
+			
+		} else if (queryParams.get("sortField") != null && queryParams.get("sortField").equals(colName) ) {
+			columnSortUri += String.format("&sortField=%s&sortOrder=%s" , 
+											colName, 
+											( "ASC".equals(queryParams.get("sortOrder")) ? "DESC" : "ASC" ));
+		} else {
+			columnSortUri += String.format("&sortField=%s&sortOrder=DESC", colName);
+		}
+		
+		
+		if (queryParams.get("searchField") != null) {
+			columnSortUri += String.format("&searchField=%s&searchText=%s", 
+											queryParams.get("searchField"), 
+											queryParams.get("searchText"));
+		}
+		
+		if (queryParams.get("testType") != null) {
+			for (String testType : Arrays.asList( queryParams.get("testType") )) {
+				columnSortUri += String.format("&testType=%s", testType);
+			}
+		}
+		
+		if (queryParams.get("requestStatus") != null) {
+			for (String testType : Arrays.asList( queryParams.get("requestStatus") )) {
+				columnSortUri += String.format("&requestStatus=%s", testType);
+			}
 		}
 		
 		return columnSortUri;

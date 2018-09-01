@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title>Flow Step Layout</title>
+</head>
+
+<body>
+  <div id="dialog-nav-tabs" th:fragment="dialog-nav-tabs">
+   <div class="row no-gutters justify-content-center">
+     <div class="col-md-6">
+       <div class="row no-gutters justify-content-center" th:if="${ stepName == 'Patient' }">
+         <div layout:replace="flows/requests/layouts/edit-dialog-steps :: nav-tabs-for-patient-step"></div>
+       </div>
+       
+       <div class="row no-gutters justify-content-center" th:if="${ stepName == 'Doctor' }">
+         <div layout:replace="flows/requests/layouts/edit-dialog-steps :: nav-tabs-for-doctor-step"></div>
+       </div>
+        
+        <div class="row no-gutters justify-content-center" th:if="${ stepName == 'Test Type' }">
+          <div layout:replace="flows/requests/layouts/edit-dialog-steps :: nav-tabs-for-test-type-step"></div>
+        </div>
+        
+        <div class="row no-gutters justify-content-center" th:if="${ stepName == 'CBC Details' }">
+          <div layout:replace="flows/requests/layouts/edit-dialog-steps :: nav-tabs-for-cbc-details-step"></div>
+        </div>
+        
+        <div class="row no-gutters justify-content-center" th:if="${ stepName == 'UMT Details' }">
+          <div layout:replace="flows/requests/layouts/edit-dialog-steps :: nav-tabs-for-umt-details-step"></div>
+        </div>
+        
+        <div class="row no-gutters justify-content-center" th:if="${ stepName == 'FMT Details' }">
+          <div layout:replace="flows/requests/layouts/edit-dialog-steps :: nav-tabs-for-fmt-details-step"></div>
+        </div>
+        
+        <div class="row no-gutters justify-content-center" th:if="${ stepName == 'Confirm' }">
+          <div layout:replace="flows/requests/layouts/edit-dialog-steps :: nav-tabs-for-confirm-step"></div>
+        </div>
+     </div>
+   </div>
+  </div>
+</body>
+</html>

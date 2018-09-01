@@ -8,10 +8,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     
-    <link rel="stylesheet" th:href="@{/css/lib/bootstrap/4.0.0-beta/bootstrap.min.css}">
+    
+    <!-- <link rel="stylesheet" th:href="${ uri.get('bootstrap.min.css') }">
+    <link rel="stylesheet" th:href="${ uri.get('font-awesome.min.css') }">
+    <link rel="stylesheet" th:href="${ uri.get('animate.min.css') }">
+    <link rel="stylesheet" th:href="${ uri.get('app.css') }"> -->
+    
+    <link rel="stylesheet" th:href="${@mvcResourceUrlProvider.getForLookupPath('/css/lib/bootstrap/4.0.0-beta/bootstrap.min.css')}">
+    <link rel="stylesheet" th:href="${@mvcResourceUrlProvider.getForLookupPath('/css/lib/perfect-scrollbar/0.8.1/perfect-scrollbar.min.css')}">
+    <link rel="stylesheet" th:href="${@mvcResourceUrlProvider.getForLookupPath('/css/lib/font-awesome/4.7.0/font-awesome.min.css')}">
+    <link rel="stylesheet" th:href="${@mvcResourceUrlProvider.getForLookupPath('/css/lib/animate.css/3.5.2/animate.min.css')}">
+    <link rel="stylesheet" th:href="${@mvcResourceUrlProvider.getForLookupPath('/css/app.css')}">
+    
+    <!-- <link rel="stylesheet" th:href="@{/css/lib/bootstrap/4.0.0-beta/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/lib/font-awesome/4.7.0/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/css/lib/animate.css/3.5.2/animate.min.css}">
-    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/app.css}"> -->
+    
     
     <link rel="shortcut icon" type="image/x-icon" th:href="${ uri.get('favicon') }">
     
@@ -20,33 +33,58 @@
   </head>
   
   <body>
-    <header id="page-header" layout:fragment="page-header">
-      <span th:replace="layouts/page-header :: page-header"></span>
-    </header>
+    <div id="pageContainer">
+	    <header id="page-header" layout:fragment="page-header">
+	      <span th:replace="layouts/page-header :: page-header"></span>
+	    </header>
+	    
+	    <br />
+	    <section id="page-alert" layout:fragment="page-alert">
+	      <span th:replace="layouts/page-alert :: page-alert"></span>
+	    </section>
+	    
+	    <section id="page-content" layout:fragment="page-content">
+	      page.html Page Content
+	    </section>
+	    
+	    <!-- <br /><br /> -->
+	    
+	    <footer id="page-footer" layout:fragment="page-footer">
+	      <span th:replace="layouts/page-footer :: page-footer"></span>
+	    </footer>
+    </div>
     
-    <br />
-    <section id="page-alert" layout:fragment="page-alert">
-      <span th:replace="layouts/page-alert :: page-alert"></span>
-    </section>
+    <!-- <script type="text/javascript" th:src="${ uri.get('jquery-3.2.1.min.js')}"></script>
+    <script type="text/javascript" th:src="${ uri.get('popper-1.11.0.min.js')}"></script>
+    <script type="text/javascript" th:src="${ uri.get('tether.min.js')}"></script>
+    <script type="text/javascript" th:src="${ uri.get('bootstrap.min.js')}"></script>
+    <script type="text/javascript" th:src="${ uri.get('URI.min.js')}"></script>
+    <script type="text/javascript" th:src="${ uri.get('jquery.URI.min.js')}"></script>
+    <script type="text/javascript" th:src="${ uri.get('qwest.min.js')}"></script>
+    <script type="text/javascript" th:src="${ uri.get('app.js')}"></script> -->
     
-    <section id="page-content" layout:fragment="page-content">
-      page.html Page Content
-    </section>
+    <script type="text/javascript" th:src="${@mvcResourceUrlProvider.getForLookupPath('/js/lib/jquery/3.2.1/jquery-3.2.1.min.js')}"></script>
+    <script type="text/javascript" th:src="${@mvcResourceUrlProvider.getForLookupPath('/js/lib/popper.js/1.11.0/popper-1.11.0.min.js')}"></script>
+    <script type="text/javascript" th:src="${@mvcResourceUrlProvider.getForLookupPath('/js/lib/tether/1.4.0/tether.min.js')}"></script>
+    <script type="text/javascript" th:src="${@mvcResourceUrlProvider.getForLookupPath('/js/lib/bootstrap/4.0.0-beta/bootstrap.min.js')}"></script>
+    <script type="text/javascript" th:src="${@mvcResourceUrlProvider.getForLookupPath('/js/lib/urijs/1.18.12/URI.min.js')}"></script>
+    <script type="text/javascript" th:src="${@mvcResourceUrlProvider.getForLookupPath('/js/lib/urijs/1.18.12/jquery.URI.min.js')}"></script>
+    <script type="text/javascript" th:src="${@mvcResourceUrlProvider.getForLookupPath('/js/lib/qwest/4.5.0/qwest.min.js')}"></script>
+    <script type="text/javascript" th:src="${@mvcResourceUrlProvider.getForLookupPath('/js/lib/sockjs/sockjs.min.js')}"></script>
+    <script type="text/javascript" th:src="${@mvcResourceUrlProvider.getForLookupPath('/js/lib/perfect-scrollbar/0.8.1/perfect-scrollbar.jquery.min.js')}"></script>
+    <!-- <script type="text/javascript" th:src="${@mvcResourceUrlProvider.getForLookupPath('/js/app.js')}"></script> -->
     
-    <br /><br /><br /><br />
+    <script type="text/javascript" th:src="@{/js/app.js}"></script>
     
-    <footer id="page-footer" layout:fragment="page-footer">
-      <span th:replace="layouts/page-footer :: page-footer"></span>
-    </footer>
-    
-    <script type="text/javascript" th:src="@{/js/lib/jquery/3.2.1/jquery-3.2.1.min.js}"></script>
+    <!-- <script type="text/javascript" th:src="@{/js/lib/jquery/3.2.1/jquery-3.2.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/lib/popper.js/1.11.0/popper-1.11.0.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/lib/tether/1.4.0/tether.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/lib/bootstrap/4.0.0-beta/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/lib/urijs/1.18.12/URI.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/lib/urijs/1.18.12/jquery.URI.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/lib/qwest/4.5.0/qwest.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/app.js}"></script>
+    <script type="text/javascript" th:src="@{/js/lib/perfect-scrollbar/0.8.1/perfect-scrollbar.jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/app.js}"></script> -->
   
   </body>
 </html>

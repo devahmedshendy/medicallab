@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+  <title>Request Test Type</title>
+</head>
+
+<body>
+  <section id="testTypeStep" layout:fragment="page-content">
+    <div class="row justify-content-center" th:object="${requestTestType}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+    
+    <div class="row no-gutters justify-content-start">
+      <div class="col-md-3 text-center align-self-center">
+        <div class="row justify-content-end">
+          <div class="col-md-10">
+            <div class="card text-right border-bottom-0 border-right-0 rounded-0 rounded-left">
+              <h6 class="card-header pt-2 pb-2">Patient</h6>
+              <div class="card-body pt-2 pb-3 pl-0">
+                <!-- <h5 class="card-title"></h5> -->
+                <ul class="card-text list-unstyled">
+                  <li th:text="${requestPatient.fullname}">Patient Fullname</li>
+                  <li th:text="${requestPatient.patientId}">Patient Id</li>
+                  <li th:text="${requestPatient.phone}">Patient Phone</li>
+                  <li th:text="${requestPatient.age} + ' Years Old'">Patient Age</li>
+                  <li th:text="${requestPatient.gender}">Male</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="card text-right border-right-0 rounded-0 rounded-left">
+              <h6 class="card-header pt-2 pb-2">Doctor</h6>
+              <div class="card-body pt-2 pb-3 pl-0">
+                <ul class="card-text list-unstyled">
+                  <li th:text="${ requestDoctor.fullname }">Doctor Fullname</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="row no-gutters justify-content-center">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <span class="nav-link disabled">Patient</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled">Doctor</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link text-primary active">Test Type</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled">Test Details</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled">Confirm</span>
+              </li>
+            </ul>
+        </div>
+        
+        <div id="dialog" class="row no-gutters justify-content-center border rounded">
+          <div class="col-md-12">
+            <br />
+            <div class="row no-gutters justify-content-center">
+              <div class="col-8 text-nowrap text-center">
+                <h5><span class="lead align-middle text-muted">Select <strong>Test Type</strong></span> </h5>
+              </div>
+            </div>
+            
+            <div class="row no-gutters justify-content-center">
+              <div class="col-md-4">
+                <hr class="mt-0">
+              </div>
+            </div>
+            
+            <form id="testTypeListForm" class="form mt-4" th:action="${flowExecutionUrl}" th:object="${requestTestType}" method="post">
+              <div class="row no-gutters justify-content-center" th:each="test : ${testTypes}" >
+                <div class="col-md-6 text-left">
+                  <label class="request-flow-radio custom-control custom-radio mb-2" >
+                    <input name="testTypeRadio" type="radio" class="custom-control-input" th:attr="id=${test.key}" th:field="*{selectedTestType}" th:value="${test.key}">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description doctor-fullname">
+                      <span>[[ ${test.key} ]]</span>
+                      <span class="text-muted ml-4">[[ ${test.value} ]]</span>
+                    </span>
+                  </label>
+                </div>
+                <br>
+              </div>
+              
+              <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+              
+              <div class="row d-flex flex-nowrap m-3">
+                <div class="col-md-4 order-3">
+                  <button type="submit" class="btn btn-outline-primary btn-sm btn-block" name="_eventId_select">Select</button>
+                </div>
+                
+                <div class="col-md-4 order-2">
+                  <button type="button" class="btn btn-outline-danger btn-sm btn-block" data-toggle="modal" data-target="#confirmCancelRequestFlowModal">Cancel</button>
+                </div>
+                
+                <div class="col-md-4 order-1">
+                  <button class="btn btn-outline-info btn-sm btn-block" name="_eventId_back">Back</button>
+                </div>
+              </div>
+            </form>
+            
+            <div th:replace="flows/requests/layouts/cancel-request :: cancel-request"></div>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+    </div>
+  </section>
+</body>
+</html>

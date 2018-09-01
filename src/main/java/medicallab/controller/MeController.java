@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import medicallab.form.MePasswordForm;
-import medicallab.form.MePasswordFormValidator;
 import medicallab.form.MeSettingsForm;
-import medicallab.form.MeSettingsFormValidator;
+import medicallab.form.validator.MePasswordFormValidator;
+import medicallab.form.validator.MeSettingsFormValidator;
 import medicallab.misc.Uri;
 import medicallab.model.User;
-import medicallab.model.UserSecurityService;
-import medicallab.model.UserService;
+import medicallab.model.service.UserSecurityService;
+import medicallab.model.service.UserService;
 
 @Controller
 @RequestMapping("/me")

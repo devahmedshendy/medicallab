@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title>Flow Step Layout</title>
+</head>
+
+<body>
+  <div id="dialogActionButtons" class="row d-flex flex-nowrap m-3" th:fragment="dialog-action-buttons">
+    <div class="col-md-4 order-3">
+      <button type="submit" class="btn btn-outline-primary btn-sm btn-block" name="_eventId_next" th:if="${ stepName != 'Confirm' }">Next</button>
+      <button type="submit" class="btn btn-outline-success btn-sm btn-block" name="_eventId_confirm" th:if="${ stepName == 'Confirm' }">Confirm</button>
+    </div>
+    
+    <div class="col-md-4 order-2">
+      <button type="button" class="btn btn-outline-danger btn-sm btn-block" data-toggle="modal" data-target="#confirmCancelRequestFlowModal">Cancel</button>
+    </div>
+    
+    <div class="col-md-4 order-1">
+      <button class="btn btn-outline-info btn-sm btn-block" disabled th:if="${stepName == 'Patient'}">Back</button>
+      <button class="btn btn-outline-info btn-sm btn-block" name="_eventId_back" th:if="${stepName != 'Patient'}">Back</button>
+    </div>
+  
+    <!-- <div th:replace="flows/requests/layouts/cancel-request :: cancel-request"></div> -->
+    
+    <section class="modal fade" id="confirmCancelRequestFlowModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelRequestFlowLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content pl-2 pr-2 pb-2">
+        
+        <div class="modal-header border-0 pb-0">
+          <h6 class="modal-title text-muted" id="confirmCancelRequestFlowLabel">Cancel The Request<span></span></h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <div class="modal-body justify-content-center">
+          <span class="lead">Are you sure?</span>
+        </div>
+        
+        <div class="modal-footer no-gutters justify-content-center p-2 border-0">
+          <form id="deleteRequestForm" name="deleteRequestForm" th:action="${flowExecutionUrl}" method="post" class="d-inline-flex w-100" >
+            <div class="col-md-12 m-0 p-0">
+              <button type="submit" class="btn btn-danger btn-sm btn-block rounded-0" name="_eventId_cancel">YES</button>
+            </div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  </div>
+</body>
+</html>

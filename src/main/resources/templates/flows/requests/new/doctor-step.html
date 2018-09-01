@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+  <title>Request Doctor</title>
+</head>
+
+<body>
+  <section id="doctorStep" layout:fragment="page-content">
+    <div class="row justify-content-center" th:object="${requestDoctor}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+    
+    <div class="row no-gutters justify-content-start">
+      <div class="col-md-3 text-center align-self-center">
+        <div class="row justify-content-end">
+          <div class="col-md-10">
+            <div class="card text-right border-right-0 rounded-0 rounded-left">
+              <h6 class="card-header pt-2 pb-2">Patient</h6>
+              <div class="card-body pt-2 pb-3 pl-0">
+                <!-- <h5 class="card-title"></h5> -->
+                <ul class="card-text list-unstyled">
+                  <li th:text="${requestPatient.fullname}">Patient Fullname</li>
+                  <li th:text="${requestPatient.patientId}">Patient Id</li>
+                  <li th:text="${requestPatient.phone}">Patient Phone</li>
+                  <li th:text="${requestPatient.age} + ' Years Old'">Patient Age</li>
+                  <li th:text="${requestPatient.gender}">Male</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="row no-gutters justify-content-center">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <span class="nav-link disabled">Patient</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link text-primary active">Doctor</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled">Test Type</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled">Test Details</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link disabled">Confirm</span>
+              </li>
+            </ul>
+        </div>
+        
+        <div id="dialog" class="row no-gutters justify-content-center border rounded">
+          <div class="col-md-12">
+            <br />
+            <div class="row no-gutters justify-content-center">
+              <div class="col-8 text-nowrap text-center">
+                <h5><span class="lead align-middle text-muted">Search then Select a <strong>Doctor</strong></span> </h5>
+              </div>
+            </div>
+            
+            <div class="row no-gutters justify-content-center">
+              <div class="col-md-5">
+                <hr class="mt-0">
+              </div>
+            </div>
+                        
+             <div class="row no-gutters justify-content-center mt-1">
+               <div class="col-md-5">
+                 <div class="form-group">
+                   <input type="text" class="form-control text-center" id="searchInput" placeholder="Type Doctor Name" autofocus>
+                 </div>
+               </div>
+             </div>
+            
+            <div id="loadingSpinner" class="spinner mt-0 mb-0 invisible">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+            
+            <form id="doctorListForm" class="form" data-simplebar th:action="${flowExecutionUrl}" th:object="${requestDoctor}" method="post">
+              <div class="row justify-content-center">
+	              <div id="doctorListFormContainer" class="col-md-4 mr-1 request-flow-doctor-radios-list invisible">
+	                <div id="doctorListRadios" class="custom-controls-stacked" th:each="doctor : ${doctorList}">
+                    <label class="custom-control custom-radio request-flow-doctor-radio mb-2">
+                      <input name="doctorFullnameRadio" type="radio" class="custom-control-input" th:attr="id='id' + ${doctor.id}" th:field="*{id}" th:value="${doctor.id}">
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description doctor-fullname" th:text="${doctor.fullname}">
+                      </span>
+                    </label>
+                  </div>
+	              </div>
+              </div>
+
+              <div class="row d-flex flex-nowrap m-3 mt-4">
+                <div class="col-md-4 order-3">
+                  <button type="submit" class="btn btn-outline-primary btn-sm btn-block" name="_eventId_select">Select</button>
+                </div>
+                
+                <div class="col-md-4 order-2">
+                  <button type="button" class="btn btn-outline-danger btn-sm btn-block" data-toggle="modal" data-target="#confirmCancelRequestFlowModal">Cancel</button>
+                </div>
+                
+                <div class="col-md-4 order-1">
+                  <button class="btn btn-outline-info btn-sm btn-block" name="_eventId_back">Back</button>
+                </div>
+              </div>
+            </form>
+            
+            <div th:replace="flows/requests/layouts/cancel-request :: cancel-request"></div>
+          </div>
+        </div>
+      
+    </div>
+    
+    
+    </div>
+  </section>
+</body>
+</html>

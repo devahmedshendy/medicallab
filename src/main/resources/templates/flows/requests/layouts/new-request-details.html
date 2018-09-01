@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+  
+  <div class="col-md-3 text-center align-self-center" th:fragment="new-request-details">
+    <div class="row justify-content-end">
+      <div class="col-md-10 text-center mb-1">
+        <span class="text-primary lead">New Request Details</span>
+      </div>
+      <div class="col-md-10">
+       <div class="card text-right border-bottom-0 border-right-0 rounded-0 rounded-left" th:if="${stepName != 'Patient'}">
+         <h6 class="card-header pt-2 pb-2">Patient</h6>
+         <div class="card-body pt-2 pb-3 pl-0">
+           <!-- <h5 class="card-title"></h5> -->
+           <ul class="card-text list-unstyled">
+             <li th:text="${requestPatient.fullname}">Patient Fullname</li>
+             <li th:text="${requestPatient.patientId}">Patient Id</li>
+             <li th:text="${requestPatient.phone}">Patient Phone</li>
+             <li th:text="${requestPatient.age} + ' Years Old'">Patient Age</li>
+             <li th:text="${requestPatient.gender}">Male</li>
+           </ul>
+         </div>
+       </div>
+       
+       <div class="card text-right border-bottom-0 border-right-0 rounded-0 rounded-left" th:if="${stepName != 'Patient' and stepName != 'Doctor'}">
+         <h6 class="card-header pt-2 pb-2">Doctor</h6>
+         <div class="card-body pt-2 pb-3 pl-0">
+           <ul class="card-text list-unstyled">
+             <li th:text="${ requestDoctor.fullname }">Doctor Fullname</li>
+           </ul>
+         </div>
+       </div>
+       
+       <div class="card text-right border-right-0 rounded-0 rounded-left" th:if="${stepName != 'Patient' and stepName != 'Doctor' and stepName != 'Test Type'}">
+         <h6 class="card-header pt-2 pb-2">Test Type</h6>
+         <div class="card-body pt-2 pb-3 pl-0">
+           <ul class="card-text list-unstyled">
+             <li th:text="${ requestTestType.selectedTestType }"></li>
+           </ul>
+         </div>
+       </div>
+     </div>
+    </div>
+  </div>
+  </section>
+</body>
+</html>

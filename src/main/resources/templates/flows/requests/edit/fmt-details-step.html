@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/page}">
+<head>
+  <title>Submit FMT Details</title>
+</head>
+
+<body>
+  <section layout:fragment="page-content" th:with="requestCode=${requestCode},stepName=${'FMT Details'}">
+    <div id="editFlowTitle" th:replace="flows/requests/layouts/edit-flow-title :: edit-flow-title"></div>
+    
+    <div id="formAlert" class="row justify-content-center" th:object="${requestFMT}">
+      <div th:replace="layouts/form-alert :: form-alert"></div>
+    </div>
+      
+    <div th:replace="flows/requests/layouts/dialog-nav-tabs :: dialog-nav-tabs"></div>
+    
+    <div id="dialogContent" class="row no-gutters justify-content-end">
+      <div th:replace="flows/requests/layouts/new-request-details :: new-request-details"></div>
+      
+      <div class="col-md-6">
+        <div id="dialog" class="row no-gutters justify-content-center border rounded">
+          <div class="col-md-12">
+            <br />
+            <div class="row no-gutters justify-content-center">
+              <div class="col-8 text-nowrap text-center">
+                <h5><span class="lead align-middle text-muted">Provide <strong>FMT</strong> Details <strong></strong></span> </h5>
+              </div>
+            </div>
+            
+            <div class="row no-gutters justify-content-center">
+              <div class="col-md-3">
+                <hr class="mt-0">
+              </div>
+            </div>
+            
+            <form class="form" method="post" th:action="${flowExecutionUrl}" th:object="${requestFMT}">
+              <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-center">Value</th>
+                        <th class="text-center">Normal</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <th class="text-center align-middle" scope="row">MNO</th>
+                        <td class="row no-gutters justify-content-center">
+                          <input type="text" class="form-control text-center w-50 p-1" maxlength="5" th:errorclass="is-invalid" th:field="*{mno}" placeholder="MNO" autofocus/>
+                        </td>
+                        <td class="text-center align-middle">2.0 - 7.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">PQR</th>
+                        <td class="row no-gutters justify-content-center">
+                          <input type="text" class="form-control text-center w-50 p-1" maxlength="5" th:errorclass="is-invalid" th:field="*{pqr}" placeholder="PQR"/>
+                        </td>
+                        <td class="text-center align-middle">6.2 - 7.0</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">STU</th>
+                        <td class="row no-gutters justify-content-center">
+                          <input type="text" class="form-control text-center w-50 p-1" maxlength="5" th:errorclass="is-invalid" th:field="*{stu}" placeholder="STU"/>
+                        </td>
+                        <td class="text-center align-middle">2.0 - 3.75</td>
+                      </tr>
+                      <tr>
+                        <th class="text-center align-middle" scope="row">VWX</th>
+                        <td class="row no-gutters justify-content-center">
+                          <input type="text" class="form-control text-center w-50 p-1" maxlength="5" th:errorclass="is-invalid" th:field="*{vwx}" placeholder="VWX"/>
+                        </td>
+                        <td class="text-center align-middle">12.4 - 25.10</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <br /><br />
+              
+              <div th:replace="flows/requests/layouts/dialog-action-buttons :: dialog-action-buttons"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <div th:replace="flows/requests/layouts/old-request-details :: old-request-details"></div>
+      
+    </div>
+  </section>
+</body>
+</html>

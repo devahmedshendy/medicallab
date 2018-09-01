@@ -3,7 +3,6 @@ package medicallab.controller;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.CacheControl;
@@ -23,13 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import medicallab.form.AddPatientForm;
-import medicallab.form.AddPatientFormValidator;
 import medicallab.form.PatientSettingsForm;
-import medicallab.form.PatientSettingsFormValidator;
 import medicallab.form.SearchPatientForm;
+import medicallab.form.validator.AddPatientFormValidator;
+import medicallab.form.validator.PatientSettingsFormValidator;
 import medicallab.misc.Uri;
 import medicallab.model.Patient;
-import medicallab.model.PatientService;
+import medicallab.model.service.PatientService;
 
 
 @Controller
@@ -251,8 +250,8 @@ public class PatientsController {
 	 * Patient Profile Image
 	 */
 	@Secured(value = { "ROLE_OFFICER", "ROLE_ROOT" })
-	@GetMapping(path = "profile-image/{patientId}")
-	public ResponseEntity<byte[]> getProfileImage(@PathVariable("patientId") String patientId) {
+	@GetMapping(path = "api/profile-image/{patientId}", produces = "application/json")
+	public ResponseEntity<byte[]> apiGetProfileImage(@PathVariable("patientId") String patientId) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
@@ -266,5 +265,18 @@ public class PatientsController {
 				new ResponseEntity<>(profileImage, headers, httpStatus);  
 		
 		return responseEntityOfProfileImage;
+	}
+	
+	@Secured(value = { "ROLE_OFFICER", "ROLE_ROOT" })
+	@GetMapping( path = { "api/{patientId}" }, produces = "application/json")
+	public ResponseEntity<Patient> apiGetPatient(@PathVariable("patientId") String patientId) {
+		Patient patient = patientService.findByPatientId(patientId);
+		
+		if (patient == null) {
+			return new ResponseEntity<Patient>(HttpStatus.NOT_FOUND);
+		
+		} else  {
+			return new ResponseEntity<Patient>(patient, new HttpHeaders(), HttpStatus.OK);
+		}
 	}
 }
